@@ -1,0 +1,54 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:waterrush/core/helpers/helpers.dart';
+
+import 'customer_home_state.dart';
+
+class CustomerHomeCubit extends Cubit<CustomerHomeState> {
+  CustomerHomeCubit({required this.bannerCount})
+    : super(CustomerHomeState.initial()) {
+    _startAutoSlide();
+  }
+
+  final int bannerCount;
+  final PageController bannerController = PageController();
+  Timer? _autoSlideTimer;
+
+  void _startAutoSlide() {
+    Helpers.cancelTimer(_autoSlideTimer);
+    _autoSlideTimer = Helpers.startAutoPageSlider(
+      controller: bannerController,
+      itemCount: bannerCount,
+      currentIndex: () => state.currentBannerIndex,
+    );
+  }
+
+  void onBannerChanged(int index) {
+    emit(state.copyWith(currentBannerIndex: index));
+  }
+
+  Future<void> reorderLastOrder() async {
+    if (state.status == CustomerHomeStatus.loading) return;
+    emit(state.copyWith(status: CustomerHomeStatus.loading, message: ''));
+    await Future<void>.delayed(const Duration(milliseconds: 700));
+    emit(
+      state.copyWith(
+        status: CustomerHomeStatus.success,
+        message: 'Last order added to cart',
+      ),
+    );
+  }
+
+  void clearStatus() {
+    emit(state.copyWith(status: CustomerHomeStatus.initial, message: ''));
+  }
+
+  @override
+  Future<void> close() {
+    Helpers.cancelTimer(_autoSlideTimer);
+    bannerController.dispose();
+    return super.close();
+  }
+}
