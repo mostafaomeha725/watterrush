@@ -11,46 +11,44 @@ class DriverProfilePlateNumberCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 280.w,
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
       decoration: BoxDecoration(
         color: const Color(0xFFF7FAFF),
         borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(color: const Color(0xFFC6D5EE)),
+        border: Border.all(color: const Color(0xFFCDD9EE), width: 1.5),
       ),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Container(
-            width: 40.w,
-            height: 54.h,
+            width: 38.w,
+            height: 52.h,
             decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[Color(0xFF1464D8), Color(0xFF0C2461)],
+              ),
               borderRadius: BorderRadius.circular(8.r),
-              color: const Color(0xFF0F67CC),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  width: 16.w,
-                  height: 5.h,
-                  color: const Color(0xFFEA5151),
-                ),
+                Container(width: 16.w, height: 4.h, color: const Color(0xFFEA5151)),
                 SizedBox(height: 3.h),
-                Container(width: 16.w, height: 5.h, color: Colors.white),
+                Container(width: 16.w, height: 4.h, color: Colors.white),
                 SizedBox(height: 3.h),
-                Container(
-                  width: 16.w,
-                  height: 5.h,
-                  color: const Color(0xFF3BCB83),
-                ),
+                Container(width: 16.w, height: 4.h, color: const Color(0xFF3BCB83)),
               ],
             ),
           ),
-          SizedBox(width: 10.w),
+          SizedBox(width: 12.w),
           AppText(
             plateNumber,
-            style: font22w700.copyWith(color: const Color(0xFF102B54)),
-            textPadding: EdgeInsets.only(left: 8.w),
+            style: font20w700.copyWith(
+              color: const Color(0xFF0B2650),
+              letterSpacing: 1.5,
+            ),
           ),
         ],
       ),

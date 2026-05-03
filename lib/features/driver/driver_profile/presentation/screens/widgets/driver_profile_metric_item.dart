@@ -23,13 +23,16 @@ class DriverProfileMetricItem extends StatelessWidget {
           AppText(
             value,
             alignment: AlignmentDirectional.center,
-            style: font26w700.copyWith(color: valueColor),
+            style: font24w700.copyWith(
+              color: valueColor,
+              letterSpacing: -0.5,
+            ),
           ),
           SizedBox(height: 4.h),
           AppText(
             title,
             alignment: AlignmentDirectional.center,
-            style: font14w500.copyWith(color: const Color(0xFF8FA1B9)),
+            style: font12w500.copyWith(color: const Color(0xFF8FA1B9)),
           ),
         ],
       ),

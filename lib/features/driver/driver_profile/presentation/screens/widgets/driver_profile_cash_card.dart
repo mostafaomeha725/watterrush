@@ -13,49 +13,76 @@ class DriverProfileCashCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 14.h),
+      padding: EdgeInsets.fromLTRB(18.w, 18.h, 18.w, 18.h),
       decoration: BoxDecoration(
-        color: const Color(0xffd7fae8),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: <Color>[Color(0xFF0CB87A), Color(0xFF069A64)],
+        ),
         borderRadius: BorderRadius.circular(22.r),
-        border: Border.all(color: const Color(0xFF53D8A6)),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: const Color(0xFF0CB87A).withValues(alpha: 0.30),
+            blurRadius: 18.r,
+            offset: const Offset(0, 8),
+          ),
+        ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(
             children: <Widget>[
               Container(
-                width: 46.w,
-                height: 46.w,
+                width: 44.w,
+                height: 44.w,
                 decoration: const BoxDecoration(
-                  color: Color(0xFFADEBD3),
+                  color: Color(0x25FFFFFF),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
-                  Icons.payments_outlined,
-                  color: Color(0xFF08A66E),
-                  size: 24.sp,
+                  Icons.payments_rounded,
+                  color: const Color(0xFFE8FFF6),
+                  size: 22.sp,
                 ),
               ),
-              SizedBox(width: 10.w),
+              SizedBox(width: 12.w),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   AppText(
                     'Cash on Delivery',
-                    style: font18w500.copyWith(color: const Color(0xFF075E4F)),
+                    style: font16w700.copyWith(color: Colors.white),
                   ),
+                  SizedBox(height: 2.h),
                   AppText(
-                    'Collected - hand to supervisor',
-                    style: font16w500.copyWith(color: const Color(0xFF52BFA4)),
+                    'Collected — hand to supervisor',
+                    style: font12w500.copyWith(
+                      color: const Color(0xFFCCF7E8),
+                    ),
                   ),
                 ],
               ),
             ],
           ),
           SizedBox(height: 16.h),
+          Container(
+            height: 1.h,
+            color: const Color(0x30FFFFFF),
+          ),
+          SizedBox(height: 14.h),
           AppText(
             profile.cashCollected,
-            style: font32w900.copyWith(color: const Color(0xFF07986A)),
+            style: font30w700.copyWith(
+              color: Colors.white,
+              letterSpacing: -0.5,
+            ),
+          ),
+          SizedBox(height: 2.h),
+          AppText(
+            'Total cash collected today',
+            style: font12w500.copyWith(color: const Color(0xFFCCF7E8)),
           ),
         ],
       ),

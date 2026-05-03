@@ -21,15 +21,15 @@ class DeliverOrderCardBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Icon(
-                Icons.location_on_outlined,
-                color: const Color(0xFF1E69D8),
+                Icons.location_on_rounded,
+                color: const Color(0xFF1464D8),
                 size: 16.sp,
               ),
               horizontalSpacing(6),
               Expanded(
                 child: AppText(
                   order.address,
-                  style: font12w500.copyWith(color: const Color(0xFF27466F)),
+                  style: font12w500.copyWith(color: const Color(0xFF3D5880)),
                   maxLines: 2,
                 ),
               ),
@@ -43,11 +43,14 @@ class DeliverOrderCardBody extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(top: 8.h),
-                    child: Icon(
-                      Icons.circle,
-                      size: 4.sp,
-                      color: const Color(0xFF8CB0E3),
+                    padding: EdgeInsets.only(top: 7.h),
+                    child: Container(
+                      width: 4.w,
+                      height: 4.w,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFF9BB8E8),
+                        shape: BoxShape.circle,
+                      ),
                     ),
                   ),
                   horizontalSpacing(8),
@@ -55,7 +58,7 @@ class DeliverOrderCardBody extends StatelessWidget {
                     child: AppText(
                       item,
                       style: font12w500.copyWith(
-                        color: const Color(0xFF53749E),
+                        color: const Color(0xFF5A7BA6),
                       ),
                     ),
                   ),
@@ -66,37 +69,63 @@ class DeliverOrderCardBody extends StatelessWidget {
           verticalSpacing(10),
           Row(
             children: <Widget>[
-              Icon(
-                Icons.place_outlined,
-                size: 15.sp,
-                color: const Color(0xFF93A3BB),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF0F5FF),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.straighten_rounded,
+                      size: 12.sp,
+                      color: const Color(0xFF6B8FC4),
+                    ),
+                    horizontalSpacing(4),
+                    AppText(
+                      '${order.distanceKm.toStringAsFixed(1)} km',
+                      style: font12w700.copyWith(
+                        color: const Color(0xFF3D5F90),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              horizontalSpacing(4),
-              AppText(
-                '${order.distanceKm.toStringAsFixed(1)} km',
-                style: font12w500.copyWith(color: const Color(0xFF8A9AB0)),
-              ),
-              horizontalSpacing(14),
-              Icon(
-                Icons.access_time_rounded,
-                size: 14.sp,
-                color: const Color(0xFF93A3BB),
-              ),
-              horizontalSpacing(4),
-              AppText(
-                '${order.etaMinutes} min',
-                style: font12w500.copyWith(color: const Color(0xFF8A9AB0)),
+              horizontalSpacing(8),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF0F5FF),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.access_time_rounded,
+                      size: 12.sp,
+                      color: const Color(0xFF6B8FC4),
+                    ),
+                    horizontalSpacing(4),
+                    AppText(
+                      '${order.etaMinutes} min',
+                      style: font12w700.copyWith(
+                        color: const Color(0xFF3D5F90),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const Spacer(),
               AppText(
                 order.priceLabel,
-                style: font20w700.copyWith(color: const Color(0xFF1460C2)),
+                style: font18w700.copyWith(color: const Color(0xFF0D3E9E)),
               ),
-              horizontalSpacing(8),
+              horizontalSpacing(4),
               Icon(
                 Icons.chevron_right_rounded,
-                color: const Color(0xFFA2B0C3),
-                size: 24.sp,
+                color: const Color(0xFF1464D8),
+                size: 22.sp,
               ),
             ],
           ),

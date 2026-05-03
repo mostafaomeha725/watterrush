@@ -19,16 +19,27 @@ class DeliverOrderCard extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(22.r),
-          border: Border.all(color: const Color(0xFFDDE5F2)),
+          borderRadius: BorderRadius.circular(20.r),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: const Color(0xFF1464D8).withValues(alpha: 0.08),
+              blurRadius: 20.r,
+              offset: const Offset(0, 6),
+            ),
+            BoxShadow(
+              color: const Color(0xFF0C2461).withValues(alpha: 0.04),
+              blurRadius: 4.r,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
         child: Column(
           children: <Widget>[
             DeliverOrderCardHeader(order: order),
-            Divider(
+            Container(
               height: 1.h,
-              thickness: 1.h,
-              color: const Color(0xFFE6ECF6),
+              margin: EdgeInsets.symmetric(horizontal: 16.w),
+              color: const Color(0xFFF0F4FC),
             ),
             DeliverOrderCardBody(order: order),
           ],

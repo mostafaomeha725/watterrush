@@ -20,46 +20,52 @@ class DriverProfileVehicleCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(22.r),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: const Color(0xFF1464D8).withValues(alpha: 0.07),
+            blurRadius: 16.r,
+            offset: const Offset(0, 5),
+          ),
+        ],
       ),
       child: Column(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.fromLTRB(12.w, 12.h, 12.w, 10.h),
+            padding: EdgeInsets.fromLTRB(16.w, 14.h, 14.w, 12.h),
             child: Row(
               children: <Widget>[
                 Container(
                   width: 42.w,
                   height: 42.w,
                   decoration: const BoxDecoration(
-                    color: Color(0xFFE9EFFA),
+                    color: Color(0xFFE4EEFF),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
-                    Icons.directions_car_filled_outlined,
-                    color: const Color(0xFF1F69D2),
+                    Icons.directions_car_filled_rounded,
+                    color: const Color(0xFF1464D8),
                     size: 20.sp,
                   ),
                 ),
                 SizedBox(width: 10.w),
                 AppText(
                   'Vehicle Info',
-                  style: font18w700.copyWith(color: const Color(0xFF102B54)),
+                  style: font18w700.copyWith(color: const Color(0xFF0B2650)),
                 ),
                 const Spacer(),
                 SizedBox(
-                  width: 90.w,
+                  width: 88.w,
                   child: BouncingSocialButton(
                     text: 'Edit',
                     onTap: () {},
-                    color: Color(0xff0a7bcb),
-                    borderColor: const Color(0x66FFFFFF),
-                    textSize: 16.sp,
-                    //  textWeight: FontWeight.w700,
+                    color: const Color(0xFF1464D8),
+                    borderColor: const Color(0x00FFFFFF),
+                    textSize: 14.sp,
                     radius: 26.r,
                     height: 38.h,
                     leading: Icon(
                       Icons.edit_outlined,
-                      size: 18.sp,
+                      size: 15.sp,
                       color: Colors.white,
                     ),
                   ),
@@ -67,36 +73,48 @@ class DriverProfileVehicleCard extends StatelessWidget {
               ],
             ),
           ),
-          Container(height: 1.h, color: const Color(0xFFDDE4F1)),
+          Container(height: 1.h, color: const Color(0xFFF0F4FC)),
           Padding(
-            padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 16.h),
+            padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 18.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-
-                  leading: AppAsset(
-                    assetName: Assets.motorcycle,
-                    width: 36.w,
-                    height: 36.h,
-                  ),
-
-                  title: AppText(
-                    'CAR MODEL',
-                    style: font16w700.copyWith(color: const Color(0xFFA0AEC2)),
-                  ),
-
-                  subtitle: AppText(
-                    profile.vehicleModel,
-                    style: font20w700.copyWith(color: const Color(0xFF102B54)),
-                  ),
+                Row(
+                  children: <Widget>[
+                    AppAsset(
+                      assetName: Assets.motorcycle,
+                      width: 38.w,
+                      height: 38.h,
+                    ),
+                    SizedBox(width: 12.w),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        AppText(
+                          'CAR MODEL',
+                          style: font10w700.copyWith(
+                            color: const Color(0xFF9BABC4),
+                            letterSpacing: 1.0,
+                          ),
+                        ),
+                        SizedBox(height: 2.h),
+                        AppText(
+                          profile.vehicleModel,
+                          style: font18w700.copyWith(
+                            color: const Color(0xFF0B2650),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-
-                SizedBox(height: 22.h),
+                SizedBox(height: 18.h),
                 AppText(
                   'PLATE NUMBER',
-                  style: font20w700.copyWith(color: const Color(0xFFA0AEC2)),
+                  style: font10w700.copyWith(
+                    color: const Color(0xFF9BABC4),
+                    letterSpacing: 1.0,
+                  ),
                 ),
                 SizedBox(height: 8.h),
                 DriverProfilePlateNumberCard(plateNumber: profile.plateNumber),

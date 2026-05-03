@@ -30,12 +30,12 @@ class DeliverHomeOrdersContentSection extends StatelessWidget {
               );
             },
           ),
-          verticalSpacing(18),
+          verticalSpacing(20),
           const DeliverHomeOrdersHeaderRow(),
-          verticalSpacing(10),
+          verticalSpacing(12),
           ...DeliverHomeDemoData.orders.map(
             (DeliverOrderModel order) => Padding(
-              padding: EdgeInsets.only(bottom: 10.h),
+              padding: EdgeInsets.only(bottom: 12.h),
               child: DeliverOrderCard(
                 order: order,
                 onTap: () {
@@ -47,12 +47,29 @@ class DeliverHomeOrdersContentSection extends StatelessWidget {
               ),
             ),
           ),
-          verticalSpacing(6),
-          AppText(
-            'Today\'s Summary',
-            style: font18w700.copyWith(color: const Color(0xFF09244D)),
+          verticalSpacing(4),
+          Row(
+            children: <Widget>[
+              Container(
+                width: 4.w,
+                height: 22.h,
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: <Color>[Color(0xFF1A6EE8), Color(0xFF0C52BC)],
+                  ),
+                  borderRadius: BorderRadius.circular(2.r),
+                ),
+              ),
+              horizontalSpacing(8),
+              AppText(
+                'Today\'s Summary',
+                style: font18w700.copyWith(color: const Color(0xFF0B2650)),
+              ),
+            ],
           ),
-          verticalSpacing(8),
+          verticalSpacing(12),
           ...DeliverHomeDemoData.dailySummary.map(
             (DeliverDailySummaryModel summary) => Padding(
               padding: EdgeInsets.only(bottom: 10.h),

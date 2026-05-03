@@ -16,36 +16,38 @@ class DeliveryProgressCard extends StatelessWidget {
       onPressed: onTap,
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+        padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 16.h),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.r),
+          borderRadius: BorderRadius.circular(22.r),
           gradient: const LinearGradient(
-            colors: <Color>[Color(0xFF15BA85), Color(0xFF099F71)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: <Color>[Color(0xFF0CB87A), Color(0xFF069A64)],
           ),
           boxShadow: <BoxShadow>[
             BoxShadow(
-              color: const Color(0xFF18AC84).withValues(alpha: 0.18),
-              blurRadius: 14.r,
-              offset: const Offset(0, 6),
+              color: const Color(0xFF0CB87A).withValues(alpha: 0.32),
+              blurRadius: 18.r,
+              offset: const Offset(0, 8),
             ),
           ],
         ),
         child: Row(
           children: <Widget>[
             Container(
-              width: 46.w,
-              height: 46.w,
+              width: 48.w,
+              height: 48.w,
               decoration: const BoxDecoration(
-                color: Color(0x2EFFFFFF),
+                color: Color(0x25FFFFFF),
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                Icons.local_shipping_outlined,
-                color: const Color(0xFFE6FFF6),
+                Icons.local_shipping_rounded,
+                color: const Color(0xFFE8FFF6),
                 size: 24.sp,
               ),
             ),
-            horizontalSpacing(12),
+            horizontalSpacing(14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,15 +56,27 @@ class DeliveryProgressCard extends StatelessWidget {
                     'Delivery In Progress',
                     style: font16w700.copyWith(color: Colors.white),
                   ),
-                  verticalSpacing(2),
+                  verticalSpacing(3),
                   AppText(
                     'Tap to track your current delivery',
-                    style: font12w500.copyWith(color: const Color(0xFFE8FFF8)),
+                    style: font12w500.copyWith(color: const Color(0xFFD0FFF0)),
                   ),
                 ],
               ),
             ),
-            Icon(Icons.chevron_right_rounded, color: Colors.white, size: 28.sp),
+            Container(
+              width: 32.w,
+              height: 32.w,
+              decoration: const BoxDecoration(
+                color: Color(0x20FFFFFF),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.chevron_right_rounded,
+                color: Colors.white,
+                size: 22.sp,
+              ),
+            ),
           ],
         ),
       ),

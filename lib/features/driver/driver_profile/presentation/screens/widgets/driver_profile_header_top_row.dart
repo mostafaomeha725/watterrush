@@ -11,22 +11,24 @@ class DriverProfileHeaderTopRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        AppText('My Profile', style: font20w700.copyWith(color: Colors.white)),
+        AppText(
+          'My Profile',
+          style: font20w700.copyWith(color: Colors.white),
+        ),
         const Spacer(),
         SizedBox(
-          width: 90.w,
+          width: 96.w,
           child: BouncingSocialButton(
             text: 'Edit',
             onTap: () {},
-            color: const Color(0x33FFFFFF),
-            borderColor: const Color(0x66FFFFFF),
-            textSize: 16.sp,
-            //  textWeight: FontWeight.w700,
-            radius: 26.r,
-            height: 44.h,
+            color: const Color(0x25FFFFFF),
+            borderColor: const Color(0x55FFFFFF),
+            textSize: 15.sp,
+            radius: 28.r,
+            height: 42.h,
             leading: Icon(
               Icons.edit_outlined,
-              size: 18.sp,
+              size: 16.sp,
               color: Colors.white,
             ),
           ),

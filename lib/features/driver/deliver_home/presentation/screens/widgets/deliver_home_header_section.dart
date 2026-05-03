@@ -12,33 +12,57 @@ class DeliverHomeHeaderSection extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(30.r),
-          bottomRight: Radius.circular(30.r),
+          bottomLeft: Radius.circular(34.r),
+          bottomRight: Radius.circular(34.r),
         ),
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: <Color>[Color(0xFF194E9D), Color(0xFF0D8AE3)],
+          colors: <Color>[Color(0xFF0C2461), Color(0xFF1464D8)],
         ),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: const Color(0xFF1464D8).withValues(alpha: 0.28),
+            blurRadius: 28.r,
+            offset: const Offset(0, 12),
+          ),
+        ],
       ),
       child: Stack(
+        clipBehavior: Clip.hardEdge,
         children: <Widget>[
           Positioned(
-            top: -34.h,
-            right: -42.w,
+            top: -28.h,
+            right: -28.w,
             child: Container(
+              width: 150.w,
+              height: 150.w,
               decoration: const BoxDecoration(
-                color: Color(0x14FFFFFF),
+                color: Color(0x10FFFFFF),
                 shape: BoxShape.circle,
               ),
             ),
           ),
           Positioned(
-            top: 70.h,
-            right: -16.w,
+            bottom: -18.h,
+            left: -18.w,
             child: Container(
+              width: 110.w,
+              height: 110.w,
               decoration: const BoxDecoration(
-                color: Color(0x0FFFFFFF),
+                color: Color(0x0BFFFFFF),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 55.h,
+            right: 90.w,
+            child: Container(
+              width: 55.w,
+              height: 55.w,
+              decoration: const BoxDecoration(
+                color: Color(0x08FFFFFF),
                 shape: BoxShape.circle,
               ),
             ),
@@ -46,11 +70,11 @@ class DeliverHomeHeaderSection extends StatelessWidget {
           SafeArea(
             bottom: false,
             child: Padding(
-              padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 14.h),
+              padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 18.h),
               child: Column(
                 children: <Widget>[
                   const DeliverHomeHeaderTopRow(),
-                  verticalSpacing(12),
+                  verticalSpacing(16),
                   const DeliverHomeHeaderStatsRow(),
                 ],
               ),

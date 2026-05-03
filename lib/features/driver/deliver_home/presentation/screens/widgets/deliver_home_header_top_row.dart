@@ -11,42 +11,58 @@ class DeliverHomeHeaderTopRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
+        Container(
+          width: 46.w,
+          height: 46.w,
+          decoration: BoxDecoration(
+            color: const Color(0x22FFFFFF),
+            shape: BoxShape.circle,
+            border: Border.all(color: const Color(0x35FFFFFF), width: 1.5),
+          ),
+          child: Icon(
+            Icons.person_rounded,
+            color: const Color(0xFFD8E8FF),
+            size: 24.sp,
+          ),
+        ),
+        horizontalSpacing(12),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               AppText(
-                'Hello,',
-                style: font14w400.copyWith(color: const Color(0xFFE5F0FF)),
+                'Good morning,',
+                style: font12w500.copyWith(color: const Color(0xFFADCAFF)),
               ),
-              verticalSpacing(2),
+              verticalSpacing(1),
               AppText(
                 'Kareem 👋',
-                style: font26w700.copyWith(color: Colors.white),
+                style: font22w700.copyWith(color: Colors.white),
               ),
             ],
           ),
         ),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 9.h),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(999.r),
-            gradient: const LinearGradient(
-              colors: <Color>[Color(0xFF2BC8A5), Color(0xFF1DA4CB)],
-            ),
-            border: Border.all(color: const Color(0x3DFFFFFF)),
+            color: const Color(0x1FFFFFFF),
+            border: Border.all(color: const Color(0x40FFFFFF), width: 1),
           ),
           child: Row(
             children: <Widget>[
-              Icon(
-                Icons.wifi_tethering_rounded,
-                color: const Color(0xFF8EF4D5),
-                size: 16.sp,
+              Container(
+                width: 8.w,
+                height: 8.w,
+                decoration: const BoxDecoration(
+                  color: Color(0xFF18DDA7),
+                  shape: BoxShape.circle,
+                ),
               ),
-              horizontalSpacing(6),
+              horizontalSpacing(7),
               AppText(
                 'Online',
-                style: font14w700.copyWith(color: const Color(0xFF18DDA7)),
+                style: font12w700.copyWith(color: const Color(0xFF18DDA7)),
               ),
             ],
           ),

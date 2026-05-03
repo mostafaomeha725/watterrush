@@ -25,31 +25,40 @@ class DriverProfileStatItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 12.h),
+        padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 6.w),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(18.r),
+          borderRadius: BorderRadius.circular(20.r),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: const Color(0xFF1464D8).withValues(alpha: 0.07),
+              blurRadius: 16.r,
+              offset: const Offset(0, 5),
+            ),
+          ],
         ),
         child: Column(
           children: <Widget>[
             Container(
-              width: 42.w,
-              height: 42.w,
+              width: 44.w,
+              height: 44.w,
               decoration: BoxDecoration(color: iconBg, shape: BoxShape.circle),
-              child: Icon(icon, size: 20.sp, color: iconColor),
+              child: Icon(icon, size: 21.sp, color: iconColor),
             ),
             SizedBox(height: 8.h),
             AppText(
               value,
               alignment: AlignmentDirectional.center,
-              style: font26w700.copyWith(color: valueColor),
+              style: font24w700.copyWith(
+                color: valueColor,
+                letterSpacing: -0.5,
+              ),
             ),
             SizedBox(height: 2.h),
-
             AppText(
               title,
               alignment: AlignmentDirectional.center,
-              style: font14w500.copyWith(color: const Color(0xFF8FA1B9)),
+              style: font12w500.copyWith(color: const Color(0xFF8FA1B9)),
             ),
           ],
         ),

@@ -13,72 +13,83 @@ class DriverProfileStatsGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        SizedBox(height: 8.h),
+        SizedBox(height: 4.h),
         Row(
           children: <Widget>[
             DriverProfileStatItemCard(
-              icon: Icons.local_shipping_outlined,
+              icon: Icons.local_shipping_rounded,
               value: profile.todayRuns,
               title: 'Today\'s Runs',
-              valueColor: const Color(0xFF1E6ECE),
-              iconBg: const Color(0xFFE7EEF9),
-              iconColor: const Color(0xFF1E6ECE),
+              valueColor: const Color(0xFF1464D8),
+              iconBg: const Color(0xFFE4EEFF),
+              iconColor: const Color(0xFF1464D8),
             ),
-            SizedBox(width: 8.w),
+            SizedBox(width: 10.w),
             DriverProfileStatItemCard(
               icon: Icons.star_rounded,
               value: profile.todayRating,
               title: 'Rating',
-              valueColor: const Color(0xFFE89C00),
-              iconBg: const Color(0xFFFAF2DD),
-              iconColor: const Color(0xFFE89C00),
+              valueColor: const Color(0xFFCA8800),
+              iconBg: const Color(0xFFFAF0D8),
+              iconColor: const Color(0xFFCA8800),
             ),
-            SizedBox(width: 8.w),
+            SizedBox(width: 10.w),
             DriverProfileStatItemCard(
-              icon: Icons.payments_outlined,
+              icon: Icons.payments_rounded,
               value: profile.todayEarned,
               title: 'Earned (EGP)',
-              valueColor: const Color(0xFF11B476),
-              iconBg: const Color(0xFFE2F3EE),
-              iconColor: const Color(0xFF11B476),
+              valueColor: const Color(0xFF0FA860),
+              iconBg: const Color(0xFFD8F5EB),
+              iconColor: const Color(0xFF0FA860),
             ),
           ],
         ),
-        SizedBox(height: 12.h),
+        SizedBox(height: 14.h),
         Container(
           width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 16.h),
+          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 18.h),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20.r),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: const Color(0xFF1464D8).withValues(alpha: 0.07),
+                blurRadius: 16.r,
+                offset: const Offset(0, 5),
+              ),
+            ],
           ),
           child: Row(
             children: <Widget>[
               DriverProfileMetricItem(
                 value: profile.totalDeliveries,
                 title: 'Total Deliveries',
-                valueColor: const Color(0xFF102B55),
+                valueColor: const Color(0xFF0B2650),
               ),
-              _divider(),
+              Container(
+                width: 1.w,
+                height: 52.h,
+                color: const Color(0xFFE0E8F4),
+              ),
               DriverProfileMetricItem(
                 value: profile.avgRating,
                 title: 'Avg. Rating',
-                valueColor: const Color(0xFF1E6ECE),
+                valueColor: const Color(0xFF1464D8),
               ),
-              _divider(),
+              Container(
+                width: 1.w,
+                height: 52.h,
+                color: const Color(0xFFE0E8F4),
+              ),
               DriverProfileMetricItem(
                 value: profile.onTimeRate,
                 title: 'On Time',
-                valueColor: const Color(0xFF11B476),
+                valueColor: const Color(0xFF0FA860),
               ),
             ],
           ),
         ),
       ],
     );
-  }
-
-  Widget _divider() {
-    return Container(width: 1.w, height: 56.h, color: const Color(0xFFD8E2F0));
   }
 }

@@ -31,7 +31,7 @@ final CustomGoRouterObserver customGoRouterObserver = CustomGoRouterObserver();
 
 GoRouter createRouter() {
   return GoRouter(
-    initialLocation: Routes.mainNavigationScreen,
+    initialLocation: Routes.authTypeScreen,
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
     observers: [
@@ -60,7 +60,7 @@ GoRouter createRouter() {
         builder: (context, state) {
           final bool isCustomer = state.extra is bool
               ? state.extra as bool
-              : true;
+              : false;
           return CustomNavBar(isCustomer: isCustomer);
         },
       ),

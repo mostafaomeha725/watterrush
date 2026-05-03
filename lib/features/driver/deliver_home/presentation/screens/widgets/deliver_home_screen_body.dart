@@ -12,7 +12,14 @@ class DeliverHomeScreenBody extends StatelessWidget {
         MediaQuery.paddingOf(context).top + 176.h;
 
     return Container(
-      color: const Color(0xFFEEF1F9),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: <Color>[Color(0xFFE8EFFC), Color(0xFFF5F7FE)],
+          stops: <double>[0.0, 0.45],
+        ),
+      ),
       child: Stack(
         children: <Widget>[
           Positioned.fill(
