@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -37,11 +38,15 @@ class AuthPhoneLoginScreenBody extends StatefulWidget {
 
 class _AuthPhoneLoginScreenBodyState extends State<AuthPhoneLoginScreenBody> {
   late final TextEditingController _phoneController;
+  late String _selectedFlag;
+  late String _selectedCode;
 
   @override
   void initState() {
     super.initState();
     _phoneController = TextEditingController();
+    _selectedFlag = widget.mode == AuthLoginMode.driver ? '🇺🇸' : '🇪🇬';
+    _selectedCode = widget.mode == AuthLoginMode.driver ? '+1' : '+20';
   }
 
   @override
@@ -73,12 +78,20 @@ class _AuthPhoneLoginScreenBodyState extends State<AuthPhoneLoginScreenBody> {
                   PhoneInputField(
                     controller: _phoneController,
                     hint: widget.phoneHint,
-                    countryFlag: widget.mode == AuthLoginMode.driver
-                        ? '🇺🇸'
-                        : '🇪🇬',
-                    countryCode: widget.mode == AuthLoginMode.driver
-                        ? '+1'
-                        : '+20',
+                    countryFlag: _selectedFlag,
+                    countryCode: _selectedCode,
+                    onCountryTap: () {
+                      showCountryPicker(
+                        context: context,
+                        showPhoneCode: true,
+                        onSelect: (Country country) {
+                          setState(() {
+                            _selectedFlag = country.flagEmoji;
+                            _selectedCode = '+${country.phoneCode}';
+                          });
+                        },
+                      );
+                    },
                   ),
                   SizedBox(height: 16.h),
                   AuthLoginContinueButton(
