@@ -5,7 +5,7 @@ enum OtpStatus { initial, loading, success, error }
 class OtpState extends Equatable {
   const OtpState({
     required this.remainingSeconds,
-    required this.digits,
+    required this.otpCode,
     required this.canResend,
     required this.status,
     required this.message,
@@ -13,30 +13,30 @@ class OtpState extends Equatable {
 
   factory OtpState.initial() => const OtpState(
     remainingSeconds: 45,
-    digits: ['', '', '', '', '', ''],
+    otpCode: '',
     canResend: false,
     status: OtpStatus.initial,
     message: '',
   );
 
   final int remainingSeconds;
-  final List<String> digits;
+  final String otpCode;
   final bool canResend;
   final OtpStatus status;
   final String message;
 
-  bool get isComplete => digits.every((digit) => digit.isNotEmpty);
+  bool get isComplete => otpCode.length == 6;
 
   OtpState copyWith({
     int? remainingSeconds,
-    List<String>? digits,
+    String? otpCode,
     bool? canResend,
     OtpStatus? status,
     String? message,
   }) {
     return OtpState(
       remainingSeconds: remainingSeconds ?? this.remainingSeconds,
-      digits: digits ?? this.digits,
+      otpCode: otpCode ?? this.otpCode,
       canResend: canResend ?? this.canResend,
       status: status ?? this.status,
       message: message ?? this.message,
@@ -46,7 +46,7 @@ class OtpState extends Equatable {
   @override
   List<Object?> get props => [
     remainingSeconds,
-    digits,
+    otpCode,
     canResend,
     status,
     message,

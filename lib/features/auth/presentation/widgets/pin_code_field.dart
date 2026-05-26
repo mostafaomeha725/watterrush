@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:waterrush/core/widgets/app_form_field.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:waterrush/features/auth/presentation/cubit/otp_cubit.dart';
 
 class PinCodeField extends StatelessWidget {
@@ -11,38 +11,34 @@ class PinCodeField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: List<Widget>.generate(6, (index) {
-        return SizedBox(
-          width: 47.w,
-          child: AppFormField(
-            controller: cubit.controllers[index],
-            hintText: '',
-            keyboardType: TextInputType.number,
-            textInputAction: index == 5
-                ? TextInputAction.done
-                : TextInputAction.next,
-            textAlign: TextAlign.center,
-            maxLength: 1,
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            fillColor: Colors.white,
-            borderColor: const Color(0xFFD7E3F5),
-            focusedBorderColor: const Color(0xFF3B8DFF),
-            radius: 12.r,
-            contentPadding: EdgeInsets.symmetric(vertical: 13.h),
-            onChanged: (value) {
-              cubit.onOtpChanged(index, value);
-              if (value.isEmpty && index > 0) {
-                FocusScope.of(context).previousFocus();
-              }
-              if (value.isNotEmpty && index < 5) {
-                FocusScope.of(context).nextFocus();
-              }
-            },
-          ),
-        );
-      }),
+    return PinCodeTextField(
+      appContext: context,
+      length: 6,
+      controller: cubit.otpController,
+      keyboardType: TextInputType.number,
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+      enableActiveFill: true,
+      cursorColor: const Color(0xFF3B8DFF),
+      animationType: AnimationType.fade,
+      pinTheme: PinTheme(
+        shape: PinCodeFieldShape.box,
+        borderRadius: BorderRadius.circular(12.r),
+        fieldHeight: 56.h,
+        fieldWidth: 47.w,
+        activeFillColor: Colors.white,
+        inactiveFillColor: Colors.white,
+        selectedFillColor: Colors.white,
+        activeColor: const Color(0xFF3B8DFF),
+        inactiveColor: const Color(0xFFD7E3F5),
+        selectedColor: const Color(0xFF3B8DFF),
+        borderWidth: 1.w,
+      ),
+      onChanged: (value) {
+        cubit.onOtpChanged(value);
+      },
+      onCompleted: (value) {
+        // Optional: auto-verify here if wanted, or leave it to Verify OTP button
+      },
     );
   }
 }

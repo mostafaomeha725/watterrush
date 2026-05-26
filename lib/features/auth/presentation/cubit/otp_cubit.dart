@@ -11,8 +11,7 @@ class OtpCubit extends Cubit<OtpState> {
     startTimer();
   }
 
-  final List<TextEditingController> controllers =
-      List<TextEditingController>.generate(6, (_) => TextEditingController());
+  final TextEditingController otpController = TextEditingController();
 
   Timer? timer;
 
@@ -27,38 +26,16 @@ class OtpCubit extends Cubit<OtpState> {
     );
   }
 
-  void onOtpChanged(int index, String value) {
-    String normalized = value.replaceAll(RegExp(r'[^0-9]'), '');
-    if (normalized.length > 1) {
-      normalized = normalized.substring(normalized.length - 1);
-    }
-    if (controllers[index].text != normalized) {
-      controllers[index].value = TextEditingValue(
-        text: normalized,
-        selection: TextSelection.collapsed(offset: normalized.length),
-      );
-    }
-    List<String> updated = List<String>.generate(
-      controllers.length,
-      (i) => controllers[i].text.trim(),
-    );
+  void onOtpChanged(String value) {
     emit(
-      state.copyWith(digits: updated, status: OtpStatus.initial, message: ''),
+      state.copyWith(otpCode: value, status: OtpStatus.initial, message: ''),
     );
   }
 
   void resendCode() {
     if (!state.canResend) return;
-    for (final TextEditingController controller in controllers) {
-      controller.clear();
-    }
-    emit(
-      state.copyWith(
-        digits: ['', '', '', '', '', ''],
-        status: OtpStatus.initial,
-        message: '',
-      ),
-    );
+    otpController.clear();
+    emit(state.copyWith(otpCode: '', status: OtpStatus.initial, message: ''));
     startTimer(seconds: 45);
   }
 
@@ -85,9 +62,7 @@ class OtpCubit extends Cubit<OtpState> {
   @override
   Future<void> close() {
     Helpers.cancelTimer(timer);
-    for (final TextEditingController controller in controllers) {
-      controller.dispose();
-    }
+    otpController.dispose();
     return super.close();
   }
 }
