@@ -8,6 +8,7 @@ import 'package:waterrush/features/custoomer/customer_home/presentation/screens/
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_mock_data.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_route_categories_mapper.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/home_models.dart';
+import 'package:waterrush/core/di/services_locator.dart';
 
 class CustomerHomeScreenBody extends StatelessWidget {
   const CustomerHomeScreenBody({super.key});
@@ -19,7 +20,7 @@ class CustomerHomeScreenBody extends StatelessWidget {
     );
 
     return BlocProvider(
-      create: (_) => CustomerHomeCubit(bannerCount: customerHomeBanners.length),
+      create: (_) => sl<CustomerHomeCubit>(),
       child: BlocConsumer<CustomerHomeCubit, CustomerHomeState>(
         listener: (context, state) {
           if (state.status == CustomerHomeStatus.success &&

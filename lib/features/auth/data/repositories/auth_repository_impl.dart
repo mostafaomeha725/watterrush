@@ -23,4 +23,20 @@ class AuthRepositoryImpl implements AuthRepository {
       passwordConfirmation: passwordConfirmation,
     );
   }
+
+  @override
+  Future<Either<Failure, CustomerEntity>> loginCustomer({
+    required String phone,
+    required String password,
+  }) async {
+    return await remoteDataSource.loginCustomer(
+      phone: phone,
+      password: password,
+    );
+  }
+
+  @override
+  Future<Either<Failure, void>> logoutCustomer() async {
+    return await remoteDataSource.logoutCustomer();
+  }
 }

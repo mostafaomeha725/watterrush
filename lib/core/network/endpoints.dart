@@ -4,6 +4,10 @@ class EndPoints {
   /// Auth endpoints
   static const String register = 'auth/register';
   static const String customerRegister = 'customer/auth/register';
+  static const String customerLogin = 'customer/auth/login';
+  static const String customerLogout = 'customer/auth/logout';
+
+  static const String customerSliders = 'customer/sliders';
 
   static const String login = 'auth/login';
 

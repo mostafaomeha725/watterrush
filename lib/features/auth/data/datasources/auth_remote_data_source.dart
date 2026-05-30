@@ -12,6 +12,13 @@ abstract class AuthRemoteDataSource {
     required String password,
     required String passwordConfirmation,
   });
+
+  Future<Either<Failure, CustomerModel>> loginCustomer({
+    required String phone,
+    required String password,
+  });
+
+  Future<Either<Failure, void>> logoutCustomer();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -48,6 +55,52 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         return Right(customer);
       } catch (e) {
         return Left(Failure('Failed to parse user data'));
+      }
+    });
+  }
+
+  @override
+  Future<Either<Failure, CustomerModel>> loginCustomer({
+    required String phone,
+    required String password,
+  }) async {
+    final response = await networkService.postData(
+      endPoint: EndPoints.customerLogin,
+      data: {
+        'phone': phone,
+        'password': password,
+      },
+    );
+
+    return response.fold((failure) => Left(failure), (data) async {
+      try {
+        final resData = data['data'];
+        final token = resData['token'];
+        await preferencesStorage.saveUserToken(token);
+        networkService.addToken(token);
+
+        final customer = CustomerModel.fromJson(resData['customer']);
+        return Right(customer);
+      } catch (e) {
+        return Left(Failure('Failed to parse user data'));
+      }
+    });
+  }
+
+  @override
+  Future<Either<Failure, void>> logoutCustomer() async {
+    final response = await networkService.postData(
+      endPoint: EndPoints.customerLogout,
+      data: {},
+    );
+
+    return response.fold((failure) => Left(failure), (data) async {
+      try {
+        await preferencesStorage.deleteUserToken();
+        networkService.removeToken();
+        return const Right(null);
+      } catch (e) {
+        return Left(Failure('Failed to logout'));
       }
     });
   }

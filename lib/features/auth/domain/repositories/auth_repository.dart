@@ -9,4 +9,11 @@ abstract class AuthRepository {
     required String password,
     required String passwordConfirmation,
   });
+
+  Future<Either<Failure, CustomerEntity>> loginCustomer({
+    required String phone,
+    required String password,
+  });
+
+  Future<Either<Failure, void>> logoutCustomer();
 }

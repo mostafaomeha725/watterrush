@@ -39,7 +39,7 @@ class CustomerHomeOfferBannerMedia extends StatelessWidget {
                   SizedBox(height: 1.h),
                   AppText(
                     '35%',
-                    style: font22w700.copyWith(color: Color(0xff08f1ff)),
+                    style: font22w700.copyWith(color: const Color(0xff08f1ff)),
                     alignment: AlignmentDirectional.center,
                   ),
                   AppText(
