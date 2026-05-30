@@ -12,6 +12,13 @@ import 'package:waterrush/features/auth/domain/usecases/logout_customer_usecase.
 import 'package:waterrush/features/auth/presentation/cubit/register_cubit/customer_register_cubit.dart';
 import 'package:waterrush/features/auth/presentation/cubit/login_cubit/customer_login_cubit.dart';
 import 'package:waterrush/features/auth/presentation/cubit/logout_cubit/customer_logout_cubit.dart';
+import 'package:waterrush/features/custoomer/address/data/datasources/address_remote_data_source.dart';
+import 'package:waterrush/features/custoomer/address/data/repositories/address_repository_impl.dart';
+import 'package:waterrush/features/custoomer/address/domain/repositories/address_repository.dart';
+import 'package:waterrush/features/custoomer/address/domain/usecases/get_addresses_usecase.dart';
+import 'package:waterrush/features/custoomer/address/domain/usecases/create_address_usecase.dart';
+import 'package:waterrush/features/custoomer/address/presentation/cubit/address_cubit.dart';
+
 import 'package:waterrush/features/custoomer/customer_home/data/datasources/customer_home_remote_data_source.dart';
 import 'package:waterrush/features/custoomer/customer_home/data/repositories/customer_home_repository_impl.dart';
 import 'package:waterrush/features/custoomer/customer_home/domain/repositories/customer_home_repository.dart';
@@ -74,15 +81,24 @@ class ServiceLocator {
   /// =============================
   void _initCustomerHome() {
     sl.registerLazySingleton<CustomerHomeRemoteDataSource>(
-      () => CustomerHomeRemoteDataSourceImpl(sl()),
-    );
+        () => CustomerHomeRemoteDataSourceImpl(sl()));
+
+    sl.registerLazySingleton<AddressRemoteDataSource>(
+        () => AddressRemoteDataSourceImpl(sl()));
+
     sl.registerLazySingleton<CustomerHomeRepository>(
       () => CustomerHomeRepositoryImpl(sl()),
+    );
+
+    sl.registerLazySingleton<AddressRepository>(
+      () => AddressRepositoryImpl(sl()),
     );
 
     sl.registerLazySingleton(() => GetSlidersUseCase(sl()));
     sl.registerLazySingleton(() => GetCategoriesUseCase(sl()));
     sl.registerLazySingleton(() => GetCategoryProductsUseCase(sl()));
+    sl.registerLazySingleton(() => GetAddressesUseCase(sl()));
+    sl.registerLazySingleton(() => CreateAddressUseCase(sl()));
 
     sl.registerFactory(
       () => CustomerHomeCubit(
@@ -96,6 +112,13 @@ class ServiceLocator {
       (category, _) => CategoryProductsCubit(
         category: category,
         getCategoryProductsUseCase: sl(),
+      ),
+    );
+
+    sl.registerFactory(
+      () => AddressCubit(
+        getAddressesUseCase: sl(),
+        createAddressUseCase: sl(),
       ),
     );
   }

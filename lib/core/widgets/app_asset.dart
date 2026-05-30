@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 class AppAsset extends StatelessWidget {
   const AppAsset({
@@ -20,7 +20,8 @@ class AppAsset extends StatelessWidget {
   Widget build(BuildContext context) {
     String assetPath = assetName;
     if (!assetPath.contains('assets')) {
-      assetPath = "assets/images/$assetPath.png";
+      // assetPath = "assets/images/$assetPath.png";
+      assetPath = "assets/gallon.png";
     }
     return Image.asset(
       assetPath,

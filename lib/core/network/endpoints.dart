@@ -10,6 +10,7 @@ class EndPoints {
   static const String customerSliders = 'customer/sliders';
   static const String customerCategories = 'customer/categories';
   static const String customerProducts = 'customer/products';
+  static const String customerAddresses = 'customer/addresses';
 
   static const String login = 'auth/login';
 

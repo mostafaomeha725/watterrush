@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/core/constants/app_assets.dart';
 import 'package:waterrush/core/theme/styles.dart';
@@ -6,10 +6,18 @@ import 'package:waterrush/core/widgets/app_asset.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
 import 'customer_home_view_models.dart';
 
+import 'package:waterrush/core/widgets/app_image.dart';
+import '../../../domain/entities/slider_entity.dart';
+
 class CustomerHomeOfferBannerMedia extends StatelessWidget {
-  const CustomerHomeOfferBannerMedia({required this.data, super.key});
+  const CustomerHomeOfferBannerMedia({
+    required this.data,
+    this.slider,
+    super.key,
+  });
 
   final HomeBannerViewModel data;
+  final SliderEntity? slider;
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +26,22 @@ class CustomerHomeOfferBannerMedia extends StatelessWidget {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
+          Positioned(
+            top: 20.h,
+            bottom: 20.h,
+            right: 25.w,
+            child: slider != null
+                ? AppImage(
+                    imageUrl: slider!.image,
+                    width: 100.w,
+                    fit: BoxFit.contain,
+                  )
+                : AppAsset(
+                    assetName: Assets.gallon,
+                    width: 100.w,
+                    fit: BoxFit.contain,
+                  ),
+          ),
           Positioned(
             top: 20.h,
             right: 0,
@@ -49,17 +73,6 @@ class CustomerHomeOfferBannerMedia extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-          ),
-
-          Positioned(
-            top: -15.h,
-            bottom: -15.h,
-            right: 20.w,
-            child: AppAsset(
-              assetName: Assets.gallon,
-              width: 180.w,
-              fit: BoxFit.contain,
             ),
           ),
         ],

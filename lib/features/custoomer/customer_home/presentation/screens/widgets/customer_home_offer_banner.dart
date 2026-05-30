@@ -1,6 +1,5 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:waterrush/core/widgets/app_image.dart';
 import 'customer_home_offer_banner_content.dart';
 import 'customer_home_offer_banner_media.dart';
 import 'customer_home_view_models.dart';
@@ -20,36 +19,6 @@ class CustomerHomeOfferBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (slider != null) {
-      return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 4.w),
-        child: GestureDetector(
-          onTap: () {
-            // handle slider.link if needed
-          },
-          child: Container(
-            width: double.infinity,
-            margin: EdgeInsets.only(top: 20.h),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.r),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFF80B9FF).withOpacity(0.24),
-                  blurRadius: 30.r,
-                  offset: Offset(0, 12.h),
-                ),
-              ],
-            ),
-            child: AppImage(
-              imageUrl: slider!.image,
-              fit: BoxFit.cover,
-              borderRadius: BorderRadius.circular(20.r),
-            ),
-          ),
-        ),
-      );
-    }
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 4.w),
       child: Stack(
@@ -90,7 +59,7 @@ class CustomerHomeOfferBanner extends StatelessWidget {
             top: 0,
             right: 0,
             bottom: 0,
-            child: CustomerHomeOfferBannerMedia(data: data),
+            child: CustomerHomeOfferBannerMedia(data: data, slider: slider),
           ),
         ],
       ),
