@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+﻿import 'package:equatable/equatable.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/home_models.dart';
 
 enum CategoryProductsSort { popular, priceLowToHigh, priceHighToLow, topRated }

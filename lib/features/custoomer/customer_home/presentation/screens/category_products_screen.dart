@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/category_products_cubit.dart';
+import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/category_products_cubit/category_products_cubit.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/category_products_screen_body.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/home_models.dart';
+import 'package:waterrush/core/di/services_locator.dart';
 
 class CategoryProductsScreen extends StatelessWidget {
   const CategoryProductsScreen({super.key, required this.category});
@@ -15,7 +16,7 @@ class CategoryProductsScreen extends StatelessWidget {
       backgroundColor: const Color(0xFFF3F6FB),
       body: BlocProvider<CategoryProductsCubit>(
         create: (BuildContext context) =>
-            CategoryProductsCubit(category: category),
+            sl<CategoryProductsCubit>(param1: category),
         child: const CategoryProductsScreenBody(),
       ),
     );

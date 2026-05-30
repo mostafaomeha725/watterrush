@@ -1,4 +1,4 @@
-import '../../domain/entities/product_entity.dart';
+﻿import '../../domain/entities/product_entity.dart';
 import 'product_image_model.dart';
 
 class ProductModel extends ProductEntity {

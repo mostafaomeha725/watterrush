@@ -4,10 +4,12 @@ import '../../../../../core/network/endpoints.dart';
 import '../../../../../core/network/network_service.dart';
 import '../models/slider_model.dart';
 import '../models/category_model.dart';
+import '../models/product_model.dart';
 
 abstract class CustomerHomeRemoteDataSource {
   Future<Either<Failure, List<SliderModel>>> getSliders();
   Future<Either<Failure, List<CategoryModel>>> getCategories();
+  Future<Either<Failure, List<ProductModel>>> getCategoryProducts(int categoryId);
 }
 
 class CustomerHomeRemoteDataSourceImpl implements CustomerHomeRemoteDataSource {
@@ -52,6 +54,28 @@ class CustomerHomeRemoteDataSourceImpl implements CustomerHomeRemoteDataSource {
           return Right(categoriesList);
         } catch (e) {
           return Left(Failure('Failed to parse categories data'));
+        }
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, List<ProductModel>>> getCategoryProducts(int categoryId) async {
+    final response = await networkService.getData(
+      endPoint: EndPoints.customerProducts,
+      queryParameters: {'category_id': categoryId},
+    );
+
+    return response.fold(
+      (failure) => Left(failure),
+      (data) {
+        try {
+          final productsList = (data['data']['products'] as List)
+              .map((json) => ProductModel.fromJson(json))
+              .toList();
+          return Right(productsList);
+        } catch (e) {
+          return Left(Failure('Failed to parse category products data'));
         }
       },
     );

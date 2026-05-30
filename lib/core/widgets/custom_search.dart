@@ -1,4 +1,4 @@
-import 'package:waterrush/core/widgets/app_form_field.dart';
+﻿import 'package:waterrush/core/widgets/app_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

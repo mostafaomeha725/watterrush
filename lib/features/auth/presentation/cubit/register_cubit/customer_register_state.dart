@@ -1,4 +1,4 @@
-part of 'customer_register_cubit.dart';
+﻿part of 'customer_register_cubit.dart';
 
 @immutable
 abstract class CustomerRegisterState {}

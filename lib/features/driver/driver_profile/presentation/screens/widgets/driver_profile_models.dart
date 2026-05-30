@@ -1,4 +1,4 @@
-import 'package:waterrush/core/constants/app_assets.dart';
+﻿import 'package:waterrush/core/constants/app_assets.dart';
 
 class DriverProfileData {
   const DriverProfileData({

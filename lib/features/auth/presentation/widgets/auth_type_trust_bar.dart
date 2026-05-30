@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:waterrush/features/auth/presentation/widgets/auth_type_trust_divider.dart';
 import 'package:waterrush/features/auth/presentation/widgets/auth_type_trust_item.dart';
 

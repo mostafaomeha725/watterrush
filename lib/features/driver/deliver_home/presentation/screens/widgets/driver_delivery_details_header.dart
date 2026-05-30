@@ -86,4 +86,3 @@ class DriverDeliveryDetailsHeader extends StatelessWidget {
     );
   }
 }
-

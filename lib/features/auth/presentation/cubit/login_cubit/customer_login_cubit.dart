@@ -1,7 +1,7 @@
-import 'package:bloc/bloc.dart';
+﻿import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import '../../domain/entities/customer_entity.dart';
-import '../../domain/usecases/login_customer_usecase.dart';
+import '../../../domain/entities/customer_entity.dart';
+import '../../../domain/usecases/login_customer_usecase.dart';
 
 part 'customer_login_state.dart';
 

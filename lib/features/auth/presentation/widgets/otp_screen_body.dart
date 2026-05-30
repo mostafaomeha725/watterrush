@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -9,8 +9,8 @@ import 'package:waterrush/core/widgets/custom_loading.dart';
 import 'package:waterrush/core/widgets/custom_snack_bar.dart';
 import 'package:waterrush/core/widgets/custom_button.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
-import 'package:waterrush/features/auth/presentation/cubit/otp_cubit.dart';
-import 'package:waterrush/features/auth/presentation/cubit/otp_state.dart';
+import 'package:waterrush/features/auth/presentation/cubit/otp_cubit/otp_cubit.dart';
+import 'package:waterrush/features/auth/presentation/cubit/otp_cubit/otp_state.dart';
 import 'package:waterrush/features/auth/presentation/widgets/auth_login_back_button.dart';
 import 'package:waterrush/features/auth/presentation/widgets/otp_change_phone_section.dart';
 import 'package:waterrush/features/auth/presentation/widgets/otp_resend_section.dart';

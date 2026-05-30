@@ -1,11 +1,11 @@
-import 'dart:async';
+﻿import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waterrush/core/helpers/helpers.dart';
 
-import '../../domain/usecases/get_sliders_usecase.dart';
-import '../../domain/usecases/get_categories_usecase.dart';
+import '../../../domain/usecases/get_sliders_usecase.dart';
+import '../../../domain/usecases/get_categories_usecase.dart';
 
 import 'customer_home_state.dart';
 

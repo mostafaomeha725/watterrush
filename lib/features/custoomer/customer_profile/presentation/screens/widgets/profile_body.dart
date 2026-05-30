@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/core/widgets/bouncing_social_button.dart';
 import 'package:waterrush/features/custoomer/customer_profile/presentation/screens/widgets/profile_contact_card.dart';
@@ -9,7 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:waterrush/core/utils/easy_loading.dart';
 import 'package:waterrush/core/routes/route_paths.dart';
 import 'package:waterrush/core/di/services_locator.dart';
-import 'package:waterrush/features/auth/presentation/cubit/customer_logout_cubit.dart';
+import 'package:waterrush/features/auth/presentation/cubit/logout_cubit/customer_logout_cubit.dart';
 import 'package:waterrush/features/custoomer/customer_profile/presentation/screens/widgets/profile_order_history_section.dart';
 
 class ProfileBody extends StatelessWidget {

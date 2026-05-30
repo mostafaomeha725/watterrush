@@ -1,4 +1,4 @@
-import 'package:chucker_flutter/chucker_flutter.dart';
+﻿import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:waterrush/core/widgets/custom_nav_bar.dart';

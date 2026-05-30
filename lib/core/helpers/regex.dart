@@ -1,4 +1,4 @@
-// final charactersOnly = RegExp(r'^[a-zA-Z\u0600-\u06FF]+$'); // Prevent autofill
+﻿// final charactersOnly = RegExp(r'^[a-zA-Z\u0600-\u06FF]+$'); // Prevent autofill
 final charactersOnly = RegExp(r'^[a-zA-Z\u0600-\u06FF\s]+$');
 
 bool isValidPhoneNumber(String phone, countryCode) {

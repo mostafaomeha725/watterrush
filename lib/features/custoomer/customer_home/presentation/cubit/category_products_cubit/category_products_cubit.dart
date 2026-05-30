@@ -1,12 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/category_products_state.dart';
+import 'package:waterrush/features/custoomer/customer_home/domain/usecases/get_category_products_usecase.dart';
+import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/category_products_cubit/category_products_state.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/home_models.dart';
 
 class CategoryProductsCubit extends Cubit<CategoryProductsState> {
-  CategoryProductsCubit({required CategoryItemData? category})
-    : super(CategoryProductsState(category: category)) {
+  CategoryProductsCubit({
+    required CategoryItemData? category,
+    required this.getCategoryProductsUseCase,
+  }) : super(CategoryProductsState(category: category)) {
     _loadCategory(category);
   }
+
+  final GetCategoryProductsUseCase getCategoryProductsUseCase;
 
   Future<void> _loadCategory(CategoryItemData? category) async {
     if (category == null) {
@@ -23,10 +28,53 @@ class CategoryProductsCubit extends Cubit<CategoryProductsState> {
 
     emit(state.copyWith(isLoading: true, category: category, cartCount: 0));
 
-    await Future<void>.delayed(const Duration(milliseconds: 260));
+    final safeCategory = category;
+    if (safeCategory.id != 0) {
+      final result = await getCategoryProductsUseCase(safeCategory.id);
+      result.fold(
+        (failure) {
+          emit(state.copyWith(isLoading: false));
+        },
+        (products) {
+          final mappedProducts = products.map((p) {
+            String imageUrl = '';
+            if (p.images.isNotEmpty) {
+              imageUrl = p.images.first.image;
+            }
+            return OfferProductItemData(
+              name: p.title,
+              subtitle: p.description,
+              imageUrl: imageUrl,
+              currentPrice: p.price,
+              oldPrice: p.priceBefore ?? p.price,
+              saveAmount: ((p.priceBefore ?? p.price) - p.price).toInt(),
+              rating: 5.0,
+              reviewsCount: 0,
+              discountLabel: '',
+            );
+          }).toList();
+
+          final updatedCategory = CategoryItemData(
+            id: safeCategory.id,
+            title: safeCategory.title,
+            description: safeCategory.description,
+            imagePath: safeCategory.imagePath,
+            products: mappedProducts,
+            headerColors: safeCategory.headerColors,
+            categoryLabel: safeCategory.categoryLabel,
+            highlights: safeCategory.highlights,
+            onOfferCount: mappedProducts.where((p) => p.isOnOffer).length,
+          );
+
+          category = updatedCategory;
+        },
+      );
+    } else {
+      await Future<void>.delayed(const Duration(milliseconds: 260));
+    }
 
     final Map<int, int> initialQuantities = <int, int>{
-      for (int index = 0; index < category.products.length; index++) index: 1,
+      for (int index = 0; index < category!.products.length; index++) index: 1,
     };
 
     emit(

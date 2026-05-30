@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/utils/spacing.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
-import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/category_products_state.dart';
+import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/category_products_cubit/category_products_state.dart';
 
 class CategoryProductsFiltersRow extends StatelessWidget {
   const CategoryProductsFiltersRow({

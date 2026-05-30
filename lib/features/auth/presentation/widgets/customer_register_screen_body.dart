@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -9,7 +9,7 @@ import 'package:waterrush/core/widgets/app_asset.dart';
 import 'package:waterrush/core/widgets/app_form_field.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
 import 'package:waterrush/core/utils/easy_loading.dart';
-import 'package:waterrush/features/auth/presentation/cubit/customer_register_cubit.dart';
+import 'package:waterrush/features/auth/presentation/cubit/register_cubit/customer_register_cubit.dart';
 import 'package:waterrush/features/auth/presentation/widgets/auth_login_back_button.dart';
 import 'package:waterrush/features/auth/presentation/widgets/auth_login_continue_button.dart';
 import 'package:waterrush/features/auth/presentation/widgets/auth_login_header_section.dart';

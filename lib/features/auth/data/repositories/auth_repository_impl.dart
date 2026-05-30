@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+﻿import 'package:dartz/dartz.dart';
 import '../../../../core/error/failure.dart';
 import '../../domain/entities/customer_entity.dart';
 import '../../domain/repositories/auth_repository.dart';

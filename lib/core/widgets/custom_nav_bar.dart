@@ -1,4 +1,4 @@
-import 'package:waterrush/core/widgets/custom_bottom_navbar.dart';
+﻿import 'package:waterrush/core/widgets/custom_bottom_navbar.dart';
 import 'package:waterrush/core/widgets/customer_nav_data.dart';
 import 'package:waterrush/core/widgets/deliver_nav_data.dart';
 import 'package:waterrush/core/widgets/navigation_state.dart';

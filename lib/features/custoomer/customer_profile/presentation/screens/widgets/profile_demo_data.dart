@@ -1,4 +1,4 @@
-import 'package:waterrush/core/constants/app_assets.dart';
+﻿import 'package:waterrush/core/constants/app_assets.dart';
 import 'package:waterrush/features/custoomer/customer_profile/presentation/screens/widgets/profile_models.dart';
 
 class ProfileDemoData {

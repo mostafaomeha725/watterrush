@@ -1,4 +1,4 @@
-enum RequestState { init, loading, success, error }
+﻿enum RequestState { init, loading, success, error }
 
 extension RequestStateX on RequestState {
   bool get isLoading => this == RequestState.loading;

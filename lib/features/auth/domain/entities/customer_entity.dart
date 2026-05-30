@@ -1,4 +1,4 @@
-class CustomerEntity {
+﻿class CustomerEntity {
   final int id;
   final String name;
   final String phone;

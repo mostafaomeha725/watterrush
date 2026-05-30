@@ -1,4 +1,4 @@
-class Routes {
+﻿class Routes {
   static const splashScreen = '/splash';
   static const authTypeScreen = '/auth-type';
   static const customerLoginScreen = '/customer-login';

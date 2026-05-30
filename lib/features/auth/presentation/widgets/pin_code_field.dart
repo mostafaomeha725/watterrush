@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:waterrush/features/auth/presentation/cubit/otp_cubit.dart';
+import 'package:waterrush/features/auth/presentation/cubit/otp_cubit/otp_cubit.dart';
 
 class PinCodeField extends StatelessWidget {
   const PinCodeField({required this.cubit, super.key});

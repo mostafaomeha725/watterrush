@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:waterrush/core/widgets/custom_button.dart';
 import 'package:waterrush/core/widgets/custom_loading.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
-import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/offer_details_cubit.dart';
-import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/offer_details_state.dart';
+import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/offer_details_cubit/offer_details_cubit.dart';
+import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/offer_details_cubit/offer_details_state.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/offer_details_header.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/offer_product_card.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/offer_terms_card.dart';

@@ -1,4 +1,4 @@
-import 'package:waterrush/core/theme/styles.dart';
+﻿import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/widgets/app_svg.dart';
 import 'package:waterrush/core/widgets/bouncing_widgets.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';

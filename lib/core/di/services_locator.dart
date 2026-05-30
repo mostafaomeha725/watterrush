@@ -9,15 +9,17 @@ import 'package:waterrush/features/auth/domain/repositories/auth_repository.dart
 import 'package:waterrush/features/auth/domain/usecases/register_customer_usecase.dart';
 import 'package:waterrush/features/auth/domain/usecases/login_customer_usecase.dart';
 import 'package:waterrush/features/auth/domain/usecases/logout_customer_usecase.dart';
-import 'package:waterrush/features/auth/presentation/cubit/customer_register_cubit.dart';
-import 'package:waterrush/features/auth/presentation/cubit/customer_login_cubit.dart';
-import 'package:waterrush/features/auth/presentation/cubit/customer_logout_cubit.dart';
+import 'package:waterrush/features/auth/presentation/cubit/register_cubit/customer_register_cubit.dart';
+import 'package:waterrush/features/auth/presentation/cubit/login_cubit/customer_login_cubit.dart';
+import 'package:waterrush/features/auth/presentation/cubit/logout_cubit/customer_logout_cubit.dart';
 import 'package:waterrush/features/custoomer/customer_home/data/datasources/customer_home_remote_data_source.dart';
 import 'package:waterrush/features/custoomer/customer_home/data/repositories/customer_home_repository_impl.dart';
 import 'package:waterrush/features/custoomer/customer_home/domain/repositories/customer_home_repository.dart';
 import 'package:waterrush/features/custoomer/customer_home/domain/usecases/get_sliders_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_home/domain/usecases/get_categories_usecase.dart';
-import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/customer_home_cubit.dart';
+import 'package:waterrush/features/custoomer/customer_home/domain/usecases/get_category_products_usecase.dart';
+import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/home_cubit/customer_home_cubit.dart';
+import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/category_products_cubit/category_products_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -80,12 +82,20 @@ class ServiceLocator {
 
     sl.registerLazySingleton(() => GetSlidersUseCase(sl()));
     sl.registerLazySingleton(() => GetCategoriesUseCase(sl()));
+    sl.registerLazySingleton(() => GetCategoryProductsUseCase(sl()));
 
     sl.registerFactory(
       () => CustomerHomeCubit(
         bannerCount: 5, // Default or can be dynamic
         getSlidersUseCase: sl(),
         getCategoriesUseCase: sl(),
+      ),
+    );
+
+    sl.registerFactoryParam<CategoryProductsCubit, dynamic, dynamic>(
+      (category, _) => CategoryProductsCubit(
+        category: category,
+        getCategoryProductsUseCase: sl(),
       ),
     );
   }

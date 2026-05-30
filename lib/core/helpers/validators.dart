@@ -1,4 +1,4 @@
-// import 'package:easy_localization/easy_localization.dart';
+﻿// import 'package:easy_localization/easy_localization.dart';
 
 // class Validators {
 //   static String? validateEmpty(String? value, {String? message}) {

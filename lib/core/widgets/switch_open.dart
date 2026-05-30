@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class SwitchOpen extends StatelessWidget {
   final bool value;

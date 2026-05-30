@@ -46,6 +46,7 @@ List<CategoryItemData> mapApiCategoriesToRouteCategories(List<CategoryEntity> ap
     }
 
     return CategoryItemData(
+      id: cat.id,
       title: cat.name,
       description: '${products.length} products available',
       imagePath: catImageUrl,
@@ -108,6 +109,7 @@ List<CategoryItemData> mapToRouteCategories(
         products.where((OfferProductItemData p) => p.isOnOffer).length;
 
     return CategoryItemData(
+      id: 0, // Fallback for mock data
       title: item.title,
       description: item.routeDescription,
       imagePath: Assets.gallon,

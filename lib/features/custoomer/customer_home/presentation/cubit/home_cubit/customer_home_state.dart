@@ -1,6 +1,6 @@
-import 'package:equatable/equatable.dart';
-import '../../domain/entities/slider_entity.dart';
-import '../../domain/entities/category_entity.dart';
+﻿import 'package:equatable/equatable.dart';
+import '../../../domain/entities/slider_entity.dart';
+import '../../../domain/entities/category_entity.dart';
 
 enum CustomerHomeStatus { initial, loading, success }
 

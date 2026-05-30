@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class CategoryItemData {
   const CategoryItemData({
+    required this.id,
     required this.title,
     required this.description,
     required this.imagePath,
@@ -12,6 +13,7 @@ class CategoryItemData {
     this.onOfferCount = 0,
   });
 
+  final int id;
   final String title;
   final String description;
   final String imagePath;
