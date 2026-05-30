@@ -1,10 +1,11 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:waterrush/core/constants/app_assets.dart';
 import 'package:waterrush/core/routes/route_paths.dart';
+import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/widgets/app_asset.dart';
+import 'package:waterrush/core/widgets/custom_text.dart';
 import 'package:waterrush/features/auth/presentation/widgets/auth_login_back_button.dart';
 import 'package:waterrush/features/auth/presentation/widgets/auth_login_continue_button.dart';
 import 'package:waterrush/features/auth/presentation/widgets/auth_login_header_section.dart';
@@ -38,15 +39,11 @@ class AuthPhoneLoginScreenBody extends StatefulWidget {
 
 class _AuthPhoneLoginScreenBodyState extends State<AuthPhoneLoginScreenBody> {
   late final TextEditingController _phoneController;
-  late String _selectedFlag;
-  late String _selectedCode;
 
   @override
   void initState() {
     super.initState();
     _phoneController = TextEditingController();
-    _selectedFlag = widget.mode == AuthLoginMode.driver ? '🇺🇸' : '🇪🇬';
-    _selectedCode = widget.mode == AuthLoginMode.driver ? '+1' : '+20';
   }
 
   @override
@@ -78,20 +75,6 @@ class _AuthPhoneLoginScreenBodyState extends State<AuthPhoneLoginScreenBody> {
                   PhoneInputField(
                     controller: _phoneController,
                     hint: widget.phoneHint,
-                    countryFlag: _selectedFlag,
-                    countryCode: _selectedCode,
-                    onCountryTap: () {
-                      showCountryPicker(
-                        context: context,
-                        showPhoneCode: true,
-                        onSelect: (Country country) {
-                          setState(() {
-                            _selectedFlag = country.flagEmoji;
-                            _selectedCode = '+${country.phoneCode}';
-                          });
-                        },
-                      );
-                    },
                   ),
                   SizedBox(height: 16.h),
                   AuthLoginContinueButton(
@@ -104,9 +87,25 @@ class _AuthPhoneLoginScreenBodyState extends State<AuthPhoneLoginScreenBody> {
                     },
                   ),
                   SizedBox(height: 18.h),
-                  if (widget.mode == AuthLoginMode.customer)
-                    const CustomerLoginBottomSection()
-                  else
+                  if (widget.mode == AuthLoginMode.customer) ...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const AppText('Don\'t have an account? '),
+                        GestureDetector(
+                          onTap: () => context.push(Routes.registerScreen),
+                          child: AppText(
+                            'Register',
+                            style: font16w700.copyWith(
+                              color: const Color(0xFF113FC2),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 18.h),
+                    const CustomerLoginBottomSection(),
+                  ] else
                     const DriverLoginBottomSection(),
                   SizedBox(height: 16.h),
                   AuthTypeTrustBar(

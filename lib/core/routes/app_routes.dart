@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:waterrush/core/widgets/custom_nav_bar.dart';
 import 'package:waterrush/features/auth/presentation/screens/auth_type_screen.dart';
 import 'package:waterrush/features/auth/presentation/screens/customer_login_screen.dart';
+import 'package:waterrush/features/auth/presentation/screens/customer_register_screen.dart';
 import 'package:waterrush/features/auth/presentation/screens/driver_login_screen.dart';
 import 'package:waterrush/features/auth/presentation/screens/otp_screen.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/checkout_screen.dart';
@@ -46,6 +47,10 @@ GoRouter createRouter() {
       GoRoute(
         path: Routes.customerLoginScreen,
         builder: (context, state) => const CustomerLoginScreen(),
+      ),
+      GoRoute(
+        path: Routes.registerScreen,
+        builder: (context, state) => const CustomerRegisterScreen(),
       ),
       GoRoute(
         path: Routes.driverLoginScreen,
