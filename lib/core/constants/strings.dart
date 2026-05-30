@@ -1,6 +1,6 @@
 class AppStrings {
   static const String baseUrl =
-      'https://optima-software-solutions.com/divido/api/';
+      'https://optima-software-solutions.com/waterrush/api/';
   static const String perPage = '10';
   static const String googlePlayUrl = '';
   static const String appStoreUrl = '';

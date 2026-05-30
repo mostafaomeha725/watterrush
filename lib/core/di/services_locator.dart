@@ -1,7 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:waterrush/core/cache/preferences_storage.dart';
 import 'package:waterrush/core/network/network_service.dart';
+import 'package:waterrush/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:waterrush/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:waterrush/features/auth/domain/repositories/auth_repository.dart';
+import 'package:waterrush/features/auth/domain/usecases/register_customer_usecase.dart';
+import 'package:waterrush/features/auth/presentation/cubit/customer_register_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -12,15 +18,16 @@ class ServiceLocator {
     _initDio();
 
     /// Features
-    // _initAuth();
-    // _initHome();
+    _initAuth();
   }
 
   /// =============================
   /// STORAGE
   /// =============================
   Future<void> _initStorage() async {
-    sl.registerLazySingleton(() => SharedPreferences.getInstance());
+    final sharedPrefs = await SharedPreferences.getInstance();
+    sl.registerLazySingleton(() => sharedPrefs);
+    sl.registerLazySingleton(() => PreferencesStorage(sl()));
   }
 
   /// =============================
@@ -34,17 +41,14 @@ class ServiceLocator {
   /// =============================
   /// AUTH FEATURE
   /// =============================
-  // void _initAuth() {
-  //   sl.registerLazySingleton(() => AuthRepository(sl()));
-  //   sl.registerFactory(() => LoginCubit(sl()));
-  //   sl.registerFactory(() => RegisterCubit(sl()));
-  // }
+  void _initAuth() {
+    sl.registerLazySingleton<AuthRemoteDataSource>(
+      () => AuthRemoteDataSourceImpl(sl(), sl()),
+    );
+    sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(sl()));
 
-  // /// =============================
-  // /// HOME FEATURE
-  // /// =============================
-  // void _initHome() {
-  //   sl.registerLazySingleton(() => HomeRepository(sl()));
-  //   sl.registerFactory(() => HomeCubit(sl()));
-  // }
+    sl.registerLazySingleton(() => RegisterCustomerUseCase(sl()));
+
+    sl.registerFactory(() => CustomerRegisterCubit(sl()));
+  }
 }

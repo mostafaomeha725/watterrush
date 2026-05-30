@@ -22,7 +22,8 @@ class NetworkService {
     dio.options
       ..baseUrl = AppStrings.baseUrl
       ..responseType = ResponseType.json
-      ..followRedirects = false
+      ..followRedirects = true
+      ..maxRedirects = 5
       ..receiveDataWhenStatusError = true
       ..connectTimeout = const Duration(seconds: 30)
       ..receiveTimeout = const Duration(seconds: 30);
@@ -35,7 +36,7 @@ class NetworkService {
     dio.interceptors.add(AuthorizationInterceptor());
 
     // if (isDevEnviroment()) {
-    dio.interceptors.add(ChuckerDioInterceptor());
+    // dio.interceptors.add(ChuckerDioInterceptor()); // Removed to disable Chucker
     dio.interceptors.add(
       PrettyDioLogger(requestBody: true, requestHeader: true),
     );
@@ -49,8 +50,7 @@ class NetworkService {
 
     dio.options.headers = {
       "Accept": "application/json",
-      "Accept-Encoding": "gzip, deflate, br",
-
+      "Content-Type": "application/json",
       if (token != null && token.isNotEmpty) "Authorization": "Bearer $token",
     };
   }
@@ -332,13 +332,30 @@ class NetworkService {
 
   Left<Failure, dynamic> handleDioExceoptions(DioException e) {
     if (e.type == DioExceptionType.badResponse) {
-      return Left(Failure(e.response!.data['message'].toString()));
+      try {
+        final message =
+            e.response?.data['message']?.toString() ??
+            e.response?.data['errors']?.toString() ??
+            'Server error (${e.response?.statusCode})';
+        return Left(Failure(message));
+      } catch (_) {
+        return Left(Failure('Server error (${e.response?.statusCode})'));
+      }
     } else if (e.type == DioExceptionType.connectionTimeout) {
-      return const Left(Failure("Check your connection"));
+      return const Left(Failure("Connection timed out. Check your internet."));
     } else if (e.type == DioExceptionType.receiveTimeout) {
       return const Left(Failure("Unable to connect to the server"));
+    } else if (e.type == DioExceptionType.sendTimeout) {
+      return const Left(Failure("Request timed out. Try again."));
+    } else if (e.type == DioExceptionType.connectionError) {
+      return const Left(Failure("No internet connection"));
+    } else if (e.type == DioExceptionType.unknown) {
+      if (e.error != null && e.error.toString().contains('SocketException')) {
+        return const Left(Failure("No internet connection"));
+      }
+      return Left(Failure(e.message ?? "An unexpected error occurred"));
     } else {
-      return Left(Failure(e.message ?? ""));
+      return Left(Failure(e.message ?? "An unexpected error occurred"));
     }
   }
 

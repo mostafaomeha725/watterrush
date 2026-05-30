@@ -3,6 +3,7 @@ class EndPoints {
 
   /// Auth endpoints
   static const String register = 'auth/register';
+  static const String customerRegister = 'customer/auth/register';
 
   static const String login = 'auth/login';
 
@@ -45,8 +46,7 @@ class EndPoints {
 
   /// Investment endpoints
   static const String investments = 'investments';
-  static const String calculateReturns =
-      'investments/calculate-returns';
+  static const String calculateReturns = 'investments/calculate-returns';
   static const String portfolio = 'portfolio';
   static const String portfolioProperties = 'portfolio/properties';
   static const String propertyCalculator = 'properties';
