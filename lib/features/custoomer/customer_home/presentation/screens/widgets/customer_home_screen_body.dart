@@ -8,6 +8,7 @@ import 'package:waterrush/features/custoomer/customer_home/presentation/screens/
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_mock_data.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_route_categories_mapper.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/home_models.dart';
+import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_view_models.dart';
 import 'package:waterrush/core/di/services_locator.dart';
 
 class CustomerHomeScreenBody extends StatelessWidget {
@@ -15,10 +16,6 @@ class CustomerHomeScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<CategoryItemData> routeCategories = mapToRouteCategories(
-      customerHomeCategories,
-    );
-
     return BlocProvider(
       create: (_) => sl<CustomerHomeCubit>(),
       child: BlocConsumer<CustomerHomeCubit, CustomerHomeState>(
@@ -31,12 +28,24 @@ class CustomerHomeScreenBody extends StatelessWidget {
         },
         builder: (context, state) {
           final CustomerHomeCubit cubit = context.read<CustomerHomeCubit>();
+
+          List<CategoryItemData> routeCategories;
+          List<HomeCategoryViewModel> displayCategories;
+
+          if (state.categories.isNotEmpty) {
+            routeCategories = mapApiCategoriesToRouteCategories(state.categories);
+            displayCategories = mapApiCategoriesToHomeCategories(state.categories);
+          } else {
+            routeCategories = mapToRouteCategories(customerHomeCategories);
+            displayCategories = customerHomeCategories;
+          }
           return Stack(
             children: [
               SafeArea(
                 child: CustomerHomeBodyContent(
                   cubit: cubit,
                   routeCategories: routeCategories,
+                  displayCategories: displayCategories,
                 ),
               ),
               if (state.status == CustomerHomeStatus.loading)

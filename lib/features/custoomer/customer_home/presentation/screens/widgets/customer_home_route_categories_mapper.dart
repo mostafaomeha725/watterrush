@@ -1,8 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:waterrush/core/constants/app_assets.dart';
+import 'package:waterrush/features/custoomer/customer_home/domain/entities/category_entity.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_mock_data.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_view_models.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/home_models.dart';
+
+List<HomeCategoryViewModel> mapApiCategoriesToHomeCategories(List<CategoryEntity> apiCategories) {
+  return apiCategories.map((cat) {
+    String imageUrl = '';
+    if (cat.products.isNotEmpty && cat.products.first.images.isNotEmpty) {
+      imageUrl = cat.products.first.images.first.image;
+    }
+    return HomeCategoryViewModel(
+      title: cat.name,
+      subtitle: '${cat.products.length} products',
+      routeDescription: cat.name,
+      imageUrl: imageUrl,
+    );
+  }).toList();
+}
+
+List<CategoryItemData> mapApiCategoriesToRouteCategories(List<CategoryEntity> apiCategories) {
+  return apiCategories.map((cat) {
+    final products = cat.products.map((p) {
+      String imageUrl = '';
+      if (p.images.isNotEmpty) {
+        imageUrl = p.images.first.image;
+      }
+      return OfferProductItemData(
+        name: p.title,
+        subtitle: p.description,
+        imageUrl: imageUrl,
+        currentPrice: p.price,
+        oldPrice: p.priceBefore ?? p.price,
+        saveAmount: ((p.priceBefore ?? p.price) - p.price).toInt(),
+        rating: 5.0, // Default rating as API doesn't provide
+        reviewsCount: 0,
+        discountLabel: '',
+      );
+    }).toList();
+
+    String catImageUrl = Assets.gallon; // Fallback
+    if (cat.products.isNotEmpty && cat.products.first.images.isNotEmpty) {
+      catImageUrl = cat.products.first.images.first.image;
+    }
+
+    return CategoryItemData(
+      title: cat.name,
+      description: '${products.length} products available',
+      imagePath: catImageUrl,
+      products: products,
+      categoryLabel: cat.name,
+    );
+  }).toList();
+}
 
 List<CategoryItemData> mapToRouteCategories(
   List<HomeCategoryViewModel> categories,

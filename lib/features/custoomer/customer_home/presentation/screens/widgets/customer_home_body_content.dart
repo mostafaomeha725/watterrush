@@ -12,16 +12,19 @@ import 'package:waterrush/features/custoomer/customer_home/presentation/screens/
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_top_bar.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_trust_row.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/home_models.dart';
+import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_view_models.dart';
 
 class CustomerHomeBodyContent extends StatelessWidget {
   const CustomerHomeBodyContent({
     required this.cubit,
     required this.routeCategories,
+    required this.displayCategories,
     super.key,
   });
 
   final CustomerHomeCubit cubit;
   final List<CategoryItemData> routeCategories;
+  final List<HomeCategoryViewModel> displayCategories;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +57,7 @@ class CustomerHomeBodyContent extends StatelessWidget {
           ),
           SizedBox(height: 10.h),
           CustomerHomeCategoriesRow(
-            categories: customerHomeCategories,
+            categories: displayCategories,
             onCategoryTap: (index) => context.push(
               Routes.categoryProductsScreen,
               extra: routeCategories[index],

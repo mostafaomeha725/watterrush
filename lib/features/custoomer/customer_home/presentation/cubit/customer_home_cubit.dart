@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waterrush/core/helpers/helpers.dart';
 
 import '../../domain/usecases/get_sliders_usecase.dart';
+import '../../domain/usecases/get_categories_usecase.dart';
 
 import 'customer_home_state.dart';
 
@@ -12,12 +13,15 @@ class CustomerHomeCubit extends Cubit<CustomerHomeState> {
   CustomerHomeCubit({
     required this.bannerCount,
     required this.getSlidersUseCase,
+    required this.getCategoriesUseCase,
   }) : super(CustomerHomeState.initial()) {
     _startAutoSlide();
     getSliders();
+    getCategories();
   }
 
   final GetSlidersUseCase getSlidersUseCase;
+  final GetCategoriesUseCase getCategoriesUseCase;
 
   final int bannerCount;
   final PageController bannerController = PageController();
@@ -50,6 +54,23 @@ class CustomerHomeCubit extends Cubit<CustomerHomeState> {
           sliders: sliders,
         ));
         _startAutoSlide(); // restart auto slide with real slider count
+      },
+    );
+  }
+
+  Future<void> getCategories() async {
+    emit(state.copyWith(categoriesStatus: CustomerHomeStatus.loading));
+    final result = await getCategoriesUseCase();
+    result.fold(
+      (failure) => emit(state.copyWith(
+        categoriesStatus: CustomerHomeStatus.initial,
+        message: failure.message,
+      )),
+      (categories) {
+        emit(state.copyWith(
+          categoriesStatus: CustomerHomeStatus.success,
+          categories: categories,
+        ));
       },
     );
   }

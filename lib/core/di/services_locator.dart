@@ -16,6 +16,7 @@ import 'package:waterrush/features/custoomer/customer_home/data/datasources/cust
 import 'package:waterrush/features/custoomer/customer_home/data/repositories/customer_home_repository_impl.dart';
 import 'package:waterrush/features/custoomer/customer_home/domain/repositories/customer_home_repository.dart';
 import 'package:waterrush/features/custoomer/customer_home/domain/usecases/get_sliders_usecase.dart';
+import 'package:waterrush/features/custoomer/customer_home/domain/usecases/get_categories_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/customer_home_cubit.dart';
 
 final sl = GetIt.instance;
@@ -78,11 +79,13 @@ class ServiceLocator {
     );
 
     sl.registerLazySingleton(() => GetSlidersUseCase(sl()));
+    sl.registerLazySingleton(() => GetCategoriesUseCase(sl()));
 
     sl.registerFactory(
       () => CustomerHomeCubit(
         bannerCount: 5, // Default or can be dynamic
         getSlidersUseCase: sl(),
+        getCategoriesUseCase: sl(),
       ),
     );
   }
