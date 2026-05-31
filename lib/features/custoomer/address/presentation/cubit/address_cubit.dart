@@ -3,6 +3,7 @@ import '../../domain/entities/address_entity.dart';
 import '../../domain/usecases/create_address_usecase.dart';
 import '../../domain/usecases/get_addresses_usecase.dart';
 import '../../domain/usecases/set_default_address_usecase.dart';
+import '../../domain/usecases/delete_address_usecase.dart';
 import 'address_state.dart';
 
 class AddressCubit extends Cubit<AddressState> {
@@ -10,6 +11,7 @@ class AddressCubit extends Cubit<AddressState> {
     required this.getAddressesUseCase,
     required this.createAddressUseCase,
     required this.setDefaultAddressUseCase,
+    required this.deleteAddressUseCase,
   }) : super(const AddressState()) {
     getAddresses();
   }
@@ -17,6 +19,7 @@ class AddressCubit extends Cubit<AddressState> {
   final GetAddressesUseCase getAddressesUseCase;
   final CreateAddressUseCase createAddressUseCase;
   final SetDefaultAddressUseCase setDefaultAddressUseCase;
+  final DeleteAddressUseCase deleteAddressUseCase;
 
   Future<void> getAddresses() async {
     emit(state.copyWith(status: AddressStatus.loading));
@@ -101,6 +104,25 @@ class AddressCubit extends Cubit<AddressState> {
       (addressEntity) {
         emit(state.copyWith(setDefaultStatus: AddressSetDefaultStatus.success));
         getAddresses(); // Refresh the list to get new default address
+      },
+    );
+  }
+
+  Future<void> deleteAddress(int id) async {
+    emit(state.copyWith(deleteStatus: AddressDeleteStatus.loading));
+
+    final result = await deleteAddressUseCase(id);
+
+    result.fold(
+      (failure) {
+        emit(state.copyWith(
+          deleteStatus: AddressDeleteStatus.failure,
+          deleteErrorMessage: failure.message,
+        ));
+      },
+      (_) {
+        emit(state.copyWith(deleteStatus: AddressDeleteStatus.success));
+        getAddresses(); // Refresh the list after deleting
       },
     );
   }

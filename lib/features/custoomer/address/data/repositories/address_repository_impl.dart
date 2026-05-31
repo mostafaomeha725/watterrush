@@ -24,4 +24,9 @@ class AddressRepositoryImpl implements AddressRepository {
   Future<Either<Failure, AddressEntity>> setDefaultAddress(int id) async {
     return await remoteDataSource.setDefaultAddress(id);
   }
+
+  @override
+  Future<Either<Failure, void>> deleteAddress(int id) async {
+    return await remoteDataSource.deleteAddress(id);
+  }
 }

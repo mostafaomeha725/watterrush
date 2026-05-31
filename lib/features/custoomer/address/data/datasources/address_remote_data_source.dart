@@ -8,6 +8,7 @@ abstract class AddressRemoteDataSource {
   Future<Either<Failure, List<AddressModel>>> getAddresses();
   Future<Either<Failure, AddressModel>> createAddress(Map<String, dynamic> data);
   Future<Either<Failure, AddressModel>> setDefaultAddress(int id);
+  Future<Either<Failure, void>> deleteAddress(int id);
 }
 
 class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
@@ -70,6 +71,29 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
             return Right(AddressModel.fromJson(data['data']['address']));
           }
           return Left(ServerFailure(message: data['message'] ?? 'Failed to set default address'));
+        },
+      );
+    } catch (e) {
+      return Left(
+        ServerFailure(message: e.toString()),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteAddress(int id) async {
+    try {
+      final response = await networkService.deleteData(
+        endPoint: 'customer/addresses/$id',
+      );
+      
+      return response.fold(
+        (failureMessage) => Left(ServerFailure(message: failureMessage)),
+        (data) {
+          if (data['status'] == true) {
+            return const Right(null);
+          }
+          return Left(ServerFailure(message: data['message'] ?? 'Failed to delete address'));
         },
       );
     } catch (e) {

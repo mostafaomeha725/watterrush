@@ -15,16 +15,22 @@ class CustomerHomeAddressSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AddressCubit, AddressState>(
-      listenWhen: (previous, current) => previous.setDefaultStatus != current.setDefaultStatus,
+      listenWhen: (previous, current) => 
+        previous.setDefaultStatus != current.setDefaultStatus || 
+        previous.deleteStatus != current.deleteStatus,
       listener: (context, state) {
-        if (state.setDefaultStatus == AddressSetDefaultStatus.loading) {
-          EasyLoading.show(status: 'Setting default address...');
+        if (state.setDefaultStatus == AddressSetDefaultStatus.loading || state.deleteStatus == AddressDeleteStatus.loading) {
+          EasyLoading.show(status: state.deleteStatus == AddressDeleteStatus.loading ? 'Deleting address...' : 'Setting default address...');
         } else {
           if (EasyLoading.isShow) EasyLoading.dismiss();
           if (state.setDefaultStatus == AddressSetDefaultStatus.success) {
             EasyLoading.showSuccess('Address changed successfully!');
           } else if (state.setDefaultStatus == AddressSetDefaultStatus.failure) {
             EasyLoading.showError(state.setDefaultErrorMessage);
+          } else if (state.deleteStatus == AddressDeleteStatus.success) {
+            EasyLoading.showSuccess('Address deleted successfully!');
+          } else if (state.deleteStatus == AddressDeleteStatus.failure) {
+            EasyLoading.showError(state.deleteErrorMessage);
           }
         }
       },
@@ -80,14 +86,28 @@ class CustomerHomeAddressSelector extends StatelessWidget {
                             return PopupMenuItem<dynamic>(
                               value: address,
                               child: SizedBox(
-                                width: 200.w, // Ensure it has enough width
+                                width: 220.w, // Ensure it has enough width
                                 child: ListTile(
                                   contentPadding: EdgeInsets.zero,
-                                  title: AppText(address.title, style: font12w800.copyWith(color: const Color(0xFF24385B))),
-                                  subtitle: AppText(address.address, maxLines: 2, overflow: TextOverflow.ellipsis, style: font8w600.copyWith(color: const Color(0xFF7E8EA8))),
-                                  trailing: isSelected
-                                      ? Icon(Icons.check_circle, color: const Color(0xFF0b48c6), size: 20.sp)
-                                      : null,
+                                  title: AppText(address.title, style: font14w700.copyWith(color: const Color(0xFF24385B))),
+                                  subtitle: AppText(address.address, maxLines: 2, overflow: TextOverflow.ellipsis, style: font10w500.copyWith(color: const Color(0xFF7E8EA8))),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      if (isSelected) ...[
+                                        Icon(Icons.check_circle, color: const Color(0xFF0b48c6), size: 22.sp),
+                                        SizedBox(width: 8.w),
+                                      ],
+                                      IconButton(
+                                        padding: EdgeInsets.zero,
+                                        constraints: const BoxConstraints(),
+                                        icon: Icon(Icons.delete_outline_rounded, color: Colors.redAccent, size: 22.sp),
+                                        onPressed: () {
+                                          Navigator.pop(context, {'action': 'delete', 'address': address});
+                                        },
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
@@ -96,19 +116,54 @@ class CustomerHomeAddressSelector extends StatelessWidget {
                           PopupMenuItem<dynamic>(
                             value: 'add_new',
                             child: SizedBox(
-                              width: 200.w,
+                              width: 220.w,
                               child: Row(
                                 children: [
-                                  Icon(Icons.add_circle_outline_rounded, color: const Color(0xFF0b48c6), size: 20.sp),
+                                  Icon(Icons.add_circle_outline_rounded, color: const Color(0xFF0b48c6), size: 22.sp),
                                   SizedBox(width: 8.w),
-                                  AppText('Add New Address', style: font12w800.copyWith(color: const Color(0xFF0b48c6))),
+                                  AppText('Add New Address', style: font14w700.copyWith(color: const Color(0xFF0b48c6))),
                                 ],
                               ),
                             ),
                           ),
                         ],
                       ).then((selectedValue) {
-                        if (selectedValue is AddressEntity) {
+                        if (selectedValue is Map && selectedValue['action'] == 'delete') {
+                          final AddressEntity address = selectedValue['address'];
+                          showDialog(
+                            context: context,
+                            builder: (dialogContext) => AlertDialog(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+                              title: Text(
+                                'Delete Address',
+                                style: font14w700.copyWith(color: const Color(0xFF24385B)),
+                              ),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Are you sure you want to delete ${address.title}?',
+                                    style: font12w500.copyWith(color: const Color(0xFF7E8EA8)),
+                                  ),
+                                ],
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(dialogContext),
+                                  child: Text('Cancel', style: font14w700.copyWith(color: const Color(0xFF7E8EA8))),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(dialogContext);
+                                    addressCubit.deleteAddress(address.id);
+                                  },
+                                  child: Text('Delete', style: font14w700.copyWith(color: Colors.redAccent)),
+                                ),
+                              ],
+                            ),
+                          );
+                        } else if (selectedValue is AddressEntity) {
                           addressCubit.selectAddress(selectedValue);
                           addressCubit.setDefaultAddress(selectedValue.id);
                         } else if (selectedValue == 'add_new') {
