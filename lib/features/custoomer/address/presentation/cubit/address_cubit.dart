@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/entities/address_entity.dart';
 import '../../domain/usecases/create_address_usecase.dart';
+import '../../domain/usecases/update_address_usecase.dart';
 import '../../domain/usecases/get_addresses_usecase.dart';
 import '../../domain/usecases/set_default_address_usecase.dart';
 import '../../domain/usecases/delete_address_usecase.dart';
@@ -10,6 +11,7 @@ class AddressCubit extends Cubit<AddressState> {
   AddressCubit({
     required this.getAddressesUseCase,
     required this.createAddressUseCase,
+    required this.updateAddressUseCase,
     required this.setDefaultAddressUseCase,
     required this.deleteAddressUseCase,
   }) : super(const AddressState()) {
@@ -18,6 +20,7 @@ class AddressCubit extends Cubit<AddressState> {
 
   final GetAddressesUseCase getAddressesUseCase;
   final CreateAddressUseCase createAddressUseCase;
+  final UpdateAddressUseCase updateAddressUseCase;
   final SetDefaultAddressUseCase setDefaultAddressUseCase;
   final DeleteAddressUseCase deleteAddressUseCase;
 
@@ -123,6 +126,27 @@ class AddressCubit extends Cubit<AddressState> {
       (_) {
         emit(state.copyWith(deleteStatus: AddressDeleteStatus.success));
         getAddresses(); // Refresh the list after deleting
+      },
+    );
+  }
+
+  Future<void> updateAddress(UpdateAddressParams params) async {
+    emit(state.copyWith(updateStatus: AddressUpdateStatus.loading));
+
+    final result = await updateAddressUseCase(params);
+
+    result.fold(
+      (failure) {
+        emit(state.copyWith(
+          updateStatus: AddressUpdateStatus.failure,
+          updateErrorMessage: failure.message,
+        ));
+      },
+      (address) {
+        emit(state.copyWith(
+          updateStatus: AddressUpdateStatus.success,
+        ));
+        getAddresses(); // Refresh list to reflect updates
       },
     );
   }

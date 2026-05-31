@@ -7,6 +7,7 @@ import '../models/address_model.dart';
 abstract class AddressRemoteDataSource {
   Future<Either<Failure, List<AddressModel>>> getAddresses();
   Future<Either<Failure, AddressModel>> createAddress(Map<String, dynamic> data);
+  Future<Either<Failure, AddressModel>> updateAddress(int id, Map<String, dynamic> data);
   Future<Either<Failure, AddressModel>> setDefaultAddress(int id);
   Future<Either<Failure, void>> deleteAddress(int id);
 }
@@ -52,6 +53,29 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
           return Right(address);
         } catch (e) {
           return Left(Failure('Failed to parse created address data'));
+        }
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, AddressModel>> updateAddress(int id, Map<String, dynamic> data) async {
+    final response = await networkService.putData(
+      endPoint: 'customer/addresses/$id',
+      data: data,
+    );
+
+    return response.fold(
+      (failure) => Left(failure),
+      (data) {
+        try {
+          if (data['status'] == true) {
+            final address = AddressModel.fromJson(data['data']['address']);
+            return Right(address);
+          }
+          return Left(ServerFailure(message: data['message'] ?? 'Failed to update address'));
+        } catch (e) {
+          return Left(Failure('Failed to parse updated address data'));
         }
       },
     );

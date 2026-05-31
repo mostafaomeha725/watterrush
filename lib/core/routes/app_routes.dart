@@ -1,6 +1,8 @@
-﻿import 'package:chucker_flutter/chucker_flutter.dart';
+import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:waterrush/core/cache/preferences_storage.dart';
+import 'package:waterrush/core/di/services_locator.dart';
 import 'package:waterrush/core/widgets/custom_nav_bar.dart';
 import 'package:waterrush/features/auth/presentation/screens/auth_type_screen.dart';
 import 'package:waterrush/features/auth/presentation/screens/customer_login_screen.dart';
@@ -31,8 +33,11 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final CustomGoRouterObserver customGoRouterObserver = CustomGoRouterObserver();
 
 GoRouter createRouter() {
+  final prefs = sl<PreferencesStorage>();
+  final hasToken = prefs.getUserToken() != null && prefs.getUserToken()!.isNotEmpty;
+
   return GoRouter(
-    initialLocation: Routes.authTypeScreen,
+    initialLocation: hasToken ? Routes.mainNavigationScreen : Routes.authTypeScreen,
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
     observers: [
@@ -65,7 +70,7 @@ GoRouter createRouter() {
         builder: (context, state) {
           final bool isCustomer = state.extra is bool
               ? state.extra as bool
-              : false;
+              : true;
           return CustomNavBar(isCustomer: isCustomer);
         },
       ),

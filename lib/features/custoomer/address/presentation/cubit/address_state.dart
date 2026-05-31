@@ -3,6 +3,7 @@ import '../../domain/entities/address_entity.dart';
 
 enum AddressStatus { initial, loading, success, failure }
 enum AddressCreateStatus { initial, loading, success, failure }
+enum AddressUpdateStatus { initial, loading, success, failure }
 enum AddressSetDefaultStatus { initial, loading, success, failure }
 enum AddressDeleteStatus { initial, loading, success, failure }
 
@@ -10,24 +11,28 @@ class AddressState extends Equatable {
   const AddressState({
     this.status = AddressStatus.initial,
     this.createStatus = AddressCreateStatus.initial,
+    this.updateStatus = AddressUpdateStatus.initial,
     this.setDefaultStatus = AddressSetDefaultStatus.initial,
     this.deleteStatus = AddressDeleteStatus.initial,
     this.addresses = const [],
     this.selectedAddress,
     this.errorMessage = '',
     this.createErrorMessage = '',
+    this.updateErrorMessage = '',
     this.setDefaultErrorMessage = '',
     this.deleteErrorMessage = '',
   });
 
   final AddressStatus status;
   final AddressCreateStatus createStatus;
+  final AddressUpdateStatus updateStatus;
   final AddressSetDefaultStatus setDefaultStatus;
   final AddressDeleteStatus deleteStatus;
   final List<AddressEntity> addresses;
   final AddressEntity? selectedAddress;
   final String errorMessage;
   final String createErrorMessage;
+  final String updateErrorMessage;
   final String setDefaultErrorMessage;
   final String deleteErrorMessage;
 
@@ -43,24 +48,28 @@ class AddressState extends Equatable {
   AddressState copyWith({
     AddressStatus? status,
     AddressCreateStatus? createStatus,
+    AddressUpdateStatus? updateStatus,
     AddressSetDefaultStatus? setDefaultStatus,
     AddressDeleteStatus? deleteStatus,
     List<AddressEntity>? addresses,
     AddressEntity? selectedAddress,
     String? errorMessage,
     String? createErrorMessage,
+    String? updateErrorMessage,
     String? setDefaultErrorMessage,
     String? deleteErrorMessage,
   }) {
     return AddressState(
       status: status ?? this.status,
       createStatus: createStatus ?? this.createStatus,
+      updateStatus: updateStatus ?? this.updateStatus,
       setDefaultStatus: setDefaultStatus ?? this.setDefaultStatus,
       deleteStatus: deleteStatus ?? this.deleteStatus,
       addresses: addresses ?? this.addresses,
       selectedAddress: selectedAddress ?? this.selectedAddress,
       errorMessage: errorMessage ?? this.errorMessage,
       createErrorMessage: createErrorMessage ?? this.createErrorMessage,
+      updateErrorMessage: updateErrorMessage ?? this.updateErrorMessage,
       setDefaultErrorMessage: setDefaultErrorMessage ?? this.setDefaultErrorMessage,
       deleteErrorMessage: deleteErrorMessage ?? this.deleteErrorMessage,
     );
@@ -70,12 +79,14 @@ class AddressState extends Equatable {
   List<Object?> get props => [
         status,
         createStatus,
+        updateStatus,
         setDefaultStatus,
         deleteStatus,
         addresses,
         selectedAddress,
         errorMessage,
         createErrorMessage,
+        updateErrorMessage,
         setDefaultErrorMessage,
         deleteErrorMessage,
       ];

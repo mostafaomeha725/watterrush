@@ -11,8 +11,13 @@ import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
+import 'package:waterrush/features/custoomer/address/domain/entities/address_entity.dart';
+import 'package:waterrush/features/custoomer/address/domain/usecases/update_address_usecase.dart';
+
 class AddAddressDialog extends StatefulWidget {
-  const AddAddressDialog({super.key});
+  final AddressEntity? addressToUpdate;
+  
+  const AddAddressDialog({super.key, this.addressToUpdate});
 
   @override
   State<AddAddressDialog> createState() => _AddAddressDialogState();
@@ -23,6 +28,19 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
   final _addressController = TextEditingController();
   bool _isDefault = true;
   LatLng? _selectedLocation;
+  bool get isUpdating => widget.addressToUpdate != null;
+
+  @override
+  void initState() {
+    super.initState();
+    if (isUpdating) {
+      final address = widget.addressToUpdate!;
+      _titleController.text = address.title;
+      _addressController.text = address.address;
+      _isDefault = address.isDefault;
+      _selectedLocation = LatLng(double.parse(address.lat), double.parse(address.lng));
+    }
+  }
 
   @override
   void dispose() {
@@ -34,18 +52,22 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AddressCubit, AddressState>(
-      listenWhen: (previous, current) => previous.createStatus != current.createStatus,
+      listenWhen: (previous, current) => 
+        previous.createStatus != current.createStatus ||
+        previous.updateStatus != current.updateStatus,
       listener: (context, state) {
-        if (state.createStatus == AddressCreateStatus.loading) {
-          EasyLoading.show(status: 'Saving address...');
+        if (state.createStatus == AddressCreateStatus.loading || state.updateStatus == AddressUpdateStatus.loading) {
+          EasyLoading.show(status: isUpdating ? 'Updating address...' : 'Saving address...');
         } else {
           if (EasyLoading.isShow) EasyLoading.dismiss();
           
-          if (state.createStatus == AddressCreateStatus.success) {
-            EasyLoading.showSuccess('Address added successfully!');
+          if (state.createStatus == AddressCreateStatus.success || state.updateStatus == AddressUpdateStatus.success) {
+            EasyLoading.showSuccess(isUpdating ? 'Address updated successfully!' : 'Address added successfully!');
             Navigator.pop(context);
           } else if (state.createStatus == AddressCreateStatus.failure) {
             EasyLoading.showError(state.createErrorMessage);
+          } else if (state.updateStatus == AddressUpdateStatus.failure) {
+            EasyLoading.showError(state.updateErrorMessage);
           }
         }
       },
@@ -59,9 +81,9 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
             children: [
               Row(
                 children: [
-                  Icon(Icons.add_location_alt_rounded, color: const Color(0xFF0b48c6), size: 24.sp),
+                  Icon(isUpdating ? Icons.edit_location_alt_rounded : Icons.add_location_alt_rounded, color: const Color(0xFF0b48c6), size: 24.sp),
                   SizedBox(width: 8.w),
-                  AppText('Add New Address', style: font16w700.copyWith(color: const Color(0xFF24385B))),
+                  AppText(isUpdating ? 'Update Address' : 'Add New Address', style: font16w700.copyWith(color: const Color(0xFF24385B))),
                 ],
               ),
               SizedBox(height: 24.h),
@@ -138,9 +160,9 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                 height: 50.h,
                 child: BlocBuilder<AddressCubit, AddressState>(
                   builder: (context, state) {
-                    final isLoading = state.createStatus == AddressCreateStatus.loading;
+                    final isLoading = state.createStatus == AddressCreateStatus.loading || state.updateStatus == AddressUpdateStatus.loading;
                     return AppButton(
-                      text: 'Save Address',
+                      text: isUpdating ? 'Update Address' : 'Save Address',
                       onPressed: isLoading
                           ? null
                           : () {
@@ -154,13 +176,26 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                                 return;
                               }
                               
-                              context.read<AddressCubit>().createAddress(
-                                    title: _titleController.text.trim(),
-                                    address: _addressController.text.trim(),
-                                    lat: _selectedLocation!.latitude.toString(),
-                                    lng: _selectedLocation!.longitude.toString(),
-                                    isDefault: _isDefault,
-                                  );
+                              if (isUpdating) {
+                                context.read<AddressCubit>().updateAddress(
+                                      UpdateAddressParams(
+                                        id: widget.addressToUpdate!.id,
+                                        title: _titleController.text.trim(),
+                                        address: _addressController.text.trim(),
+                                        lat: _selectedLocation!.latitude,
+                                        lng: _selectedLocation!.longitude,
+                                        isDefault: _isDefault,
+                                      ),
+                                    );
+                              } else {
+                                context.read<AddressCubit>().createAddress(
+                                      title: _titleController.text.trim(),
+                                      address: _addressController.text.trim(),
+                                      lat: _selectedLocation!.latitude.toString(),
+                                      lng: _selectedLocation!.longitude.toString(),
+                                      isDefault: _isDefault,
+                                    );
+                              }
                             },
                       color: const Color(0xFF0b48c6),
                       textColor: Colors.white,
