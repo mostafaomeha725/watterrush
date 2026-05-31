@@ -37,6 +37,11 @@ import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/get_c
 import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/remove_cart_item_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/clear_cart_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_cubit.dart';
+import 'package:waterrush/features/custoomer/customer_offers/data/datasources/offers_remote_data_source.dart';
+import 'package:waterrush/features/custoomer/customer_offers/data/repositories/offers_repository_impl.dart';
+import 'package:waterrush/features/custoomer/customer_offers/domain/repositories/offers_repository.dart';
+import 'package:waterrush/features/custoomer/customer_offers/domain/usecases/get_promo_codes_usecase.dart';
+import 'package:waterrush/features/custoomer/customer_offers/presentation/cubit/offers_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -159,5 +164,13 @@ class ServiceLocator {
           removeCartItemUseCase: sl(),
           clearCartUseCase: sl(),
         ));
+
+    // Offers
+    sl.registerLazySingleton<OffersRemoteDataSource>(
+        () => OffersRemoteDataSourceImpl(networkService: sl()));
+    sl.registerLazySingleton<OffersRepository>(
+        () => OffersRepositoryImpl(remoteDataSource: sl()));
+    sl.registerLazySingleton(() => GetPromoCodesUseCase(sl()));
+    sl.registerFactory(() => OffersCubit(getPromoCodesUseCase: sl()));
   }
 }

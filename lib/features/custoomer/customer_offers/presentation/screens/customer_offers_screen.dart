@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -13,52 +13,13 @@ import 'package:waterrush/features/custoomer/customer_offers/presentation/screen
 import 'package:waterrush/features/custoomer/customer_offers/presentation/screens/widgets/offers_how_to_use_section.dart';
 import 'package:waterrush/features/custoomer/customer_offers/presentation/screens/widgets/offers_launch_banner.dart';
 import 'package:waterrush/features/custoomer/customer_offers/presentation/screens/widgets/offers_models.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:waterrush/core/di/services_locator.dart';
+import 'package:waterrush/features/custoomer/customer_offers/presentation/cubit/offers_cubit.dart';
+import 'package:waterrush/features/custoomer/customer_offers/presentation/cubit/offers_state.dart';
 
 class CustomerOffersScreen extends StatelessWidget {
   const CustomerOffersScreen({super.key});
-
-  static const List<OfferItemModel> _offers = <OfferItemModel>[
-    OfferItemModel(
-      title: '20% OFF First Order',
-      subtitle: 'New users only',
-      validText: 'Valid till Apr 30, 2026',
-      code: 'RUSH20',
-      accentColor: Color(0xFF14AED3),
-      icon: Icons.card_giftcard,
-    ),
-    OfferItemModel(
-      title: 'Free Delivery',
-      subtitle: 'On orders above \$25',
-      validText: 'Valid till Apr 20, 2026',
-      code: 'FREEDEL',
-      accentColor: Color(0xFFE83CA6),
-      icon: Icons.local_shipping_rounded,
-    ),
-    OfferItemModel(
-      title: 'Buy 2 Get 1 Free',
-      subtitle: 'On 12-pack cartons',
-      validText: 'Valid till Apr 15, 2026',
-      code: 'BUY2GET1',
-      accentColor: Color(0xFFFF5E00),
-      icon: Icons.inventory_2_rounded,
-    ),
-    OfferItemModel(
-      title: '\$10 OFF',
-      subtitle: 'On orders above \$50',
-      validText: 'Valid till Apr 25, 2026',
-      code: 'SAVE10',
-      accentColor: Color(0xFF10B864),
-      icon: Icons.paid_rounded,
-    ),
-    OfferItemModel(
-      title: 'Weekend Special',
-      subtitle: '15% off on weekends',
-      validText: 'Every Sat & Sun',
-      code: 'WEEKEND15',
-      accentColor: Color(0xFF8153F6),
-      icon: Icons.celebration_rounded,
-    ),
-  ];
 
   static const List<OfferStepModel> _steps = <OfferStepModel>[
     OfferStepModel(
@@ -169,6 +130,18 @@ class CustomerOffersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => sl<OffersCubit>()..getPromoCodes(),
+      child: const CustomerOffersScreenBody(),
+    );
+  }
+}
+
+class CustomerOffersScreenBody extends StatelessWidget {
+  const CustomerOffersScreenBody({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 22.w),
       child: SingleChildScrollView(
@@ -183,7 +156,7 @@ class CustomerOffersScreen extends StatelessWidget {
             ),
             OffersLaunchBanner(
               onClaimNow: () {
-                context.push(Routes.specialOffersScreen, extra: _launchOffers);
+                context.push(Routes.specialOffersScreen, extra: CustomerOffersScreen._launchOffers);
               },
             ),
             SizedBox(height: 14.h),
@@ -192,25 +165,66 @@ class CustomerOffersScreen extends StatelessWidget {
               style: font18w700.copyWith(color: const Color(0xFF0F2B46)),
             ),
             SizedBox(height: 10.h),
-            ..._offers.map(
-              (offer) => Padding(
-                padding: EdgeInsets.only(bottom: 16.h),
-                child: OfferCouponCard(
-                  item: offer,
-                  onCopy: () async {
-                    await Clipboard.setData(ClipboardData(text: offer.code));
-                    if (context.mounted) {
-                      CustomSnackBar.showSuccess(
-                        context,
-                        message: 'Code ${offer.code} copied',
+            BlocBuilder<OffersCubit, OffersState>(
+              builder: (context, state) {
+                if (state is OffersLoading || state is OffersInitial) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (state is OffersError) {
+                  return Center(
+                    child: Text(
+                      state.message,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  );
+                }
+
+                if (state is OffersLoaded) {
+                  final promoCodes = state.promoCodes;
+
+                  if (promoCodes.isEmpty) {
+                    return const Center(child: Text('No offers available right now'));
+                  }
+
+                  return Column(
+                    children: promoCodes.map((promo) {
+                      final isPercent = promo.type == 'percent';
+                      final discountText = isPercent ? '${promo.discount}% OFF' : '\$${promo.discount} OFF';
+
+                      final offerItem = OfferItemModel(
+                        title: discountText,
+                        subtitle: 'Special Discount',
+                        validText: 'Valid till ${promo.expiresAt}',
+                        code: promo.code,
+                        accentColor: const Color(0xFF14AED3),
+                        icon: Icons.local_offer_rounded,
                       );
-                    }
-                  },
-                ),
-              ),
+
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: 16.h),
+                        child: OfferCouponCard(
+                          item: offerItem,
+                          onCopy: () async {
+                            await Clipboard.setData(ClipboardData(text: offerItem.code));
+                            if (context.mounted) {
+                              CustomSnackBar.showSuccess(
+                                context,
+                                message: 'Code ${offerItem.code} copied',
+                              );
+                            }
+                          },
+                        ),
+                      );
+                    }).toList(),
+                  );
+                }
+
+                return const SizedBox.shrink();
+              },
             ),
             SizedBox(height: 8.h),
-            OffersHowToUseSection(steps: _steps),
+            OffersHowToUseSection(steps: CustomerOffersScreen._steps),
             SizedBox(height: 104.h),
           ],
         ),
