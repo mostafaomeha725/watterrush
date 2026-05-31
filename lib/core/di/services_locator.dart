@@ -30,6 +30,11 @@ import 'package:waterrush/features/custoomer/customer_home/domain/usecases/get_c
 import 'package:waterrush/features/custoomer/customer_home/domain/usecases/get_category_products_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/home_cubit/customer_home_cubit.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/category_products_cubit/category_products_cubit.dart';
+import 'package:waterrush/features/custoomer/customer_cart/data/datasources/cart_remote_data_source.dart';
+import 'package:waterrush/features/custoomer/customer_cart/data/repositories/cart_repository_impl.dart';
+import 'package:waterrush/features/custoomer/customer_cart/domain/repositories/cart_repository.dart';
+import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/get_cart_usecase.dart';
+import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -42,6 +47,7 @@ class ServiceLocator {
     /// Features
     _initAuth();
     _initCustomerHome();
+    _initCustomerCart();
   }
 
   /// =============================
@@ -130,5 +136,20 @@ class ServiceLocator {
         deleteAddressUseCase: sl(),
       ),
     );
+  }
+
+  /// =============================
+  /// CUSTOMER CART FEATURE
+  /// =============================
+  void _initCustomerCart() {
+    sl.registerLazySingleton<CartRemoteDataSource>(
+        () => CartRemoteDataSourceImpl(networkService: sl()));
+
+    sl.registerLazySingleton<CartRepository>(
+        () => CartRepositoryImpl(remoteDataSource: sl()));
+
+    sl.registerLazySingleton(() => GetCartUseCase(sl()));
+
+    sl.registerFactory(() => CartCubit(getCartUseCase: sl()));
   }
 }

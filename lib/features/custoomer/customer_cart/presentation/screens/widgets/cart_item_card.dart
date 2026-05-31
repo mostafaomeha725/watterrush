@@ -1,12 +1,13 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/core/constants/app_assets.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/widgets/app_asset.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
-import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/widgets/cart_item_model.dart';
+import 'package:waterrush/features/custoomer/customer_cart/domain/entities/cart_item_entity.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/widgets/cart_quantity_button.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class CartItemCard extends StatelessWidget {
   const CartItemCard({
@@ -17,7 +18,7 @@ class CartItemCard extends StatelessWidget {
     required this.onRemove,
   });
 
-  final CartItemModel item;
+  final CartItemEntity item;
   final VoidCallback onIncrement;
   final VoidCallback onDecrement;
   final VoidCallback onRemove;
@@ -41,7 +42,13 @@ class CartItemCard extends StatelessWidget {
               color: const Color(0xFFDFF3FA),
               borderRadius: BorderRadius.circular(14.r),
             ),
-            child: AppAsset(assetName: Assets.test, fit: BoxFit.cover),
+            clipBehavior: Clip.antiAlias,
+            child: CachedNetworkImage(
+              imageUrl: item.image,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => const CupertinoActivityIndicator(),
+              errorWidget: (context, url, error) => AppAsset(assetName: Assets.test, fit: BoxFit.cover),
+            ),
           ),
 
           SizedBox(width: 12.w),
@@ -51,7 +58,7 @@ class CartItemCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AppText(
-                  item.name,
+                  item.title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: font14w500.copyWith(color: const Color(0xFF0F2B46)),
