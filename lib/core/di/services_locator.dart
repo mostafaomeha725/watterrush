@@ -34,6 +34,8 @@ import 'package:waterrush/features/custoomer/customer_cart/data/datasources/cart
 import 'package:waterrush/features/custoomer/customer_cart/data/repositories/cart_repository_impl.dart';
 import 'package:waterrush/features/custoomer/customer_cart/domain/repositories/cart_repository.dart';
 import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/get_cart_usecase.dart';
+import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/remove_cart_item_usecase.dart';
+import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/clear_cart_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_cubit.dart';
 
 final sl = GetIt.instance;
@@ -149,7 +151,13 @@ class ServiceLocator {
         () => CartRepositoryImpl(remoteDataSource: sl()));
 
     sl.registerLazySingleton(() => GetCartUseCase(sl()));
+    sl.registerLazySingleton(() => RemoveCartItemUseCase(sl()));
+    sl.registerLazySingleton(() => ClearCartUseCase(sl()));
 
-    sl.registerFactory(() => CartCubit(getCartUseCase: sl()));
+    sl.registerFactory(() => CartCubit(
+          getCartUseCase: sl(),
+          removeCartItemUseCase: sl(),
+          clearCartUseCase: sl(),
+        ));
   }
 }

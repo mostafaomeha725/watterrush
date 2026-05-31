@@ -13,4 +13,14 @@ class CartRepositoryImpl implements CartRepository {
   Future<Either<Failure, CartEntity>> getCart() async {
     return await remoteDataSource.getCart();
   }
+
+  @override
+  Future<Either<Failure, void>> removeCartItem(int itemId) async {
+    return await remoteDataSource.removeCartItem(itemId);
+  }
+
+  @override
+  Future<Either<Failure, void>> clearCart() async {
+    return await remoteDataSource.clearCart();
+  }
 }
