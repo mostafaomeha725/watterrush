@@ -3,23 +3,28 @@ import '../../domain/entities/address_entity.dart';
 
 enum AddressStatus { initial, loading, success, failure }
 enum AddressCreateStatus { initial, loading, success, failure }
+enum AddressSetDefaultStatus { initial, loading, success, failure }
 
 class AddressState extends Equatable {
   const AddressState({
     this.status = AddressStatus.initial,
     this.createStatus = AddressCreateStatus.initial,
+    this.setDefaultStatus = AddressSetDefaultStatus.initial,
     this.addresses = const [],
     this.selectedAddress,
     this.errorMessage = '',
     this.createErrorMessage = '',
+    this.setDefaultErrorMessage = '',
   });
 
   final AddressStatus status;
   final AddressCreateStatus createStatus;
+  final AddressSetDefaultStatus setDefaultStatus;
   final List<AddressEntity> addresses;
   final AddressEntity? selectedAddress;
   final String errorMessage;
   final String createErrorMessage;
+  final String setDefaultErrorMessage;
 
   AddressEntity? get defaultAddress {
     if (addresses.isEmpty) return null;
@@ -33,21 +38,34 @@ class AddressState extends Equatable {
   AddressState copyWith({
     AddressStatus? status,
     AddressCreateStatus? createStatus,
+    AddressSetDefaultStatus? setDefaultStatus,
     List<AddressEntity>? addresses,
     AddressEntity? selectedAddress,
     String? errorMessage,
     String? createErrorMessage,
+    String? setDefaultErrorMessage,
   }) {
     return AddressState(
       status: status ?? this.status,
       createStatus: createStatus ?? this.createStatus,
+      setDefaultStatus: setDefaultStatus ?? this.setDefaultStatus,
       addresses: addresses ?? this.addresses,
       selectedAddress: selectedAddress ?? this.selectedAddress,
       errorMessage: errorMessage ?? this.errorMessage,
       createErrorMessage: createErrorMessage ?? this.createErrorMessage,
+      setDefaultErrorMessage: setDefaultErrorMessage ?? this.setDefaultErrorMessage,
     );
   }
 
   @override
-  List<Object?> get props => [status, createStatus, addresses, selectedAddress, errorMessage, createErrorMessage];
+  List<Object?> get props => [
+        status,
+        createStatus,
+        setDefaultStatus,
+        addresses,
+        selectedAddress,
+        errorMessage,
+        createErrorMessage,
+        setDefaultErrorMessage,
+      ];
 }

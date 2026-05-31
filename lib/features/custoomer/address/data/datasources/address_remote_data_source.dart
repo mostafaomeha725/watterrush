@@ -7,6 +7,7 @@ import '../models/address_model.dart';
 abstract class AddressRemoteDataSource {
   Future<Either<Failure, List<AddressModel>>> getAddresses();
   Future<Either<Failure, AddressModel>> createAddress(Map<String, dynamic> data);
+  Future<Either<Failure, AddressModel>> setDefaultAddress(int id);
 }
 
 class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
@@ -53,5 +54,28 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
         }
       },
     );
+  }
+
+  @override
+  Future<Either<Failure, AddressModel>> setDefaultAddress(int id) async {
+    try {
+      final response = await networkService.postData(
+        endPoint: 'customer/addresses/$id/set-default',
+      );
+      
+      return response.fold(
+        (failure) => Left(failure),
+        (data) {
+          if (data['status'] == true) {
+            return Right(AddressModel.fromJson(data['data']['address']));
+          }
+          return Left(ServerFailure(message: data['message'] ?? 'Failed to set default address'));
+        },
+      );
+    } catch (e) {
+      return Left(
+        ServerFailure(message: e.toString()),
+      );
+    }
   }
 }

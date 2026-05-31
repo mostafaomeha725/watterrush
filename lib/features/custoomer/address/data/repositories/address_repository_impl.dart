@@ -19,4 +19,9 @@ class AddressRepositoryImpl implements AddressRepository {
   Future<Either<Failure, AddressEntity>> createAddress(CreateAddressParams params) async {
     return await remoteDataSource.createAddress(params.toJson());
   }
+
+  @override
+  Future<Either<Failure, AddressEntity>> setDefaultAddress(int id) async {
+    return await remoteDataSource.setDefaultAddress(id);
+  }
 }

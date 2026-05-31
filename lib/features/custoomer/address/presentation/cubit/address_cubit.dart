@@ -2,18 +2,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/entities/address_entity.dart';
 import '../../domain/usecases/create_address_usecase.dart';
 import '../../domain/usecases/get_addresses_usecase.dart';
+import '../../domain/usecases/set_default_address_usecase.dart';
 import 'address_state.dart';
 
 class AddressCubit extends Cubit<AddressState> {
   AddressCubit({
     required this.getAddressesUseCase,
     required this.createAddressUseCase,
+    required this.setDefaultAddressUseCase,
   }) : super(const AddressState()) {
     getAddresses();
   }
 
   final GetAddressesUseCase getAddressesUseCase;
   final CreateAddressUseCase createAddressUseCase;
+  final SetDefaultAddressUseCase setDefaultAddressUseCase;
 
   Future<void> getAddresses() async {
     emit(state.copyWith(status: AddressStatus.loading));
@@ -79,6 +82,25 @@ class AddressCubit extends Cubit<AddressState> {
       (addressEntity) {
         emit(state.copyWith(createStatus: AddressCreateStatus.success));
         getAddresses(); // Refresh the list
+      },
+    );
+  }
+
+  Future<void> setDefaultAddress(int id) async {
+    emit(state.copyWith(setDefaultStatus: AddressSetDefaultStatus.loading));
+
+    final result = await setDefaultAddressUseCase(id);
+
+    result.fold(
+      (failure) {
+        emit(state.copyWith(
+          setDefaultStatus: AddressSetDefaultStatus.failure,
+          setDefaultErrorMessage: failure.message,
+        ));
+      },
+      (addressEntity) {
+        emit(state.copyWith(setDefaultStatus: AddressSetDefaultStatus.success));
+        getAddresses(); // Refresh the list to get new default address
       },
     );
   }

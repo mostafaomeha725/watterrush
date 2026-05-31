@@ -17,6 +17,7 @@ import 'package:waterrush/features/custoomer/address/data/repositories/address_r
 import 'package:waterrush/features/custoomer/address/domain/repositories/address_repository.dart';
 import 'package:waterrush/features/custoomer/address/domain/usecases/get_addresses_usecase.dart';
 import 'package:waterrush/features/custoomer/address/domain/usecases/create_address_usecase.dart';
+import 'package:waterrush/features/custoomer/address/domain/usecases/set_default_address_usecase.dart';
 import 'package:waterrush/features/custoomer/address/presentation/cubit/address_cubit.dart';
 
 import 'package:waterrush/features/custoomer/customer_home/data/datasources/customer_home_remote_data_source.dart';
@@ -99,6 +100,7 @@ class ServiceLocator {
     sl.registerLazySingleton(() => GetCategoryProductsUseCase(sl()));
     sl.registerLazySingleton(() => GetAddressesUseCase(sl()));
     sl.registerLazySingleton(() => CreateAddressUseCase(sl()));
+    sl.registerLazySingleton(() => SetDefaultAddressUseCase(sl()));
 
     sl.registerFactory(
       () => CustomerHomeCubit(
@@ -119,6 +121,7 @@ class ServiceLocator {
       () => AddressCubit(
         getAddressesUseCase: sl(),
         createAddressUseCase: sl(),
+        setDefaultAddressUseCase: sl(),
       ),
     );
   }

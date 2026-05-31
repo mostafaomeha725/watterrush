@@ -7,21 +7,36 @@ import 'package:waterrush/features/custoomer/address/domain/entities/address_ent
 import 'package:waterrush/features/custoomer/address/presentation/cubit/address_cubit.dart';
 import 'package:waterrush/features/custoomer/address/presentation/cubit/address_state.dart';
 import 'package:waterrush/features/custoomer/address/presentation/widgets/add_address_dialog.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class CustomerHomeAddressSelector extends StatelessWidget {
   const CustomerHomeAddressSelector({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        AppText(
-          'Deliver to',
-          style: font8w600.copyWith(color: const Color(0xFF7E8EA8)),
-        ),
-        BlocBuilder<AddressCubit, AddressState>(
-          builder: (context, state) {
+    return BlocListener<AddressCubit, AddressState>(
+      listenWhen: (previous, current) => previous.setDefaultStatus != current.setDefaultStatus,
+      listener: (context, state) {
+        if (state.setDefaultStatus == AddressSetDefaultStatus.loading) {
+          EasyLoading.show(status: 'Setting default address...');
+        } else {
+          if (EasyLoading.isShow) EasyLoading.dismiss();
+          if (state.setDefaultStatus == AddressSetDefaultStatus.success) {
+            EasyLoading.showSuccess('Address changed successfully!');
+          } else if (state.setDefaultStatus == AddressSetDefaultStatus.failure) {
+            EasyLoading.showError(state.setDefaultErrorMessage);
+          }
+        }
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AppText(
+            'Deliver to',
+            style: font8w600.copyWith(color: const Color(0xFF7E8EA8)),
+          ),
+          BlocBuilder<AddressCubit, AddressState>(
+            builder: (context, state) {
             String addressText = 'Loading...';
             if (state.status == AddressStatus.success) {
               final selected = state.selectedAddress;
@@ -95,6 +110,7 @@ class CustomerHomeAddressSelector extends StatelessWidget {
                       ).then((selectedValue) {
                         if (selectedValue is AddressEntity) {
                           addressCubit.selectAddress(selectedValue);
+                          addressCubit.setDefaultAddress(selectedValue.id);
                         } else if (selectedValue == 'add_new') {
                           showDialog(
                             context: context,
@@ -134,6 +150,7 @@ class CustomerHomeAddressSelector extends StatelessWidget {
           },
         ),
       ],
+    ),
     );
   }
 }
