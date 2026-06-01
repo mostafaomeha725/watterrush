@@ -18,6 +18,8 @@ abstract class AuthRemoteDataSource {
     required String password,
   });
 
+  Future<Either<Failure, CustomerModel>> getCustomerProfile();
+
   Future<Either<Failure, void>> logoutCustomer();
 }
 
@@ -66,10 +68,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }) async {
     final response = await networkService.postData(
       endPoint: EndPoints.customerLogin,
-      data: {
-        'phone': phone,
-        'password': password,
-      },
+      data: {'phone': phone, 'password': password},
     );
 
     return response.fold((failure) => Left(failure), (data) async {
@@ -101,6 +100,23 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         return const Right(null);
       } catch (e) {
         return Left(Failure('Failed to logout'));
+      }
+    });
+  }
+
+  @override
+  Future<Either<Failure, CustomerModel>> getCustomerProfile() async {
+    final response = await networkService.getData(
+      endPoint: EndPoints.customerProfile,
+    );
+
+    return response.fold((failure) => Left(failure), (data) async {
+      try {
+        final resData = data['data'];
+        final customer = CustomerModel.fromJson(resData['customer']);
+        return Right(customer);
+      } catch (e) {
+        return Left(Failure('Failed to parse customer profile data'));
       }
     });
   }

@@ -39,4 +39,9 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, void>> logoutCustomer() async {
     return await remoteDataSource.logoutCustomer();
   }
+
+  @override
+  Future<Either<Failure, CustomerEntity>> getCustomerProfile() async {
+    return await remoteDataSource.getCustomerProfile();
+  }
 }

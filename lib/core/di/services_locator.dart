@@ -9,9 +9,11 @@ import 'package:waterrush/features/auth/domain/repositories/auth_repository.dart
 import 'package:waterrush/features/auth/domain/usecases/register_customer_usecase.dart';
 import 'package:waterrush/features/auth/domain/usecases/login_customer_usecase.dart';
 import 'package:waterrush/features/auth/domain/usecases/logout_customer_usecase.dart';
+import 'package:waterrush/features/auth/domain/usecases/get_customer_profile_usecase.dart';
 import 'package:waterrush/features/auth/presentation/cubit/register_cubit/customer_register_cubit.dart';
 import 'package:waterrush/features/auth/presentation/cubit/login_cubit/customer_login_cubit.dart';
 import 'package:waterrush/features/auth/presentation/cubit/logout_cubit/customer_logout_cubit.dart';
+import 'package:waterrush/features/auth/presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'package:waterrush/features/custoomer/address/data/datasources/address_remote_data_source.dart';
 import 'package:waterrush/features/custoomer/address/data/repositories/address_repository_impl.dart';
 import 'package:waterrush/features/custoomer/address/domain/repositories/address_repository.dart';
@@ -92,10 +94,12 @@ class ServiceLocator {
     sl.registerLazySingleton(() => RegisterCustomerUseCase(sl()));
     sl.registerLazySingleton(() => LoginCustomerUseCase(sl()));
     sl.registerLazySingleton(() => LogoutCustomerUseCase(sl()));
+    sl.registerLazySingleton(() => GetCustomerProfileUseCase(sl()));
 
     sl.registerFactory(() => CustomerRegisterCubit(sl()));
     sl.registerFactory(() => CustomerLoginCubit(sl()));
     sl.registerFactory(() => CustomerLogoutCubit(sl()));
+    sl.registerFactory(() => ProfileCubit(sl()));
   }
 
   /// =============================
@@ -103,10 +107,12 @@ class ServiceLocator {
   /// =============================
   void _initCustomerHome() {
     sl.registerLazySingleton<CustomerHomeRemoteDataSource>(
-        () => CustomerHomeRemoteDataSourceImpl(sl()));
+      () => CustomerHomeRemoteDataSourceImpl(sl()),
+    );
 
     sl.registerLazySingleton<AddressRemoteDataSource>(
-        () => AddressRemoteDataSourceImpl(sl()));
+      () => AddressRemoteDataSourceImpl(sl()),
+    );
 
     sl.registerLazySingleton<CustomerHomeRepository>(
       () => CustomerHomeRepositoryImpl(sl()),
@@ -166,10 +172,12 @@ class ServiceLocator {
   /// =============================
   void _initCustomerCart() {
     sl.registerLazySingleton<CartRemoteDataSource>(
-        () => CartRemoteDataSourceImpl(networkService: sl()));
+      () => CartRemoteDataSourceImpl(networkService: sl()),
+    );
 
     sl.registerLazySingleton<CartRepository>(
-        () => CartRepositoryImpl(remoteDataSource: sl()));
+      () => CartRepositoryImpl(remoteDataSource: sl()),
+    );
 
     sl.registerLazySingleton(() => GetCartUseCase(sl()));
     sl.registerLazySingleton(() => RemoveCartItemUseCase(sl()));
@@ -177,22 +185,28 @@ class ServiceLocator {
     sl.registerLazySingleton(() => GetScheduledTimesUseCase(sl()));
     sl.registerLazySingleton(() => PlaceOrderUseCase(sl()));
 
-    sl.registerFactory(() => CartCubit(
-          getCartUseCase: sl(),
-          removeCartItemUseCase: sl(),
-          clearCartUseCase: sl(),
-        ));
+    sl.registerFactory(
+      () => CartCubit(
+        getCartUseCase: sl(),
+        removeCartItemUseCase: sl(),
+        clearCartUseCase: sl(),
+      ),
+    );
 
-    sl.registerFactory(() => CheckoutCubit(
-          getScheduledTimesUseCase: sl(),
-          placeOrderUseCase: sl(),
-        ));
+    sl.registerFactory(
+      () => CheckoutCubit(
+        getScheduledTimesUseCase: sl(),
+        placeOrderUseCase: sl(),
+      ),
+    );
 
     // Offers
     sl.registerLazySingleton<OffersRemoteDataSource>(
-        () => OffersRemoteDataSourceImpl(networkService: sl()));
+      () => OffersRemoteDataSourceImpl(networkService: sl()),
+    );
     sl.registerLazySingleton<OffersRepository>(
-        () => OffersRepositoryImpl(remoteDataSource: sl()));
+      () => OffersRepositoryImpl(remoteDataSource: sl()),
+    );
     sl.registerLazySingleton(() => GetPromoCodesUseCase(sl()));
     sl.registerFactory(() => OffersCubit(getPromoCodesUseCase: sl()));
   }
