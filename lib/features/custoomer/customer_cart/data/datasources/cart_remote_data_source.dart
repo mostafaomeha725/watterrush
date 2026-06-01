@@ -1,12 +1,17 @@
 import 'package:dartz/dartz.dart';
 import 'package:waterrush/core/network/network_service.dart';
 import 'package:waterrush/core/error/failure.dart';
+import 'package:waterrush/features/custoomer/customer_cart/data/models/order_model.dart';
+import 'package:waterrush/features/custoomer/customer_cart/data/models/scheduled_time_model.dart';
+import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/place_order_usecase.dart';
 import '../models/cart_model.dart';
 
 abstract class CartRemoteDataSource {
   Future<Either<Failure, CartModel>> getCart();
   Future<Either<Failure, void>> removeCartItem(int itemId);
   Future<Either<Failure, void>> clearCart();
+  Future<Either<Failure, List<ScheduledTimeModel>>> getScheduledTimes();
+  Future<Either<Failure, OrderModel>> placeOrder(PlaceOrderParams params);
 }
 
 class CartRemoteDataSourceImpl implements CartRemoteDataSource {
@@ -62,6 +67,43 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
       } else {
         return Left(
           ServerFailure(message: data['message'] ?? 'Failed to clear cart'),
+        );
+      }
+    });
+  }
+
+  @override
+  Future<Either<Failure, List<ScheduledTimeModel>>> getScheduledTimes() async {
+    final response = await networkService.getData(endPoint: 'customer/scheduled-times');
+
+    return response.fold((failure) => Left(failure), (data) {
+      if (data['status'] == true) {
+        final List scheduledTimesList = data['data']['scheduled_times'] ?? [];
+        final List<ScheduledTimeModel> scheduledTimes = scheduledTimesList
+            .map((item) => ScheduledTimeModel.fromJson(item))
+            .toList();
+        return Right(scheduledTimes);
+      } else {
+        return Left(
+          ServerFailure(message: data['message'] ?? 'Failed to fetch scheduled times'),
+        );
+      }
+    });
+  }
+
+  @override
+  Future<Either<Failure, OrderModel>> placeOrder(PlaceOrderParams params) async {
+    final response = await networkService.postData(
+      endPoint: 'customer/orders',
+      data: params.toJson(),
+    );
+
+    return response.fold((failure) => Left(failure), (data) {
+      if (data['status'] == true) {
+        return Right(OrderModel.fromJson(data['data']['order']));
+      } else {
+        return Left(
+          ServerFailure(message: data['message'] ?? 'Failed to place order'),
         );
       }
     });

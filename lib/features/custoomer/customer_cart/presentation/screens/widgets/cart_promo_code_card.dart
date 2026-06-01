@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/core/theme/light_colors.dart';
 import 'package:waterrush/core/theme/styles.dart';
@@ -11,10 +11,14 @@ class CartPromoCodeCard extends StatelessWidget {
     super.key,
     required this.controller,
     required this.onApply,
+    required this.onRemove,
+    required this.isApplied,
   });
 
   final TextEditingController controller;
   final VoidCallback onApply;
+  final VoidCallback onRemove;
+  final bool isApplied;
 
   @override
   Widget build(BuildContext context) {
@@ -42,20 +46,21 @@ class CartPromoCodeCard extends StatelessWidget {
               child: AppFormField(
                 controller: controller,
                 hintText: 'Enter promo code',
-                fillColor: AppLightColors.defaultBackground,
+                fillColor: isApplied ? Colors.grey[200] : AppLightColors.defaultBackground,
                 radius: 30.r,
                 borderColor: const Color(0xFFD2D8E1),
                 focusedBorderColor: const Color(0xFF14AED3),
                 borderWidth: 1,
                 contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
+                enabled: !isApplied,
               ),
             ),
             SizedBox(width: 8.w),
             AppButton(
-              text: 'Apply',
-              color: AppLightColors.buttonColor1,
+              text: isApplied ? 'Remove' : 'Apply',
+              color: isApplied ? Colors.redAccent : AppLightColors.buttonColor1,
               textSize: 16.sp,
-              onPressed: onApply,
+              onPressed: isApplied ? onRemove : onApply,
               radius: 30.r,
               contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
             ),

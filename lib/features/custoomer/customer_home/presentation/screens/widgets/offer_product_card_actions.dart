@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/utils/spacing.dart';
@@ -15,6 +15,7 @@ class OfferProductCardActions extends StatelessWidget {
     this.isAdded = false,
     this.addButtonText = 'Add to Cart',
     this.addedButtonText = 'Added',
+    this.isLarge = false,
   });
 
   final int quantity;
@@ -24,13 +25,17 @@ class OfferProductCardActions extends StatelessWidget {
   final bool isAdded;
   final String addButtonText;
   final String addedButtonText;
+  final bool isLarge;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 4.h),
+          padding: EdgeInsets.symmetric(
+            horizontal: isLarge ? 12.w : 5.w,
+            vertical: isLarge ? 8.h : 4.h,
+          ),
           decoration: BoxDecoration(
             color: const Color(0xFFF1F4F9),
             borderRadius: BorderRadius.circular(999.r),
@@ -40,41 +45,48 @@ class OfferProductCardActions extends StatelessWidget {
               GestureDetector(
                 onTap: onDecrement,
                 child: Container(
-                  width: 24.w,
-                  height: 24.w,
+                  width: isLarge ? 32.w : 24.w,
+                  height: isLarge ? 32.w : 24.w,
                   decoration: BoxDecoration(
                     color: const Color(0xFFE7EDF6),
                     borderRadius: BorderRadius.circular(999.r),
                   ),
                   child: Icon(
                     Icons.remove,
-                    size: 15.sp,
+                    size: isLarge ? 18.sp : 15.sp,
                     color: const Color(0xFF5C7188),
                   ),
                 ),
               ),
-              horizontalSpacing(10),
+              horizontalSpacing(isLarge ? 16 : 10),
               AppText(
                 '$quantity',
-                style: font14w700.copyWith(color: const Color(0xFF19324E)),
+                style: font14w700.copyWith(
+                  color: const Color(0xFF19324E),
+                  fontSize: isLarge ? 18.sp : 14.sp,
+                ),
               ),
-              horizontalSpacing(10),
+              horizontalSpacing(isLarge ? 16 : 10),
               GestureDetector(
                 onTap: onIncrement,
                 child: Container(
-                  width: 24.w,
-                  height: 24.w,
+                  width: isLarge ? 32.w : 24.w,
+                  height: isLarge ? 32.w : 24.w,
                   decoration: BoxDecoration(
                     color: const Color(0xFF1D70D9),
                     borderRadius: BorderRadius.circular(999.r),
                   ),
-                  child: Icon(Icons.add, size: 15.sp, color: Colors.white),
+                  child: Icon(
+                    Icons.add,
+                    size: isLarge ? 18.sp : 15.sp,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],
           ),
         ),
-        horizontalSpacing(8),
+        horizontalSpacing(isLarge ? 16 : 8),
         Expanded(
           child: isAdded
               ? AppButton.icon(
@@ -82,12 +94,12 @@ class OfferProductCardActions extends StatelessWidget {
                   onPressed: onAddToCart,
                   color: const Color(0xFF17B26A),
                   radius: 999.r,
-                  height: 38.h,
-                  textSize: 12.sp,
+                  height: isLarge ? 48.h : 38.h,
+                  textSize: isLarge ? 14.sp : 12.sp,
                   textWeight: FontWeight.w700,
                   child: Icon(
                     Icons.check_rounded,
-                    size: 14.sp,
+                    size: isLarge ? 18.sp : 14.sp,
                     color: Colors.white,
                   ),
                 )
@@ -96,8 +108,8 @@ class OfferProductCardActions extends StatelessWidget {
                   onPressed: onAddToCart,
                   color: const Color(0xFF1E73D9),
                   radius: 999.r,
-                  height: 38.h,
-                  textSize: 12.sp,
+                  height: isLarge ? 48.h : 38.h,
+                  textSize: isLarge ? 14.sp : 12.sp,
                   textWeight: FontWeight.w700,
                 ),
         ),

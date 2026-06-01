@@ -10,6 +10,8 @@ abstract class CustomerHomeRemoteDataSource {
   Future<Either<Failure, List<SliderModel>>> getSliders();
   Future<Either<Failure, List<CategoryModel>>> getCategories();
   Future<Either<Failure, List<ProductModel>>> getCategoryProducts(int categoryId);
+  Future<Either<Failure, List<ProductModel>>> getPopularProducts();
+  Future<Either<Failure, ProductModel>> getProductDetails(int productId);
 }
 
 class CustomerHomeRemoteDataSourceImpl implements CustomerHomeRemoteDataSource {
@@ -76,6 +78,46 @@ class CustomerHomeRemoteDataSourceImpl implements CustomerHomeRemoteDataSource {
           return Right(productsList);
         } catch (e) {
           return Left(Failure('Failed to parse category products data'));
+        }
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, List<ProductModel>>> getPopularProducts() async {
+    final response = await networkService.getData(
+      endPoint: EndPoints.customerProducts,
+    );
+
+    return response.fold(
+      (failure) => Left(failure),
+      (data) {
+        try {
+          final productsList = (data['data']['products'] as List)
+              .map((json) => ProductModel.fromJson(json))
+              .toList();
+          return Right(productsList);
+        } catch (e) {
+          return Left(Failure('Failed to parse popular products data'));
+        }
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, ProductModel>> getProductDetails(int productId) async {
+    final response = await networkService.getData(
+      endPoint: '${EndPoints.customerProducts}/$productId',
+    );
+
+    return response.fold(
+      (failure) => Left(failure),
+      (data) {
+        try {
+          final product = ProductModel.fromJson(data['data']['product']);
+          return Right(product);
+        } catch (e) {
+          return Left(Failure('Failed to parse product details data'));
         }
       },
     );

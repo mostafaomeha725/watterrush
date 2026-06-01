@@ -40,6 +40,7 @@ class _CustomerCartScreenBodyState extends State<CustomerCartScreenBody> {
   static const double _deliveryFee = 2.99;
 
   final TextEditingController _promoController = TextEditingController();
+  bool _isPromoApplied = false;
 
   @override
   void dispose() {
@@ -176,7 +177,23 @@ class _CustomerCartScreenBodyState extends State<CustomerCartScreenBody> {
                       SizedBox(height: 8.h),
                       const Divider(height: 1, color: Color(0xFFD5DCE6)),
                       SizedBox(height: 22.h),
-                      CartPromoCodeCard(controller: _promoController, onApply: () {}),
+                      CartPromoCodeCard(
+                        controller: _promoController,
+                        isApplied: _isPromoApplied,
+                        onApply: () {
+                          if (_promoController.text.trim().isNotEmpty) {
+                            setState(() {
+                              _isPromoApplied = true;
+                            });
+                          }
+                        },
+                        onRemove: () {
+                          setState(() {
+                            _isPromoApplied = false;
+                            _promoController.clear();
+                          });
+                        },
+                      ),
                       SizedBox(height: 14.h),
                       CartBillSummaryCard(
                         subtotal: subtotal,
@@ -186,7 +203,11 @@ class _CustomerCartScreenBodyState extends State<CustomerCartScreenBody> {
                       CartCheckoutBar(
                         total: total,
                         onCheckout: () {
-                          context.push(Routes.checkoutScreen);
+                          final promo = _promoController.text.trim();
+                          context.push(
+                            Routes.checkoutScreen,
+                            extra: (_isPromoApplied && promo.isNotEmpty) ? promo : null,
+                          );
                         },
                       ),
                     ],

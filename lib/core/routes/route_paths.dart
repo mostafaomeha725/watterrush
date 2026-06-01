@@ -1,4 +1,4 @@
-﻿class Routes {
+class Routes {
   static const splashScreen = '/splash';
   static const authTypeScreen = '/auth-type';
   static const customerLoginScreen = '/customer-login';
@@ -22,4 +22,6 @@
   static const driverDeliveryDetailsScreen = '/driver-delivery-details';
   static const driverDeliveryMapScreen = '/driver-delivery-map';
   static const driverDeliverySuccessScreen = '/driver-delivery-success';
+  static const productDetailsScreen = '/product-details';
+  static const allPopularProductsScreen = '/all-popular-products';
 }

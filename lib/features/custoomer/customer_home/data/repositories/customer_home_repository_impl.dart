@@ -25,4 +25,14 @@ class CustomerHomeRepositoryImpl implements CustomerHomeRepository {
   Future<Either<Failure, List<ProductEntity>>> getCategoryProducts(int categoryId) async {
     return await remoteDataSource.getCategoryProducts(categoryId);
   }
+
+  @override
+  Future<Either<Failure, List<ProductEntity>>> getPopularProducts() async {
+    return await remoteDataSource.getPopularProducts();
+  }
+
+  @override
+  Future<Either<Failure, ProductEntity>> getProductDetails(int productId) async {
+    return await remoteDataSource.getProductDetails(productId);
+  }
 }

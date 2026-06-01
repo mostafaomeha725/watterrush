@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +6,7 @@ import 'package:waterrush/core/helpers/helpers.dart';
 
 import '../../../domain/usecases/get_sliders_usecase.dart';
 import '../../../domain/usecases/get_categories_usecase.dart';
+import '../../../domain/usecases/get_popular_products_usecase.dart';
 
 import 'customer_home_state.dart';
 
@@ -14,14 +15,17 @@ class CustomerHomeCubit extends Cubit<CustomerHomeState> {
     required this.bannerCount,
     required this.getSlidersUseCase,
     required this.getCategoriesUseCase,
+    required this.getPopularProductsUseCase,
   }) : super(CustomerHomeState.initial()) {
     _startAutoSlide();
     getSliders();
     getCategories();
+    getPopularProducts();
   }
 
   final GetSlidersUseCase getSlidersUseCase;
   final GetCategoriesUseCase getCategoriesUseCase;
+  final GetPopularProductsUseCase getPopularProductsUseCase;
 
   final int bannerCount;
   final PageController bannerController = PageController();
@@ -70,6 +74,23 @@ class CustomerHomeCubit extends Cubit<CustomerHomeState> {
         emit(state.copyWith(
           categoriesStatus: CustomerHomeStatus.success,
           categories: categories,
+        ));
+      },
+    );
+  }
+
+  Future<void> getPopularProducts() async {
+    emit(state.copyWith(popularProductsStatus: CustomerHomeStatus.loading));
+    final result = await getPopularProductsUseCase();
+    result.fold(
+      (failure) => emit(state.copyWith(
+        popularProductsStatus: CustomerHomeStatus.initial,
+        message: failure.message,
+      )),
+      (products) {
+        emit(state.copyWith(
+          popularProductsStatus: CustomerHomeStatus.success,
+          popularProducts: products,
         ));
       },
     );

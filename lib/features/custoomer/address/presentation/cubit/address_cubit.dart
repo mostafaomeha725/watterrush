@@ -38,7 +38,15 @@ class AddressCubit extends Cubit<AddressState> {
       },
       (addresses) {
         AddressEntity? defaultAddr;
-        if (addresses.isNotEmpty) {
+        if (state.selectedAddress != null) {
+          try {
+            defaultAddr = addresses.firstWhere((address) => address.id == state.selectedAddress!.id);
+          } catch (e) {
+            defaultAddr = null;
+          }
+        }
+
+        if (defaultAddr == null && addresses.isNotEmpty) {
           try {
             defaultAddr = addresses.firstWhere((address) => address.isDefault);
           } catch (e) {
@@ -87,6 +95,7 @@ class AddressCubit extends Cubit<AddressState> {
       },
       (addressEntity) {
         emit(state.copyWith(createStatus: AddressCreateStatus.success));
+        selectAddress(addressEntity);
         getAddresses(); // Refresh the list
       },
     );

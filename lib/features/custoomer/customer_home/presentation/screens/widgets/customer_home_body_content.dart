@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:waterrush/core/routes/route_paths.dart';
@@ -7,6 +7,7 @@ import 'package:waterrush/features/custoomer/customer_home/presentation/screens/
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_greeting_card.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_mock_data.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_offer_section_card.dart';
+import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_popular_products_section.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_reorder_card.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_section_header.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_top_bar.dart';
@@ -58,11 +59,13 @@ class CustomerHomeBodyContent extends StatelessWidget {
           SizedBox(height: 10.h),
           CustomerHomeCategoriesRow(
             categories: displayCategories,
-            onCategoryTap: (index) => context.push(
+            onCategoryTap: (int index) => context.push(
               Routes.categoryProductsScreen,
               extra: routeCategories[index],
             ),
           ),
+          SizedBox(height: 14.h),
+          const CustomerHomePopularProductsSection(),
           SizedBox(height: 12.h),
           CustomerHomeReorderCard(onReorder: cubit.reorderLastOrder),
           SizedBox(height: 12.h),

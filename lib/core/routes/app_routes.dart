@@ -18,6 +18,8 @@ import 'package:waterrush/features/custoomer/customer_home/presentation/screens/
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/category_products_screen.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/offer_details_screen.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/special_offers_screen.dart';
+import 'package:waterrush/features/custoomer/customer_home/presentation/screens/product_details_screen.dart';
+import 'package:waterrush/features/custoomer/customer_home/presentation/screens/all_popular_products_screen.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/home_models.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_mock_data.dart';
 import 'package:waterrush/features/driver/deliver_home/presentation/screens/driver_delivery_details_screen.dart';
@@ -76,7 +78,10 @@ GoRouter createRouter() {
       ),
       GoRoute(
         path: Routes.checkoutScreen,
-        builder: (context, state) => const CheckoutScreen(),
+        builder: (context, state) {
+          final promoCode = state.extra is String ? state.extra as String : null;
+          return CheckoutScreen(promoCode: promoCode);
+        },
       ),
       GoRoute(
         path: Routes.offerDetailsScreen,
@@ -169,6 +174,17 @@ GoRouter createRouter() {
 
           return DriverDeliverySuccessScreen(order: order);
         },
+      ),
+      GoRoute(
+        path: Routes.productDetailsScreen,
+        builder: (context, state) {
+          final int productId = state.extra is int ? state.extra as int : 0;
+          return ProductDetailsScreen(productId: productId);
+        },
+      ),
+      GoRoute(
+        path: Routes.allPopularProductsScreen,
+        builder: (context, state) => const AllPopularProductsScreen(),
       ),
     ],
   );

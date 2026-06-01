@@ -28,15 +28,21 @@ import 'package:waterrush/features/custoomer/customer_home/domain/repositories/c
 import 'package:waterrush/features/custoomer/customer_home/domain/usecases/get_sliders_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_home/domain/usecases/get_categories_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_home/domain/usecases/get_category_products_usecase.dart';
+import 'package:waterrush/features/custoomer/customer_home/domain/usecases/get_popular_products_usecase.dart';
+import 'package:waterrush/features/custoomer/customer_home/domain/usecases/get_product_details_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/home_cubit/customer_home_cubit.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/category_products_cubit/category_products_cubit.dart';
+import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/product_details_cubit/product_details_cubit.dart';
 import 'package:waterrush/features/custoomer/customer_cart/data/datasources/cart_remote_data_source.dart';
 import 'package:waterrush/features/custoomer/customer_cart/data/repositories/cart_repository_impl.dart';
 import 'package:waterrush/features/custoomer/customer_cart/domain/repositories/cart_repository.dart';
 import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/get_cart_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/remove_cart_item_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/clear_cart_usecase.dart';
+import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/get_scheduled_times_usecase.dart';
+import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/place_order_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_cubit.dart';
+import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/checkout_cubit/checkout_cubit.dart';
 import 'package:waterrush/features/custoomer/customer_offers/data/datasources/offers_remote_data_source.dart';
 import 'package:waterrush/features/custoomer/customer_offers/data/repositories/offers_repository_impl.dart';
 import 'package:waterrush/features/custoomer/customer_offers/domain/repositories/offers_repository.dart';
@@ -113,6 +119,8 @@ class ServiceLocator {
     sl.registerLazySingleton(() => GetSlidersUseCase(sl()));
     sl.registerLazySingleton(() => GetCategoriesUseCase(sl()));
     sl.registerLazySingleton(() => GetCategoryProductsUseCase(sl()));
+    sl.registerLazySingleton(() => GetPopularProductsUseCase(sl()));
+    sl.registerLazySingleton(() => GetProductDetailsUseCase(sl()));
     sl.registerLazySingleton(() => GetAddressesUseCase(sl()));
     sl.registerLazySingleton(() => CreateAddressUseCase(sl()));
     sl.registerLazySingleton(() => UpdateAddressUseCase(sl()));
@@ -124,6 +132,7 @@ class ServiceLocator {
         bannerCount: 5, // Default or can be dynamic
         getSlidersUseCase: sl(),
         getCategoriesUseCase: sl(),
+        getPopularProductsUseCase: sl(),
       ),
     );
 
@@ -131,6 +140,13 @@ class ServiceLocator {
       (category, _) => CategoryProductsCubit(
         category: category,
         getCategoryProductsUseCase: sl(),
+      ),
+    );
+
+    sl.registerFactoryParam<ProductDetailsCubit, dynamic, dynamic>(
+      (productId, _) => ProductDetailsCubit(
+        productId: productId,
+        getProductDetailsUseCase: sl(),
       ),
     );
 
@@ -158,11 +174,18 @@ class ServiceLocator {
     sl.registerLazySingleton(() => GetCartUseCase(sl()));
     sl.registerLazySingleton(() => RemoveCartItemUseCase(sl()));
     sl.registerLazySingleton(() => ClearCartUseCase(sl()));
+    sl.registerLazySingleton(() => GetScheduledTimesUseCase(sl()));
+    sl.registerLazySingleton(() => PlaceOrderUseCase(sl()));
 
     sl.registerFactory(() => CartCubit(
           getCartUseCase: sl(),
           removeCartItemUseCase: sl(),
           clearCartUseCase: sl(),
+        ));
+
+    sl.registerFactory(() => CheckoutCubit(
+          getScheduledTimesUseCase: sl(),
+          placeOrderUseCase: sl(),
         ));
 
     // Offers

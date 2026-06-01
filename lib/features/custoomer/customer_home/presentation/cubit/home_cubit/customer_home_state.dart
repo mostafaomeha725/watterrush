@@ -1,6 +1,7 @@
-﻿import 'package:equatable/equatable.dart';
+import 'package:equatable/equatable.dart';
 import '../../../domain/entities/slider_entity.dart';
 import '../../../domain/entities/category_entity.dart';
+import '../../../domain/entities/product_entity.dart';
 
 enum CustomerHomeStatus { initial, loading, success }
 
@@ -13,6 +14,8 @@ class CustomerHomeState extends Equatable {
     required this.slidersStatus,
     required this.categories,
     required this.categoriesStatus,
+    required this.popularProducts,
+    required this.popularProductsStatus,
   });
 
   factory CustomerHomeState.initial() => const CustomerHomeState(
@@ -23,6 +26,8 @@ class CustomerHomeState extends Equatable {
     slidersStatus: CustomerHomeStatus.initial,
     categories: [],
     categoriesStatus: CustomerHomeStatus.initial,
+    popularProducts: [],
+    popularProductsStatus: CustomerHomeStatus.initial,
   );
 
   final int currentBannerIndex;
@@ -32,6 +37,8 @@ class CustomerHomeState extends Equatable {
   final CustomerHomeStatus slidersStatus;
   final List<CategoryEntity> categories;
   final CustomerHomeStatus categoriesStatus;
+  final List<ProductEntity> popularProducts;
+  final CustomerHomeStatus popularProductsStatus;
 
   CustomerHomeState copyWith({
     int? currentBannerIndex,
@@ -41,6 +48,8 @@ class CustomerHomeState extends Equatable {
     CustomerHomeStatus? slidersStatus,
     List<CategoryEntity>? categories,
     CustomerHomeStatus? categoriesStatus,
+    List<ProductEntity>? popularProducts,
+    CustomerHomeStatus? popularProductsStatus,
   }) {
     return CustomerHomeState(
       currentBannerIndex: currentBannerIndex ?? this.currentBannerIndex,
@@ -50,6 +59,8 @@ class CustomerHomeState extends Equatable {
       slidersStatus: slidersStatus ?? this.slidersStatus,
       categories: categories ?? this.categories,
       categoriesStatus: categoriesStatus ?? this.categoriesStatus,
+      popularProducts: popularProducts ?? this.popularProducts,
+      popularProductsStatus: popularProductsStatus ?? this.popularProductsStatus,
     );
   }
 
@@ -62,5 +73,7 @@ class CustomerHomeState extends Equatable {
         slidersStatus,
         categories,
         categoriesStatus,
+        popularProducts,
+        popularProductsStatus,
       ];
 }
