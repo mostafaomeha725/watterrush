@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/features/custoomer/customer_profile/presentation/screens/widgets/profile_info_raw.dart';
 
@@ -6,10 +6,12 @@ class ProfileContactCard extends StatelessWidget {
   const ProfileContactCard({
     super.key,
     required this.location,
+    this.locationTitle,
     required this.phone,
   });
 
   final String location;
+  final String? locationTitle;
   final String phone;
 
   @override
@@ -32,7 +34,7 @@ class ProfileContactCard extends StatelessWidget {
         children: [
           ProfileInfoRow(
             icon: Icons.location_on_rounded,
-            title: 'Saved Location',
+            title: locationTitle ?? 'Saved Location',
             subtitle: location,
           ),
           Divider(height: 1.h, color: const Color(0xFFE4ECF7)),
