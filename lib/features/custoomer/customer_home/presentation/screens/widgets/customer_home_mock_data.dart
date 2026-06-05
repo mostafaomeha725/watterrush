@@ -3,10 +3,10 @@ import 'package:waterrush/core/constants/app_assets.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_view_models.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/home_models.dart';
 
-// ─── Mock Products per Category ───────────────────────────────────────────────
+// --- Mock Products per Category -----------------------------------------------
 
 const List<OfferProductItemData> waterCartonProducts = <OfferProductItemData>[
-  OfferProductItemData(
+  OfferProductItemData(id: 1,
     name: 'Nestle Pure Life 500ml',
     subtitle: 'Pack of 24 bottles · Still water',
     imageUrl:
@@ -20,7 +20,7 @@ const List<OfferProductItemData> waterCartonProducts = <OfferProductItemData>[
     isPopular: true,
     isOnOffer: true,
   ),
-  OfferProductItemData(
+  OfferProductItemData(id: 1,
     name: 'Baraka 330ml Carton',
     subtitle: 'Pack of 12 cartons · Mineral water',
     imageUrl:
@@ -34,7 +34,7 @@ const List<OfferProductItemData> waterCartonProducts = <OfferProductItemData>[
     isPopular: true,
     isOnOffer: true,
   ),
-  OfferProductItemData(
+  OfferProductItemData(id: 1,
     name: 'Aquafina 600ml',
     subtitle: 'Pack of 12 bottles · Purified water',
     imageUrl:
@@ -48,7 +48,7 @@ const List<OfferProductItemData> waterCartonProducts = <OfferProductItemData>[
     isPopular: false,
     isOnOffer: false,
   ),
-  OfferProductItemData(
+  OfferProductItemData(id: 1,
     name: 'Safi 1.5L Carton',
     subtitle: 'Pack of 12 bottles · Spring water',
     imageUrl:
@@ -62,7 +62,7 @@ const List<OfferProductItemData> waterCartonProducts = <OfferProductItemData>[
     isPopular: true,
     isOnOffer: true,
   ),
-  OfferProductItemData(
+  OfferProductItemData(id: 1,
     name: 'Hayat 200ml Mini',
     subtitle: 'Pack of 30 cartons · Still water',
     imageUrl:
@@ -79,7 +79,7 @@ const List<OfferProductItemData> waterCartonProducts = <OfferProductItemData>[
 ];
 
 const List<OfferProductItemData> gallonProducts = <OfferProductItemData>[
-  OfferProductItemData(
+  OfferProductItemData(id: 1,
     name: 'WaterRush 5-Gallon Refill',
     subtitle: 'Home & office delivery · Polycarbonate jug',
     imageUrl:
@@ -93,7 +93,7 @@ const List<OfferProductItemData> gallonProducts = <OfferProductItemData>[
     isPopular: true,
     isOnOffer: true,
   ),
-  OfferProductItemData(
+  OfferProductItemData(id: 1,
     name: 'Crystal Clear 5-Gallon',
     subtitle: 'Mineral enriched · Home delivery',
     imageUrl:
@@ -107,7 +107,7 @@ const List<OfferProductItemData> gallonProducts = <OfferProductItemData>[
     isPopular: true,
     isOnOffer: true,
   ),
-  OfferProductItemData(
+  OfferProductItemData(id: 1,
     name: 'AquaPure 5-Gallon',
     subtitle: 'Filtered · Alkaline pH 8.5',
     imageUrl:
@@ -121,7 +121,7 @@ const List<OfferProductItemData> gallonProducts = <OfferProductItemData>[
     isPopular: false,
     isOnOffer: false,
   ),
-  OfferProductItemData(
+  OfferProductItemData(id: 1,
     name: 'Primo Sparkling 5-Gallon',
     subtitle: 'Sparkling water · Premium quality',
     imageUrl:
@@ -138,7 +138,7 @@ const List<OfferProductItemData> gallonProducts = <OfferProductItemData>[
 ];
 
 const List<OfferProductItemData> bulkOrderProducts = <OfferProductItemData>[
-  OfferProductItemData(
+  OfferProductItemData(id: 1,
     name: 'Office Bundle — 10 Gallons',
     subtitle: '10 × 5-gallon jugs · Bi-weekly delivery',
     imageUrl:
@@ -152,7 +152,7 @@ const List<OfferProductItemData> bulkOrderProducts = <OfferProductItemData>[
     isPopular: true,
     isOnOffer: true,
   ),
-  OfferProductItemData(
+  OfferProductItemData(id: 1,
     name: 'Event Pack — 50 Cartons',
     subtitle: '50 × 24-pack cartons · Same-day delivery',
     imageUrl:
@@ -166,7 +166,7 @@ const List<OfferProductItemData> bulkOrderProducts = <OfferProductItemData>[
     isPopular: true,
     isOnOffer: true,
   ),
-  OfferProductItemData(
+  OfferProductItemData(id: 1,
     name: 'Gym Monthly Bundle',
     subtitle: '20 × 5-gallon + 10 × carton packs',
     imageUrl:
@@ -180,7 +180,7 @@ const List<OfferProductItemData> bulkOrderProducts = <OfferProductItemData>[
     isPopular: false,
     isOnOffer: true,
   ),
-  OfferProductItemData(
+  OfferProductItemData(id: 1,
     name: 'Hotel Supply Pack',
     subtitle: '100 × 500ml bottles · Weekly delivery',
     imageUrl:
@@ -312,7 +312,7 @@ List<OfferSliderItemData> get customerHomeOffers => <OfferSliderItemData>[
       'Limited to 5 units per customer',
     ],
     products: const <OfferProductItemData>[
-      OfferProductItemData(
+      OfferProductItemData(id: 1,
         name: 'Nestle Pure Life 500ml',
         subtitle: 'Pack of 24 · Still water · 35% OFF',
         imageUrl:
@@ -326,7 +326,7 @@ List<OfferSliderItemData> get customerHomeOffers => <OfferSliderItemData>[
         isPopular: true,
         isOnOffer: true,
       ),
-      OfferProductItemData(
+      OfferProductItemData(id: 1,
         name: 'Baraka 330ml Carton',
         subtitle: 'Pack of 12 cartons · Mineral water · Flash deal',
         imageUrl:
@@ -340,7 +340,7 @@ List<OfferSliderItemData> get customerHomeOffers => <OfferSliderItemData>[
         isPopular: true,
         isOnOffer: true,
       ),
-      OfferProductItemData(
+      OfferProductItemData(id: 1,
         name: 'Safi 1.5L Carton',
         subtitle: 'Pack of 12 bottles · Spring water · Weekend special',
         imageUrl:
@@ -354,7 +354,7 @@ List<OfferSliderItemData> get customerHomeOffers => <OfferSliderItemData>[
         isPopular: true,
         isOnOffer: true,
       ),
-      OfferProductItemData(
+      OfferProductItemData(id: 1,
         name: 'Hayat 200ml Mini',
         subtitle: 'Pack of 30 · Purified still water',
         imageUrl:
@@ -384,7 +384,7 @@ List<OfferSliderItemData> get customerHomeOffers => <OfferSliderItemData>[
       'Auto-renews monthly — cancel anytime',
     ],
     products: const <OfferProductItemData>[
-      OfferProductItemData(
+      OfferProductItemData(id: 1,
         name: 'WaterRush 5-Gallon Refill',
         subtitle: 'Subscriber price · Home & office · 20% OFF',
         imageUrl:
@@ -398,7 +398,7 @@ List<OfferSliderItemData> get customerHomeOffers => <OfferSliderItemData>[
         isPopular: true,
         isOnOffer: true,
       ),
-      OfferProductItemData(
+      OfferProductItemData(id: 1,
         name: 'Crystal Clear 5-Gallon',
         subtitle: 'Mineral enriched · Member exclusive deal',
         imageUrl:
@@ -412,7 +412,7 @@ List<OfferSliderItemData> get customerHomeOffers => <OfferSliderItemData>[
         isPopular: true,
         isOnOffer: true,
       ),
-      OfferProductItemData(
+      OfferProductItemData(id: 1,
         name: 'AquaPure Alkaline 5-Gallon',
         subtitle: 'pH 8.5 · Filtered · Subscriber deal',
         imageUrl:
@@ -442,7 +442,7 @@ List<OfferSliderItemData> get customerHomeOffers => <OfferSliderItemData>[
       'Free priority delivery on all bulk orders',
     ],
     products: const <OfferProductItemData>[
-      OfferProductItemData(
+      OfferProductItemData(id: 1,
         name: 'Office Bundle — 10 Gallons',
         subtitle: '10 × 5-gallon jugs · Bi-weekly delivery · 30% OFF',
         imageUrl:
@@ -456,7 +456,7 @@ List<OfferSliderItemData> get customerHomeOffers => <OfferSliderItemData>[
         isPopular: true,
         isOnOffer: true,
       ),
-      OfferProductItemData(
+      OfferProductItemData(id: 1,
         name: 'Event Pack — 50 Cartons',
         subtitle: '50 × 24-pack cartons · Same-day delivery',
         imageUrl:
@@ -470,7 +470,7 @@ List<OfferSliderItemData> get customerHomeOffers => <OfferSliderItemData>[
         isPopular: true,
         isOnOffer: true,
       ),
-      OfferProductItemData(
+      OfferProductItemData(id: 1,
         name: 'Gym Monthly Bundle',
         subtitle: '20 × 5-gallon + 10 × carton packs',
         imageUrl:
@@ -484,7 +484,7 @@ List<OfferSliderItemData> get customerHomeOffers => <OfferSliderItemData>[
         isPopular: false,
         isOnOffer: true,
       ),
-      OfferProductItemData(
+      OfferProductItemData(id: 1,
         name: 'Hotel Supply Pack',
         subtitle: '100 × 500ml bottles · Weekly delivery',
         imageUrl:

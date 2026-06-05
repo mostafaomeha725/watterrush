@@ -16,7 +16,7 @@ class CustomerHomePopularProductCard extends StatefulWidget {
   });
 
   final ProductEntity product;
-  final VoidCallback onAddToCart;
+  final void Function(int quantity) onAddToCart;
 
   @override
   State<CustomerHomePopularProductCard> createState() =>
@@ -141,7 +141,7 @@ class _CustomerHomePopularProductCardState
                   });
                 }
               },
-              onAddToCart: widget.onAddToCart,
+              onAddToCart: () => widget.onAddToCart(quantity),
               addButtonText: 'Add', // Shorter text to fit nicely
             ),
           ],

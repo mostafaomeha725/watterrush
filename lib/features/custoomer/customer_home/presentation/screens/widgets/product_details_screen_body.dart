@@ -9,6 +9,7 @@ import 'package:waterrush/core/widgets/custom_text.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/product_details_cubit/product_details_cubit.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/product_details_cubit/product_details_state.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/offer_product_card_actions.dart';
+import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_cubit.dart';
 
 class ProductDetailsScreenBody extends StatefulWidget {
   const ProductDetailsScreenBody({super.key});
@@ -172,7 +173,7 @@ class _ProductDetailsScreenBodyState extends State<ProductDetailsScreenBody> {
                     }
                   },
                   onAddToCart: () {
-                    // TODO: Implement add to cart action for Product Details
+                    context.read<CartCubit>().addToCart(product.id, quantity);
                   },
                 ),
               ),

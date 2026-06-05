@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +12,7 @@ import 'package:waterrush/features/custoomer/customer_home/presentation/screens/
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/offer_terms_card.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/utils/spacing.dart';
+import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_cubit.dart';
 
 class OfferDetailsScreenBody extends StatelessWidget {
   const OfferDetailsScreenBody({super.key});
@@ -81,6 +82,7 @@ class OfferDetailsScreenBody extends StatelessWidget {
                               padding: EdgeInsets.only(bottom: 12.h),
                               child: OfferProductCard(
                                 product: state.offer!.products[index],
+                                compactLayout: true,
                                 quantity: state.quantityFor(index),
                                 onIncrement: () {
                                   context
@@ -93,9 +95,12 @@ class OfferDetailsScreenBody extends StatelessWidget {
                                       .decrementQuantity(index);
                                 },
                                 onAddToCart: () {
-                                  context.read<OfferDetailsCubit>().addToCart(
-                                    index,
-                                  );
+                                  final cubit = context.read<OfferDetailsCubit>();
+                                  final product = state.offer!.products[index];
+                                  final quantity = state.quantityFor(index);
+                                  
+                                  context.read<CartCubit>().addToCart(product.id, quantity);
+                                  cubit.addToCart(index);
                                 },
                               ),
                             ),

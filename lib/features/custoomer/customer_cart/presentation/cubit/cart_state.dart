@@ -20,6 +20,9 @@ class CartLoaded extends CartState {
   final bool isClearing;
   final String? clearError;
   final bool clearSuccess;
+  final bool isAddingToCart;
+  final String? addToCartError;
+  final bool addToCartSuccess;
 
   const CartLoaded({
     required this.cart,
@@ -29,6 +32,9 @@ class CartLoaded extends CartState {
     this.isClearing = false,
     this.clearError,
     this.clearSuccess = false,
+    this.isAddingToCart = false,
+    this.addToCartError,
+    this.addToCartSuccess = false,
   });
 
   CartLoaded copyWith({
@@ -39,6 +45,9 @@ class CartLoaded extends CartState {
     bool? isClearing,
     String? clearError,
     bool? clearSuccess,
+    bool? isAddingToCart,
+    String? addToCartError,
+    bool? addToCartSuccess,
   }) {
     return CartLoaded(
       cart: cart ?? this.cart,
@@ -48,6 +57,9 @@ class CartLoaded extends CartState {
       isClearing: isClearing ?? this.isClearing,
       clearError: clearError,
       clearSuccess: clearSuccess ?? this.clearSuccess,
+      isAddingToCart: isAddingToCart ?? this.isAddingToCart,
+      addToCartError: addToCartError,
+      addToCartSuccess: addToCartSuccess ?? this.addToCartSuccess,
     );
   }
 
@@ -60,6 +72,9 @@ class CartLoaded extends CartState {
         isClearing,
         clearError,
         clearSuccess,
+        isAddingToCart,
+        addToCartError,
+        addToCartSuccess,
       ];
 }
 

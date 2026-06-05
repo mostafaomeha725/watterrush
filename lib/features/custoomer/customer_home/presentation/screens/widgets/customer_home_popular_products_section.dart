@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:waterrush/core/routes/route_paths.dart';
 import 'package:waterrush/core/widgets/custom_loading.dart';
+import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_cubit.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/home_cubit/customer_home_cubit.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/home_cubit/customer_home_state.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_popular_product_card.dart';
@@ -47,8 +48,8 @@ class CustomerHomePopularProductsSection extends StatelessWidget {
                     final product = state.popularProducts[index];
                     return CustomerHomePopularProductCard(
                       product: product,
-                      onAddToCart: () {
-                        // TODO: Implement add to cart action
+                      onAddToCart: (int quantity) {
+                        context.read<CartCubit>().addToCart(product.id, quantity);
                       },
                     );
                   },

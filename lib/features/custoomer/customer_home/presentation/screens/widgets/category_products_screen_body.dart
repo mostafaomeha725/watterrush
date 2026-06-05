@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -13,6 +13,7 @@ import 'package:waterrush/features/custoomer/customer_home/presentation/screens/
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/category_products_filters_row.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/category_products_header.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/category_products_view_cart_button.dart';
+import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_cubit.dart';
 
 class CategoryProductsScreenBody extends StatefulWidget {
   const CategoryProductsScreenBody({super.key});
@@ -125,9 +126,13 @@ class _CategoryProductsScreenBodyState
                               .decrementQuantity(productIndex);
                         },
                         onAddToCart: (int productIndex) {
-                          context.read<CategoryProductsCubit>().addToCart(
-                            productIndex,
-                          );
+                          final cubit = context.read<CategoryProductsCubit>();
+                          final product = cubit.state.category!.products[productIndex];
+                          final quantity = cubit.state.quantityFor(productIndex);
+                          
+                          context.read<CartCubit>().addToCart(product.id, quantity);
+                          
+                          cubit.addToCart(productIndex);
                         },
                       ),
                     ),

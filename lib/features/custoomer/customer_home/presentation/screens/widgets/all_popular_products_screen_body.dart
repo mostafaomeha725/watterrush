@@ -6,13 +6,22 @@ import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/widgets/custom_loading.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
 import 'package:waterrush/core/routes/route_paths.dart';
+import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_cubit.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/home_cubit/customer_home_cubit.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/home_cubit/customer_home_state.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/home_models.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/offer_product_card.dart';
 
-class AllPopularProductsScreenBody extends StatelessWidget {
+class AllPopularProductsScreenBody extends StatefulWidget {
   const AllPopularProductsScreenBody({super.key});
+
+  @override
+  State<AllPopularProductsScreenBody> createState() => _AllPopularProductsScreenBodyState();
+}
+
+class _AllPopularProductsScreenBodyState extends State<AllPopularProductsScreenBody> {
+  // Store quantities for each product
+  final Map<int, int> _quantities = {};
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +82,7 @@ class AllPopularProductsScreenBody extends StatelessWidget {
                         : 0;
 
                     final OfferProductItemData mappedProduct = OfferProductItemData(
+                      id: product.id,
                       name: product.title,
                       subtitle: '', // No subtitle available
                       imageUrl: product.images.isNotEmpty ? product.images.first.image : '',
@@ -87,6 +97,8 @@ class AllPopularProductsScreenBody extends StatelessWidget {
                       isPopular: true,
                     );
 
+                    final quantity = _quantities[product.id] ?? 1;
+
                     return GestureDetector(
                       onTap: () => context.push(
                         Routes.productDetailsScreen,
@@ -94,12 +106,22 @@ class AllPopularProductsScreenBody extends StatelessWidget {
                       ),
                       child: OfferProductCard(
                         product: mappedProduct,
-                        quantity: 1,
+                        quantity: quantity,
                         compactLayout: true,
-                        onIncrement: () {},
-                        onDecrement: () {},
+                        onIncrement: () {
+                          setState(() {
+                            _quantities[product.id] = quantity + 1;
+                          });
+                        },
+                        onDecrement: () {
+                          if (quantity > 1) {
+                            setState(() {
+                              _quantities[product.id] = quantity - 1;
+                            });
+                          }
+                        },
                         onAddToCart: () {
-                          // TODO: Add to cart
+                          context.read<CartCubit>().addToCart(product.id, quantity);
                         },
                       ),
                     );

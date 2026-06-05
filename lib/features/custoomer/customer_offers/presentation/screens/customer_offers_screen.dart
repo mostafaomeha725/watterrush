@@ -55,6 +55,7 @@ class CustomerOffersScreen extends StatelessWidget {
       ],
       products: const <OfferProductItemData>[
         OfferProductItemData(
+          id: 1,
           name: 'Aquafina 500ml Pack',
           subtitle: 'Aquafina · 12 bottles',
           imageUrl:
@@ -69,6 +70,7 @@ class CustomerOffersScreen extends StatelessWidget {
           isOnOffer: true,
         ),
         OfferProductItemData(
+          id: 2,
           name: 'Nestle Pure Life',
           subtitle: 'Nestle · 12 bottles',
           imageUrl:
@@ -98,6 +100,7 @@ class CustomerOffersScreen extends StatelessWidget {
       ],
       products: const <OfferProductItemData>[
         OfferProductItemData(
+          id: 3,
           name: 'Family Carton Combo',
           subtitle: 'Combo · 24 bottles',
           imageUrl:
@@ -112,6 +115,7 @@ class CustomerOffersScreen extends StatelessWidget {
           isOnOffer: true,
         ),
         OfferProductItemData(
+          id: 4,
           name: 'Office Hydration Pack',
           subtitle: 'Office set · 6 gallons',
           imageUrl:

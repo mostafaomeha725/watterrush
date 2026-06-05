@@ -50,6 +50,7 @@ class OfferSliderItemData {
 
 class OfferProductItemData {
   const OfferProductItemData({
+    required this.id,
     required this.name,
     required this.subtitle,
     required this.imageUrl,
@@ -63,6 +64,7 @@ class OfferProductItemData {
     this.isOnOffer = false,
   });
 
+  final int id;
   final String name;
   final String subtitle;
   final String imageUrl;

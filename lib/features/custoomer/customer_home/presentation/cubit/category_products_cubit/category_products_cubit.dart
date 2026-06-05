@@ -42,6 +42,7 @@ class CategoryProductsCubit extends Cubit<CategoryProductsState> {
               imageUrl = p.images.first.image;
             }
             return OfferProductItemData(
+              id: p.id,
               name: p.title,
               subtitle: p.description,
               imageUrl: imageUrl,

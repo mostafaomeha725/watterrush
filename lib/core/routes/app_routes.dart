@@ -1,9 +1,11 @@
 import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:waterrush/core/cache/preferences_storage.dart';
 import 'package:waterrush/core/di/services_locator.dart';
 import 'package:waterrush/core/widgets/custom_nav_bar.dart';
+import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_cubit.dart';
 import 'package:waterrush/features/auth/presentation/screens/auth_type_screen.dart';
 import 'package:waterrush/features/auth/presentation/screens/customer_login_screen.dart';
 import 'package:waterrush/features/auth/presentation/screens/customer_register_screen.dart';
@@ -73,7 +75,10 @@ GoRouter createRouter() {
           final bool isCustomer = state.extra is bool
               ? state.extra as bool
               : true;
-          return CustomNavBar(isCustomer: isCustomer);
+          return BlocProvider<CartCubit>.value(
+            value: sl<CartCubit>()..getCart(),
+            child: CustomNavBar(isCustomer: isCustomer),
+          );
         },
       ),
       GoRoute(
@@ -90,7 +95,10 @@ GoRouter createRouter() {
               state.extra is OfferSliderItemData
               ? state.extra as OfferSliderItemData
               : null;
-          return OfferDetailsScreen(offer: selectedOffer);
+          return BlocProvider<CartCubit>.value(
+            value: sl<CartCubit>(),
+            child: OfferDetailsScreen(offer: selectedOffer),
+          );
         },
       ),
       GoRoute(
@@ -100,7 +108,10 @@ GoRouter createRouter() {
               state.extra is List<OfferSliderItemData>
               ? state.extra as List<OfferSliderItemData>
               : customerHomeOffers;
-          return SpecialOffersScreen(offers: selectedOffers);
+          return BlocProvider<CartCubit>.value(
+            value: sl<CartCubit>(),
+            child: SpecialOffersScreen(offers: selectedOffers),
+          );
         },
       ),
       GoRoute(
@@ -110,7 +121,10 @@ GoRouter createRouter() {
               state.extra is List<CategoryItemData>
               ? state.extra as List<CategoryItemData>
               : <CategoryItemData>[];
-          return AllCategoriesScreen(categories: selectedCategories);
+          return BlocProvider<CartCubit>.value(
+            value: sl<CartCubit>(),
+            child: AllCategoriesScreen(categories: selectedCategories),
+          );
         },
       ),
       GoRoute(
@@ -120,7 +134,10 @@ GoRouter createRouter() {
               state.extra is CategoryItemData
               ? state.extra as CategoryItemData
               : null;
-          return CategoryProductsScreen(category: selectedCategory);
+          return BlocProvider<CartCubit>.value(
+            value: sl<CartCubit>(),
+            child: CategoryProductsScreen(category: selectedCategory),
+          );
         },
       ),
       GoRoute(
@@ -179,12 +196,18 @@ GoRouter createRouter() {
         path: Routes.productDetailsScreen,
         builder: (context, state) {
           final int productId = state.extra is int ? state.extra as int : 0;
-          return ProductDetailsScreen(productId: productId);
+          return BlocProvider<CartCubit>.value(
+            value: sl<CartCubit>(),
+            child: ProductDetailsScreen(productId: productId),
+          );
         },
       ),
       GoRoute(
         path: Routes.allPopularProductsScreen,
-        builder: (context, state) => const AllPopularProductsScreen(),
+        builder: (context, state) => BlocProvider<CartCubit>.value(
+          value: sl<CartCubit>(),
+          child: const AllPopularProductsScreen(),
+        ),
       ),
     ],
   );

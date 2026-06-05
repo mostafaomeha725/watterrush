@@ -12,6 +12,7 @@ abstract class CartRemoteDataSource {
   Future<Either<Failure, void>> clearCart();
   Future<Either<Failure, List<ScheduledTimeModel>>> getScheduledTimes();
   Future<Either<Failure, OrderModel>> placeOrder(PlaceOrderParams params);
+  Future<Either<Failure, void>> addToCart({required int productId, required int quantity});
 }
 
 class CartRemoteDataSourceImpl implements CartRemoteDataSource {
@@ -104,6 +105,27 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
       } else {
         return Left(
           ServerFailure(message: data['message'] ?? 'Failed to place order'),
+        );
+      }
+    });
+  }
+
+  @override
+  Future<Either<Failure, void>> addToCart({required int productId, required int quantity}) async {
+    final response = await networkService.postData(
+      endPoint: 'customer/cart/items',
+      data: {
+        'product_id': productId,
+        'quantity': quantity,
+      },
+    );
+
+    return response.fold((failure) => Left(failure), (data) {
+      if (data['status'] == true) {
+        return const Right(null);
+      } else {
+        return Left(
+          ServerFailure(message: data['message'] ?? 'Failed to add item to cart'),
         );
       }
     });

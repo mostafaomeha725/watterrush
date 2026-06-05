@@ -1,8 +1,12 @@
-﻿import 'package:waterrush/core/widgets/custom_bottom_navbar.dart';
+import 'package:waterrush/core/widgets/custom_bottom_navbar.dart';
 import 'package:waterrush/core/widgets/customer_nav_data.dart';
 import 'package:waterrush/core/widgets/deliver_nav_data.dart';
 import 'package:waterrush/core/widgets/navigation_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:waterrush/core/utils/easy_loading.dart';
+import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_cubit.dart';
+import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_state.dart';
 
 class CustomNavBar extends StatefulWidget {
   final bool isCustomer;
@@ -70,19 +74,42 @@ class _CustomNavBarState extends State<CustomNavBar> {
         if (didPop) return;
         _navState.handleBackPress(() => setState(() {}));
       },
-      child: Scaffold(
-        backgroundColor: const Color(0xfff8f9fa),
-        extendBody: true,
-        body: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
-          child: _screens[_navState.selectedIndex],
-        ),
-        bottomNavigationBar: CustomBottomNavBar(
-          navItems: _navItems,
-          navState: _navState,
-          onItemTapped: (index) {
-            _navState.onItemTapped(index, () => setState(() {}));
-          },
+      child: BlocListener<CartCubit, CartState>(
+        listenWhen: (previous, current) {
+          if (previous is CartLoaded && current is CartLoaded) {
+            return previous.isAddingToCart != current.isAddingToCart ||
+                previous.addToCartSuccess != current.addToCartSuccess ||
+                previous.addToCartError != current.addToCartError;
+          }
+          return false;
+        },
+        listener: (context, state) {
+          if (state is CartLoaded) {
+            if (state.isAddingToCart) {
+              showLoading();
+            } else if (state.addToCartSuccess) {
+              hideLoading();
+              showSuccess('Item added successfully');
+            } else if (state.addToCartError != null) {
+              hideLoading();
+              showError(state.addToCartError!);
+            }
+          }
+        },
+        child: Scaffold(
+          backgroundColor: const Color(0xfff8f9fa),
+          extendBody: true,
+          body: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            child: _screens[_navState.selectedIndex],
+          ),
+          bottomNavigationBar: CustomBottomNavBar(
+            navItems: _navItems,
+            navState: _navState,
+            onItemTapped: (index) {
+              _navState.onItemTapped(index, () => setState(() {}));
+            },
+          ),
         ),
       ),
     );
