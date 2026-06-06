@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
+import 'package:go_router/go_router.dart';
+import 'package:waterrush/core/routes/route_paths.dart';
+import 'package:waterrush/core/widgets/bouncing_widgets.dart';
 import 'orders_dummy_data.dart';
 import 'order_status_extension.dart';
 
@@ -27,9 +30,16 @@ class OrderItemCard extends StatelessWidget {
     Color mainIconBgColor = statusColor.withOpacity(0.15);
     Color mainIconColor = statusColor;
 
-    return Container(
-      margin: EdgeInsets.only(bottom: 16.h),
-      padding: EdgeInsets.all(16.r),
+    return BounceIt(
+      onPressed: () {
+        context.push(
+          Routes.customerOrderDetailsScreen,
+          extra: {'orderId': order.id},
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: 16.h),
+        padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20.r),
@@ -160,6 +170,6 @@ class OrderItemCard extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 }

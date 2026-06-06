@@ -10,7 +10,6 @@ import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/ca
 import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_state.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/widgets/cart_bill_summary_card.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/widgets/cart_checkout_bar.dart';
-import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/widgets/cart_promo_code_card.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/widgets/empty_cart_widget.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/widgets/cart_items_list_widget.dart';
@@ -50,7 +49,9 @@ class _CustomerCartScreenBodyState extends State<CustomerCartScreenBody> {
       listener: (context, state) {
         if (state is CartLoaded) {
           if (state.isRemoving || state.isClearing) {
-            EasyLoading.show(status: state.isClearing ? 'Clearing cart...' : 'Removing...');
+            EasyLoading.show(
+              status: state.isClearing ? 'Clearing cart...' : 'Removing...',
+            );
           } else {
             EasyLoading.dismiss();
             if (state.removeError != null) {
@@ -136,7 +137,9 @@ class _CustomerCartScreenBodyState extends State<CustomerCartScreenBody> {
                           final promo = _promoController.text.trim();
                           context.push(
                             Routes.checkoutScreen,
-                            extra: (_isPromoApplied && promo.isNotEmpty) ? promo : null,
+                            extra: (_isPromoApplied && promo.isNotEmpty)
+                                ? promo
+                                : null,
                           );
                         },
                       ),

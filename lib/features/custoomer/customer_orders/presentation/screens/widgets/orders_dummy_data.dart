@@ -36,7 +36,7 @@ class OrdersDummyData {
       id: '5',
       date: '01 Jun 2026',
       paymentMethod: 'Cash on Delivery',
-      amount: 662.00,
+      amount: 66255.00,
       status: OrderStatus.inProgress,
     ),
     OrderDummyModel(

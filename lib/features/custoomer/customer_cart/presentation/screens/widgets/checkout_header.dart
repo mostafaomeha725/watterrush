@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/utils/spacing.dart';
@@ -8,10 +8,14 @@ class CheckoutHeader extends StatelessWidget {
   const CheckoutHeader({
     super.key,
     required this.onBackTap,
+    this.title = 'Checkout',
+    this.trailing,
     this.isshow = true,
   });
 
   final VoidCallback onBackTap;
+  final String title;
+  final Widget? trailing;
   final bool isshow;
 
   @override
@@ -37,15 +41,18 @@ class CheckoutHeader extends StatelessWidget {
         ),
         isshow
             ? Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   horizontalSpacing(10),
                   AppText(
-                    'Checkout',
+                    title,
                     style: font20w700.copyWith(color: const Color(0xFF0F2B46)),
                   ),
                 ],
               )
-            : Container(),
+            : const SizedBox.shrink(),
+        if (trailing != null) const Spacer(),
+        if (trailing != null) trailing!,
       ],
     );
   }

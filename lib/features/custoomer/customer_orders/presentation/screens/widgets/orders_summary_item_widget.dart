@@ -46,10 +46,7 @@ class OrdersSummaryItemWidget extends StatelessWidget {
                 style: font12w500.copyWith(color: const Color(0xFF8B92A2)),
               ),
               SizedBox(height: 2.h),
-              AppText(
-                value,
-                style: font16w700.copyWith(color: valueColor),
-              ),
+              AppText(value, style: font12w700.copyWith(color: valueColor)),
             ],
           ),
         ],
