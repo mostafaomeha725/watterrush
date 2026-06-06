@@ -1,4 +1,4 @@
-﻿class Assets {
+class Assets {
   Assets._();
 
   static const String logo = 'assets/logo.png';
@@ -21,4 +21,5 @@
   static const String gallon = 'assets/gallon.png';
   static const String profileBackground = 'assets/profile_background.png';
   static const String specialOffer = 'assets/special_offer.png';
+  static const String cart = 'assets/cart.png';
 }

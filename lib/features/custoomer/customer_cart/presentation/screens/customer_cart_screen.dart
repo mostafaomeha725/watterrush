@@ -11,10 +11,9 @@ import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/ca
 import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/widgets/cart_bill_summary_card.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/widgets/cart_checkout_bar.dart';
 import 'package:waterrush/core/theme/styles.dart';
-import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/widgets/cart_item_card.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/widgets/cart_promo_code_card.dart';
-import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/widgets/remove_cart_item_dialog.dart';
-import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/widgets/clear_cart_dialog.dart';
+import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/widgets/empty_cart_widget.dart';
+import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/widgets/cart_items_list_widget.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class CustomerCartScreen extends StatelessWidget {
@@ -100,92 +99,10 @@ class _CustomerCartScreenBodyState extends State<CustomerCartScreenBody> {
                     ),
                     SizedBox(height: 10.h),
                     if (items.isEmpty)
-                      Center(
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 50.h),
-                          child: const Text('Your cart is empty'),
-                        ),
-                      )
-                    else ...[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Cart Items (${items.length})',
-                            style: font14w700.copyWith(
-                              color: const Color(0xFF24385B),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (ctx) => ClearCartDialog(
-                                  cartCubit: context.read<CartCubit>(),
-                                ),
-                              );
-                            },
-                            child: Row(
-                              children: [
-                                Icon(
-                                  CupertinoIcons.trash,
-                                  size: 16.sp,
-                                  color: Colors.redAccent,
-                                ),
-                                SizedBox(width: 4.w),
-                                Text(
-                                  'Clear All',
-                                  style: font12w700.copyWith(
-                                    color: Colors.redAccent,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10.h),
-                      ...List.generate(
-                        items.length,
-                        (index) => Padding(
-                          padding: EdgeInsets.only(bottom: 10.h),
-                          child: CartItemCard(
-                            item: items[index],
-                            onIncrement: () {
-                              context.read<CartCubit>().updateCartItem(
-                                    items[index].id,
-                                    items[index].quantity + 1,
-                                  );
-                            },
-                            onDecrement: () {
-                              if (items[index].quantity > 1) {
-                                context.read<CartCubit>().updateCartItem(
-                                      items[index].id,
-                                      items[index].quantity - 1,
-                                    );
-                              } else {
-                                showDialog(
-                                  context: context,
-                                  builder: (ctx) => RemoveCartItemDialog(
-                                    item: items[index],
-                                    cartCubit: context.read<CartCubit>(),
-                                  ),
-                                );
-                              }
-                            },
-                            onRemove: () {
-                              showDialog(
-                                context: context,
-                                builder: (ctx) => RemoveCartItemDialog(
-                                  item: items[index],
-                                  cartCubit: context.read<CartCubit>(),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
+                      const EmptyCartWidget()
+                    else
+                      CartItemsListWidget(items: items),
+
                     if (items.isNotEmpty) ...[
                       SizedBox(height: 8.h),
                       const Divider(height: 1, color: Color(0xFFD5DCE6)),
