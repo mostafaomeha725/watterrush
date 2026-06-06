@@ -32,18 +32,18 @@ class CustomerOrderDetailsScreenBody extends StatelessWidget {
             CheckoutHeader(
               onBackTap: () => context.pop(),
               title: 'Order #${order.id}',
-              trailing: Container(
-                padding: EdgeInsets.all(8.r),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF3F4F6),
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-                child: Icon(
-                  Icons.headset_mic_outlined,
-                  color: const Color(0xFF0F2B46),
-                  size: 20.sp,
-                ),
-              ),
+              // trailing: Container(
+              //   padding: EdgeInsets.all(8.r),
+              //   decoration: BoxDecoration(
+              //     color: const Color(0xFFF3F4F6),
+              //     borderRadius: BorderRadius.circular(12.r),
+              //   ),
+              //   child: Icon(
+              //     Icons.headset_mic_outlined,
+              //     color: const Color(0xFF0F2B46),
+              //     size: 20.sp,
+              //   ),
+              // ),
             ),
             SizedBox(height: 24.h),
             OrderDetailsBannerWidget(order: order),

@@ -15,19 +15,15 @@ class OrderDetailsBannerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(20.r),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
       decoration: BoxDecoration(
+        color: order.status.statusBgColor,
         borderRadius: BorderRadius.circular(20.r),
-        gradient: const LinearGradient(
-          colors: [Color(0xFF0B48C6), Color(0xFF386EDF)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 15,
+            offset: const Offset(0, 5),
           ),
         ],
       ),
@@ -40,20 +36,20 @@ class OrderDetailsBannerWidget extends StatelessWidget {
                 AppText(
                   'Current Status',
                   style: font12w400.copyWith(
-                    color: Colors.white.withOpacity(0.8),
+                    color: order.status.statusColor,
                   ),
                 ),
                 SizedBox(height: 4.h),
                 AppText(
                   order.status.statusText,
-                  style: font24w700.copyWith(color: Colors.white),
+                  style: font24w700.copyWith(color: order.status.statusColor),
                 ),
                 SizedBox(height: 8.h),
                 AppText(
-                  'We\'ve received your order and will update you soon.',
+                  order.status.statusSubtitle,
                   overflow: TextOverflow.visible,
                   style: font12w400.copyWith(
-                    color: Colors.white.withOpacity(0.9),
+                    color: const Color(0xFF4B5563),
                     height: 1.5,
                   ),
                 ),
@@ -61,18 +57,11 @@ class OrderDetailsBannerWidget extends StatelessWidget {
             ),
           ),
           SizedBox(width: 16.w),
-          Container(
-            width: 80.w,
-            height: 80.w,
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.inventory_2_rounded,
-              color: Colors.white,
-              size: 40.sp,
-            ),
+          Image.asset(
+            order.status.statusImage,
+            width: 125.w,
+            height: 125.w,
+            fit: BoxFit.contain,
           ),
         ],
       ),

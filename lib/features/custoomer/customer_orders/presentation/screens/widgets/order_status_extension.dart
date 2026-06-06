@@ -7,13 +7,28 @@ extension OrderStatusExtension on OrderStatus {
       case OrderStatus.pending:
         return const Color(0xFF6B58FA);
       case OrderStatus.inProgress:
-        return const Color(0xFFF59E0B);
+        return const Color(0xFF0B48C6);
       case OrderStatus.onTheWay:
-        return const Color(0xFF3B82F6);
+        return const Color(0xFF1BA78F);
       case OrderStatus.delivered:
-        return const Color(0xFF10B981);
+        return const Color(0xFF04A85A);
       case OrderStatus.cancelled:
-        return const Color(0xFFEF4444);
+        return const Color(0xFFCE1126);
+    }
+  }
+
+  Color get statusBgColor {
+    switch (this) {
+      case OrderStatus.pending:
+        return const Color(0xFFF8F6FF);
+      case OrderStatus.inProgress:
+        return const Color(0xFFF3F7FF);
+      case OrderStatus.onTheWay:
+        return const Color(0xFFEFFFFA);
+      case OrderStatus.delivered:
+        return const Color(0xFFECFDF5);
+      case OrderStatus.cancelled:
+        return const Color(0xFFFFF0F1);
     }
   }
 
@@ -43,6 +58,36 @@ extension OrderStatusExtension on OrderStatus {
         return Icons.check_circle_rounded;
       case OrderStatus.cancelled:
         return Icons.cancel_rounded;
+    }
+  }
+
+  String get statusImage {
+    switch (this) {
+      case OrderStatus.pending:
+        return 'assets/pending.png';
+      case OrderStatus.inProgress:
+        return 'assets/in progress.png';
+      case OrderStatus.onTheWay:
+        return 'assets/on the way.png';
+      case OrderStatus.delivered:
+        return 'assets/delivered.png';
+      case OrderStatus.cancelled:
+        return 'assets/canceled.png';
+    }
+  }
+
+  String get statusSubtitle {
+    switch (this) {
+      case OrderStatus.pending:
+        return 'We\'ve received your order and will update you soon.';
+      case OrderStatus.inProgress:
+        return 'Your order is being prepared and will be on its way soon.';
+      case OrderStatus.onTheWay:
+        return 'Great news! Your order is on the way and will reach you soon.';
+      case OrderStatus.delivered:
+        return 'Your order has been delivered successfully. Thank you for shopping with us!';
+      case OrderStatus.cancelled:
+        return 'This order has been cancelled.\nIf you have any questions, please contact our support team.';
     }
   }
 }

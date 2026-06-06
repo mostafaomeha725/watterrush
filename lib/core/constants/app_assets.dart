@@ -22,4 +22,9 @@ class Assets {
   static const String profileBackground = 'assets/profile_background.png';
   static const String specialOffer = 'assets/special_offer.png';
   static const String cart = 'assets/cart.png';
+  static const String orderPending = 'assets/pending.png';
+  static const String orderInProgress = 'assets/in progress.png';
+  static const String orderOnTheWay = 'assets/on the way.png';
+  static const String orderDelivered = 'assets/delivered.png';
+  static const String orderCancelled = 'assets/canceled.png';
 }
