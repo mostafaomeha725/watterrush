@@ -5,9 +5,14 @@ import 'package:waterrush/core/utils/spacing.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
 
 class CheckoutHeader extends StatelessWidget {
-  const CheckoutHeader({super.key, required this.onBackTap});
+  const CheckoutHeader({
+    super.key,
+    required this.onBackTap,
+    this.isshow = true,
+  });
 
   final VoidCallback onBackTap;
+  final bool isshow;
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +35,17 @@ class CheckoutHeader extends StatelessWidget {
             ),
           ),
         ),
-        horizontalSpacing(10),
-        AppText(
-          'Checkout',
-          style: font20w700.copyWith(color: const Color(0xFF0F2B46)),
-        ),
+        isshow
+            ? Row(
+                children: [
+                  horizontalSpacing(10),
+                  AppText(
+                    'Checkout',
+                    style: font20w700.copyWith(color: const Color(0xFF0F2B46)),
+                  ),
+                ],
+              )
+            : Container(),
       ],
     );
   }

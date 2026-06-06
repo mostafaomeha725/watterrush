@@ -24,4 +24,5 @@ class Routes {
   static const driverDeliverySuccessScreen = '/driver-delivery-success';
   static const productDetailsScreen = '/product-details';
   static const allPopularProductsScreen = '/all-popular-products';
+  static const customerOrdersScreen = '/customer-orders';
 }

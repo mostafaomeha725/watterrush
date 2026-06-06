@@ -22,6 +22,7 @@ import 'package:waterrush/features/custoomer/customer_home/presentation/screens/
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/special_offers_screen.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/product_details_screen.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/all_popular_products_screen.dart';
+import 'package:waterrush/features/custoomer/customer_orders/presentation/screens/customer_orders_screen.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/home_models.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_mock_data.dart';
 import 'package:waterrush/features/driver/deliver_home/presentation/screens/driver_delivery_details_screen.dart';
@@ -208,6 +209,10 @@ GoRouter createRouter() {
           value: sl<CartCubit>(),
           child: const AllPopularProductsScreen(),
         ),
+      ),
+      GoRoute(
+        path: Routes.customerOrdersScreen,
+        builder: (context, state) => const CustomerOrdersScreen(),
       ),
     ],
   );

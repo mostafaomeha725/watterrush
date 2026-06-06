@@ -77,10 +77,13 @@ class _EmptyCartWidgetState extends State<EmptyCartWidget>
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    AppAsset(
-                      assetName: Assets.cart,
-                      width: 240.w,
-                      fit: BoxFit.contain,
+                    Padding(
+                      padding: EdgeInsets.only(left: 26.w),
+                      child: AppAsset(
+                        assetName: Assets.cart,
+                        width: 240.w,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                     SizedBox(height: 24.h),
                     AppText(
@@ -107,12 +110,10 @@ class _EmptyCartWidgetState extends State<EmptyCartWidget>
                       child: AppButton.icon(
                         text: 'Start Shopping',
                         onPressed: () {
-                          // NOTE: context.go does not work here because we are already on the main screen.
-                          // To switch to the home tab, we must use the CustomNavBar method:
                           CustomNavBar.switchToTab(context, 0);
                         },
                         radius: 30.r,
-                        height: 52.h,
+                        height: 54.h,
                         textSize: 16.sp,
                         textWeight: FontWeight.w600,
                         gradient: const LinearGradient(
