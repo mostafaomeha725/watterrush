@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:waterrush/core/di/services_locator.dart';
+
 import 'package:waterrush/core/routes/route_paths.dart';
 import 'package:waterrush/core/widgets/navbar_page_app_bar.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_cubit.dart';
@@ -152,10 +152,26 @@ class _CustomerCartScreenBodyState extends State<CustomerCartScreenBody> {
                           child: CartItemCard(
                             item: items[index],
                             onIncrement: () {
-                              // Call update item API here
+                              context.read<CartCubit>().updateCartItem(
+                                    items[index].id,
+                                    items[index].quantity + 1,
+                                  );
                             },
                             onDecrement: () {
-                              // Call update item API here
+                              if (items[index].quantity > 1) {
+                                context.read<CartCubit>().updateCartItem(
+                                      items[index].id,
+                                      items[index].quantity - 1,
+                                    );
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  builder: (ctx) => RemoveCartItemDialog(
+                                    item: items[index],
+                                    cartCubit: context.read<CartCubit>(),
+                                  ),
+                                );
+                              }
                             },
                             onRemove: () {
                               showDialog(

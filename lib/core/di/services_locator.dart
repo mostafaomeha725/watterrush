@@ -41,6 +41,7 @@ import 'package:waterrush/features/custoomer/customer_cart/domain/repositories/c
 import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/get_cart_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/add_to_cart_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/remove_cart_item_usecase.dart';
+import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/update_cart_item_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/clear_cart_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/get_scheduled_times_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/place_order_usecase.dart';
@@ -183,6 +184,7 @@ class ServiceLocator {
     sl.registerLazySingleton(() => GetCartUseCase(sl()));
     sl.registerLazySingleton(() => AddToCartUseCase(sl()));
     sl.registerLazySingleton(() => RemoveCartItemUseCase(sl()));
+    sl.registerLazySingleton(() => UpdateCartItemUseCase(sl()));
     sl.registerLazySingleton(() => ClearCartUseCase(sl()));
     sl.registerLazySingleton(() => GetScheduledTimesUseCase(sl()));
     sl.registerLazySingleton(() => PlaceOrderUseCase(sl()));
@@ -193,6 +195,7 @@ class ServiceLocator {
         removeCartItemUseCase: sl(),
         clearCartUseCase: sl(),
         addToCartUseCase: sl(),
+        updateCartItemUseCase: sl(),
       ),
     );
 

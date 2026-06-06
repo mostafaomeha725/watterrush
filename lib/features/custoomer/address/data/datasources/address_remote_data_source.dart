@@ -61,7 +61,7 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
   @override
   Future<Either<Failure, AddressModel>> updateAddress(int id, Map<String, dynamic> data) async {
     final response = await networkService.putData(
-      endPoint: 'customer/addresses/$id',
+      endPoint: '${EndPoints.customerAddresses}/$id',
       data: data,
     );
 
@@ -85,7 +85,7 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
   Future<Either<Failure, AddressModel>> setDefaultAddress(int id) async {
     try {
       final response = await networkService.postData(
-        endPoint: 'customer/addresses/$id/set-default',
+        endPoint: '${EndPoints.customerAddresses}/$id/set-default',
       );
       
       return response.fold(
@@ -108,7 +108,7 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
   Future<Either<Failure, void>> deleteAddress(int id) async {
     try {
       final response = await networkService.deleteData(
-        endPoint: 'customer/addresses/$id',
+        endPoint: '${EndPoints.customerAddresses}/$id',
       );
       
       return response.fold(

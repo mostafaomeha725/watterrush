@@ -12,6 +12,11 @@ class EndPoints {
   static const String customerCategories = 'customer/categories';
   static const String customerProducts = 'customer/products';
   static const String customerAddresses = 'customer/addresses';
+  static const String customerCart = 'customer/cart';
+  static const String customerCartItems = 'customer/cart/items';
+  static const String customerScheduledTimes = 'customer/scheduled-times';
+  static const String customerOrders = 'customer/orders';
+  static const String customerPromoCodes = 'customer/promo-codes';
 
   static const String login = 'auth/login';
 

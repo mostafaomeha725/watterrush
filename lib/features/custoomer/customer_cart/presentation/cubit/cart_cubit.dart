@@ -4,6 +4,9 @@ import '../../domain/usecases/add_to_cart_usecase.dart';
 import '../../domain/usecases/clear_cart_usecase.dart';
 import '../../domain/usecases/get_cart_usecase.dart';
 import '../../domain/usecases/remove_cart_item_usecase.dart';
+import '../../domain/entities/cart_entity.dart';
+import '../../domain/entities/cart_item_entity.dart';
+import '../../domain/usecases/update_cart_item_usecase.dart';
 import 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
@@ -11,12 +14,14 @@ class CartCubit extends Cubit<CartState> {
   final RemoveCartItemUseCase removeCartItemUseCase;
   final ClearCartUseCase clearCartUseCase;
   final AddToCartUseCase addToCartUseCase;
+  final UpdateCartItemUseCase updateCartItemUseCase;
 
   CartCubit({
     required this.getCartUseCase,
     required this.removeCartItemUseCase,
     required this.clearCartUseCase,
     required this.addToCartUseCase,
+    required this.updateCartItemUseCase,
   }) : super(CartInitial());
 
   Future<void> getCart() async {
@@ -97,6 +102,87 @@ class CartCubit extends Cubit<CartState> {
         }
         // Refresh cart after successful add
         getCart();
+      },
+    );
+  }
+
+  Future<void> updateCartItem(int itemId, int quantity) async {
+    if (state is CartLoaded) {
+      final currentState = state as CartLoaded;
+      
+      final oldItems = currentState.cart.items;
+      final itemIndex = oldItems.indexWhere((item) => item.id == itemId);
+      
+      if (itemIndex != -1) {
+        final oldItem = oldItems[itemIndex];
+        
+        final newItem = CartItemEntity(
+          id: oldItem.id,
+          productId: oldItem.productId,
+          bundleId: oldItem.bundleId,
+          title: oldItem.title,
+          price: oldItem.price,
+          image: oldItem.image,
+          quantity: quantity,
+          itemSubtotal: oldItem.price * quantity,
+        );
+        
+        final newItems = List<CartItemEntity>.from(oldItems);
+        newItems[itemIndex] = newItem;
+        
+        num newTotal = 0;
+        for (var item in newItems) {
+          newTotal += item.itemSubtotal;
+        }
+        
+        final newCart = CartEntity(
+          id: currentState.cart.id,
+          items: newItems,
+          total: newTotal,
+        );
+        
+        emit(currentState.copyWith(
+          cart: newCart,
+          isAddingToCart: true, 
+          addToCartSuccess: false, 
+          addToCartError: null,
+        ));
+      } else {
+        emit(currentState.copyWith(isAddingToCart: true, addToCartSuccess: false, addToCartError: null));
+      }
+    }
+    
+    final result = await updateCartItemUseCase(UpdateCartItemParams(itemId: itemId, quantity: quantity));
+    
+    result.fold(
+      (Failure failure) {
+        if (state is CartLoaded) {
+          emit((state as CartLoaded).copyWith(isAddingToCart: false, addToCartError: failure.message));
+          _getCartSilently(); // Revert to true state
+        }
+      },
+      (_) {
+        if (state is CartLoaded) {
+          emit((state as CartLoaded).copyWith(isAddingToCart: false, addToCartSuccess: false));
+        }
+        // Refresh cart silently to ensure backend calculation accuracy without UI jump
+        _getCartSilently();
+      },
+    );
+  }
+
+  Future<void> _getCartSilently() async {
+    final result = await getCartUseCase();
+    result.fold(
+      (Failure failure) {
+        // Silently ignore
+      },
+      (cart) {
+        if (state is CartLoaded) {
+          emit((state as CartLoaded).copyWith(cart: cart));
+        } else {
+          emit(CartLoaded(cart: cart));
+        }
       },
     );
   }

@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:waterrush/core/network/network_service.dart';
+import 'package:waterrush/core/network/endpoints.dart';
 import 'package:waterrush/core/error/failure.dart';
 import 'package:waterrush/features/custoomer/customer_cart/data/models/order_model.dart';
 import 'package:waterrush/features/custoomer/customer_cart/data/models/scheduled_time_model.dart';
@@ -13,6 +14,7 @@ abstract class CartRemoteDataSource {
   Future<Either<Failure, List<ScheduledTimeModel>>> getScheduledTimes();
   Future<Either<Failure, OrderModel>> placeOrder(PlaceOrderParams params);
   Future<Either<Failure, void>> addToCart({required int productId, required int quantity});
+  Future<Either<Failure, void>> updateCartItem({required int itemId, required int quantity});
 }
 
 class CartRemoteDataSourceImpl implements CartRemoteDataSource {
@@ -22,7 +24,7 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
 
   @override
   Future<Either<Failure, CartModel>> getCart() async {
-    final response = await networkService.getData(endPoint: 'customer/cart');
+    final response = await networkService.getData(endPoint: EndPoints.customerCart);
 
     return response.fold((failure) => Left(failure), (data) {
       if (data['status'] == true) {
@@ -42,7 +44,7 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   @override
   Future<Either<Failure, void>> removeCartItem(int itemId) async {
     final response = await networkService.deleteData(
-      endPoint: 'customer/cart/items/$itemId',
+      endPoint: '${EndPoints.customerCartItems}/$itemId',
     );
 
     return response.fold((failureString) => Left(ServerFailure(message: failureString)), (data) {
@@ -59,7 +61,7 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   @override
   Future<Either<Failure, void>> clearCart() async {
     final response = await networkService.deleteData(
-      endPoint: 'customer/cart',
+      endPoint: EndPoints.customerCart,
     );
 
     return response.fold((failureString) => Left(ServerFailure(message: failureString)), (data) {
@@ -75,7 +77,7 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
 
   @override
   Future<Either<Failure, List<ScheduledTimeModel>>> getScheduledTimes() async {
-    final response = await networkService.getData(endPoint: 'customer/scheduled-times');
+    final response = await networkService.getData(endPoint: EndPoints.customerScheduledTimes);
 
     return response.fold((failure) => Left(failure), (data) {
       if (data['status'] == true) {
@@ -95,7 +97,7 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   @override
   Future<Either<Failure, OrderModel>> placeOrder(PlaceOrderParams params) async {
     final response = await networkService.postData(
-      endPoint: 'customer/orders',
+      endPoint: EndPoints.customerOrders,
       data: params.toJson(),
     );
 
@@ -113,7 +115,7 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   @override
   Future<Either<Failure, void>> addToCart({required int productId, required int quantity}) async {
     final response = await networkService.postData(
-      endPoint: 'customer/cart/items',
+      endPoint: EndPoints.customerCartItems,
       data: {
         'product_id': productId,
         'quantity': quantity,
@@ -126,6 +128,26 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
       } else {
         return Left(
           ServerFailure(message: data['message'] ?? 'Failed to add item to cart'),
+        );
+      }
+    });
+  }
+
+  @override
+  Future<Either<Failure, void>> updateCartItem({required int itemId, required int quantity}) async {
+    final response = await networkService.patchData(
+      endPoint: '${EndPoints.customerCartItems}/$itemId',
+      data: {
+        'quantity': quantity,
+      },
+    );
+
+    return response.fold((failureString) => Left(ServerFailure(message: failureString)), (data) {
+      if (data['status'] == true) {
+        return const Right(null);
+      } else {
+        return Left(
+          ServerFailure(message: data['message'] ?? 'Failed to update item in cart'),
         );
       }
     });

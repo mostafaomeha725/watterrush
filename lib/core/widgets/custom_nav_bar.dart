@@ -103,11 +103,37 @@ class _CustomNavBarState extends State<CustomNavBar> {
             duration: const Duration(milliseconds: 300),
             child: _screens[_navState.selectedIndex],
           ),
-          bottomNavigationBar: CustomBottomNavBar(
-            navItems: _navItems,
-            navState: _navState,
-            onItemTapped: (index) {
-              _navState.onItemTapped(index, () => setState(() {}));
+          bottomNavigationBar: BlocBuilder<CartCubit, CartState>(
+            buildWhen: (previous, current) {
+              if (previous is CartLoaded && current is CartLoaded) {
+                return previous.cart != current.cart;
+              }
+              return previous.runtimeType != current.runtimeType;
+            },
+            builder: (context, cartState) {
+              int cartCount = 0;
+              if (cartState is CartLoaded) {
+                cartCount = cartState.cart.items.fold(
+                  0,
+                  (sum, item) => sum + item.quantity,
+                );
+              }
+
+              final List<Map<String, dynamic>> dynamicNavItems =
+                  _navItems.map((item) {
+                if (item['label'] == 'Cart') {
+                  return <String, dynamic>{...item, 'badgeCount': cartCount};
+                }
+                return item;
+              }).toList();
+
+              return CustomBottomNavBar(
+                navItems: dynamicNavItems,
+                navState: _navState,
+                onItemTapped: (index) {
+                  _navState.onItemTapped(index, () => setState(() {}));
+                },
+              );
             },
           ),
         ),

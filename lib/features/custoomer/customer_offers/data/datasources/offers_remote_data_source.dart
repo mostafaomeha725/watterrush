@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:waterrush/core/error/failure.dart';
 import 'package:waterrush/core/network/network_service.dart';
+import 'package:waterrush/core/network/endpoints.dart';
 import 'package:waterrush/features/custoomer/customer_offers/data/models/promo_code_model.dart';
 
 abstract class OffersRemoteDataSource {
@@ -14,7 +15,7 @@ class OffersRemoteDataSourceImpl implements OffersRemoteDataSource {
 
   @override
   Future<Either<Failure, List<PromoCodeModel>>> getPromoCodes() async {
-    final response = await networkService.getData(endPoint: 'customer/promo-codes');
+    final response = await networkService.getData(endPoint: EndPoints.customerPromoCodes);
 
     return response.fold(
       (failure) => Left(failure),

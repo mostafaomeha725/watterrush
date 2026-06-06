@@ -42,4 +42,9 @@ class CartRepositoryImpl implements CartRepository {
   Future<Either<Failure, void>> addToCart(AddToCartParams params) async {
     return await remoteDataSource.addToCart(productId: params.productId, quantity: params.quantity);
   }
+
+  @override
+  Future<Either<Failure, void>> updateCartItem({required int itemId, required int quantity}) async {
+    return await remoteDataSource.updateCartItem(itemId: itemId, quantity: quantity);
+  }
 }
