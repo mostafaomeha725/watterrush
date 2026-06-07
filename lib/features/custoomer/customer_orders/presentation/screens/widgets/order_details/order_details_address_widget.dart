@@ -2,59 +2,67 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
+import 'package:waterrush/features/custoomer/customer_orders/domain/entities/customer_order_entity.dart';
 
 class OrderDetailsAddressWidget extends StatelessWidget {
-  const OrderDetailsAddressWidget({super.key});
+  final OrderAddressEntity address;
+
+  const OrderDetailsAddressWidget({super.key, required this.address});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16.r),
+      padding: EdgeInsets.all(20.r),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(color: const Color(0xFFF3F4F6)),
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: EdgeInsets.all(12.r),
-            decoration: BoxDecoration(
-              color: const Color(0xFF0B48C6).withOpacity(0.1),
-              borderRadius: BorderRadius.circular(16.r),
-            ),
-            child: Icon(
-              Icons.location_on_rounded,
-              color: const Color(0xFF0B48C6),
-              size: 24.sp,
-            ),
+          AppText(
+            'Delivery Address',
+            style: font16w700.copyWith(color: const Color(0xFF0F2B46)),
           ),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppText(
-                  'Delivery Address',
-                  style: font10w500.copyWith(color: const Color(0xFF1B2028)),
+          SizedBox(height: 16.h),
+          Row(
+            children: [
+              Container(
+                padding: EdgeInsets.all(12.r),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF4F8FB),
+                  borderRadius: BorderRadius.circular(16.r),
                 ),
-                SizedBox(height: 2.h),
-                AppText(
-                  'mostafa',
-                  style: font14w700.copyWith(color: const Color(0xFF0F2B46)),
+                child: Icon(
+                  Icons.location_on_rounded,
+                  color: const Color(0xFF0B48C6),
+                  size: 24.sp,
                 ),
-                SizedBox(height: 2.h),
-                AppText(
-                  'Monshaat Sultan, Menofia Governorate',
-                  style: font12w400.copyWith(color: const Color(0xFF6F8097)),
+              ),
+              SizedBox(width: 16.w),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppText(
+                      address.title,
+                      style: font14w700.copyWith(
+                        color: const Color(0xFF1B2028),
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
+                    AppText(
+                      address.address,
+                      style: font12w400.copyWith(
+                        color: const Color(0xFF8B92A2),
+                        height: 1.5,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-          Icon(
-            Icons.chevron_right_rounded,
-            color: const Color(0xFF8B92A2),
-            size: 24.sp,
+              ),
+            ],
           ),
         ],
       ),

@@ -1,23 +1,16 @@
 import 'package:equatable/equatable.dart';
 
-enum OrderStatus { pending, inProgress, onTheWay, delivered, cancelled }
+import 'order_status.dart';
+import 'order_address_entity.dart';
+import 'scheduled_time_entity.dart';
+import 'order_promo_code_entity.dart';
+import 'order_item_entity.dart';
 
-OrderStatus getOrderStatusFromString(String status) {
-  switch (status.toLowerCase()) {
-    case 'pending':
-      return OrderStatus.pending;
-    case 'in_progress':
-      return OrderStatus.inProgress;
-    case 'on_the_way':
-      return OrderStatus.onTheWay;
-    case 'delivered':
-      return OrderStatus.delivered;
-    case 'cancelled':
-      return OrderStatus.cancelled;
-    default:
-      return OrderStatus.pending;
-  }
-}
+export 'order_status.dart';
+export 'order_address_entity.dart';
+export 'scheduled_time_entity.dart';
+export 'order_promo_code_entity.dart';
+export 'order_item_entity.dart';
 
 class CustomerOrderEntity extends Equatable {
   final int id;
@@ -27,6 +20,15 @@ class CustomerOrderEntity extends Equatable {
   final String paymentMethod;
   final String createdAt;
 
+  // Detailed fields (nullable because list endpoint doesn't return them)
+  final double? subtotal;
+  final double? deliveryFee;
+  final String? notes;
+  final OrderAddressEntity? address;
+  final ScheduledTimeEntity? scheduledTime;
+  final OrderPromoCodeEntity? promoCode;
+  final List<OrderItemEntity>? items;
+
   const CustomerOrderEntity({
     required this.id,
     required this.status,
@@ -34,6 +36,13 @@ class CustomerOrderEntity extends Equatable {
     required this.deliveryDate,
     required this.paymentMethod,
     required this.createdAt,
+    this.subtotal,
+    this.deliveryFee,
+    this.notes,
+    this.address,
+    this.scheduledTime,
+    this.promoCode,
+    this.items,
   });
 
   @override
@@ -44,5 +53,12 @@ class CustomerOrderEntity extends Equatable {
     deliveryDate,
     paymentMethod,
     createdAt,
+    subtotal,
+    deliveryFee,
+    notes,
+    address,
+    scheduledTime,
+    promoCode,
+    items,
   ];
 }

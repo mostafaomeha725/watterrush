@@ -6,6 +6,7 @@ import 'package:waterrush/features/custoomer/customer_orders/data/models/custome
 
 abstract class OrdersRemoteDataSource {
   Future<Either<Failure, List<CustomerOrderModel>>> getOrders();
+  Future<Either<Failure, CustomerOrderModel>> getOrderDetails(int id);
 }
 
 class OrdersRemoteDataSourceImpl implements OrdersRemoteDataSource {
@@ -29,6 +30,26 @@ class OrdersRemoteDataSourceImpl implements OrdersRemoteDataSource {
       } else {
         return Left(
           ServerFailure(message: data['message'] ?? 'Failed to fetch orders'),
+        );
+      }
+    });
+  }
+
+  @override
+  Future<Either<Failure, CustomerOrderModel>> getOrderDetails(int id) async {
+    final response = await networkService.getData(
+      endPoint: '${EndPoints.customerOrders}/$id',
+    );
+
+    return response.fold((failure) => Left(failure), (data) {
+      if (data['status'] == true) {
+        final orderData = data['data']['order'];
+        return Right(CustomerOrderModel.fromJson(orderData));
+      } else {
+        return Left(
+          ServerFailure(
+            message: data['message'] ?? 'Failed to fetch order details',
+          ),
         );
       }
     });

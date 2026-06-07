@@ -13,4 +13,9 @@ class OrdersRepositoryImpl implements OrdersRepository {
   Future<Either<Failure, List<CustomerOrderEntity>>> getOrders() async {
     return await remoteDataSource.getOrders();
   }
+
+  @override
+  Future<Either<Failure, CustomerOrderEntity>> getOrderDetails(int id) async {
+    return await remoteDataSource.getOrderDetails(id);
+  }
 }

@@ -4,4 +4,5 @@ import 'package:waterrush/features/custoomer/customer_orders/domain/entities/cus
 
 abstract class OrdersRepository {
   Future<Either<Failure, List<CustomerOrderEntity>>> getOrders();
+  Future<Either<Failure, CustomerOrderEntity>> getOrderDetails(int id);
 }

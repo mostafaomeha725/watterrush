@@ -25,7 +25,6 @@ import 'package:waterrush/features/custoomer/customer_home/presentation/screens/
 import 'package:waterrush/features/custoomer/customer_orders/presentation/screens/customer_orders_screen.dart';
 import 'package:waterrush/features/custoomer/customer_orders/presentation/screens/customer_order_details_screen.dart';
 import 'package:waterrush/features/custoomer/customer_orders/domain/entities/customer_order_entity.dart';
-import 'package:waterrush/features/custoomer/customer_profile/presentation/screens/customer_profile_screen.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/home_models.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_mock_data.dart';
 import 'package:waterrush/features/driver/deliver_home/presentation/screens/driver_delivery_details_screen.dart';
@@ -227,7 +226,6 @@ GoRouter createRouter() {
         builder: (context, state) {
           final extra = state.extra as Map<String, dynamic>?;
           final order = extra?['order'] as CustomerOrderEntity?;
-          // Fallback if null (shouldn't happen in normal flow)
           return CustomerOrderDetailsScreen(order: order!);
         },
       ),

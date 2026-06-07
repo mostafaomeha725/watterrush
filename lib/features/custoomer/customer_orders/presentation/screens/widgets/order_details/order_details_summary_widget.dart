@@ -27,24 +27,26 @@ class OrderDetailsSummaryWidget extends StatelessWidget {
             style: font16w700.copyWith(color: const Color(0xFF0F2B46)),
           ),
           SizedBox(height: 16.h),
-          const OrderSummaryRowWidget(
+          OrderSummaryRowWidget(
             title: 'Subtotal',
-            value: 'EGP 1,600',
+            value: 'EGP ${order.subtotal?.toStringAsFixed(2) ?? "0.00"}',
             isIconCheck: false,
           ),
           SizedBox(height: 12.h),
-          const OrderSummaryRowWidget(
+          OrderSummaryRowWidget(
             title: 'Delivery Fee',
-            value: 'EGP 10',
+            value: 'EGP ${order.deliveryFee?.toStringAsFixed(2) ?? "0.00"}',
             isIconCheck: false,
           ),
-          SizedBox(height: 12.h),
-          const OrderSummaryRowWidget(
-            title: 'Discount (WEEKEND35)',
-            value: '- EGP 560',
-            isIconCheck: true,
-            valueColor: Color(0xFF10B981),
-          ),
+          if (order.promoCode != null) ...[
+            SizedBox(height: 12.h),
+            OrderSummaryRowWidget(
+              title: 'Discount (${order.promoCode!.code})',
+              value: '- EGP ${order.promoCode!.discount.toStringAsFixed(2)}',
+              isIconCheck: true,
+              valueColor: const Color(0xFF10B981),
+            ),
+          ],
           SizedBox(height: 16.h),
           Divider(color: const Color(0xFFF3F4F6)),
           SizedBox(height: 16.h),

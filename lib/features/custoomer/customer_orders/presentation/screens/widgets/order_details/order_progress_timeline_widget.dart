@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
-import 'package:waterrush/core/widgets/custom_text.dart';
 import 'package:waterrush/features/custoomer/customer_orders/domain/entities/customer_order_entity.dart';
 import 'order_timeline_step_widget.dart';
 

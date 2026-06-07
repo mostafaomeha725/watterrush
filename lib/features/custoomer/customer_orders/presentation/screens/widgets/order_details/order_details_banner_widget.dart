@@ -4,7 +4,6 @@ import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
 import 'package:waterrush/features/custoomer/customer_orders/domain/entities/customer_order_entity.dart';
 import 'package:waterrush/features/custoomer/customer_orders/presentation/screens/widgets/order_status_extension.dart';
-import 'order_details_info_item_widget.dart';
 
 class OrderDetailsBannerWidget extends StatelessWidget {
   final CustomerOrderEntity order;

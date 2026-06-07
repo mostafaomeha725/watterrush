@@ -57,7 +57,9 @@ import 'package:waterrush/features/custoomer/customer_orders/data/datasources/or
 import 'package:waterrush/features/custoomer/customer_orders/data/repositories/orders_repository_impl.dart';
 import 'package:waterrush/features/custoomer/customer_orders/domain/repositories/orders_repository.dart';
 import 'package:waterrush/features/custoomer/customer_orders/domain/usecases/get_orders_usecase.dart';
+import 'package:waterrush/features/custoomer/customer_orders/domain/usecases/get_order_details_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_orders/presentation/cubit/customer_orders_cubit.dart';
+import 'package:waterrush/features/custoomer/customer_orders/presentation/cubit/customer_order_details_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -235,6 +237,12 @@ class ServiceLocator {
       () => OrdersRepositoryImpl(remoteDataSource: sl()),
     );
     sl.registerLazySingleton(() => GetOrdersUseCase(repository: sl()));
+    sl.registerLazySingleton(() => GetOrderDetailsUseCase(sl()));
+
+    // CustomerOrders Cubits
     sl.registerFactory(() => CustomerOrdersCubit(getOrdersUseCase: sl()));
+    sl.registerFactory(
+      () => CustomerOrderDetailsCubit(getOrderDetailsUseCase: sl()),
+    );
   }
 }
