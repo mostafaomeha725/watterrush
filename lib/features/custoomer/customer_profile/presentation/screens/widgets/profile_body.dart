@@ -105,8 +105,11 @@ class _ProfileBodyState extends State<ProfileBody> {
                                 AddressStatus.failure) {
                               location = 'Failed to load location';
                             }
-                            return GestureDetector(
-                              onTap: () {
+                            return ProfileContactCard(
+                              location: location,
+                              locationTitle: locationTitle,
+                              phone: customer.phone,
+                              onAddressTap: () {
                                 final cubit = context.read<AddressCubit>();
                                 showModalBottomSheet(
                                   context: context,
@@ -118,14 +121,13 @@ class _ProfileBodyState extends State<ProfileBody> {
                                   ),
                                 );
                               },
-                              child: ProfileContactCard(
-                                location: location,
-                                locationTitle: locationTitle,
-                                phone: customer.phone,
-                              ),
                             );
                           },
                         ),
+                      ),
+                      SizedBox(height: 12.h),
+                      ProfileOrderHistorySection(
+                        orders: ProfileDemoData.orders,
                       ),
                       SizedBox(height: 12.h),
                       BlocProvider(
@@ -169,10 +171,6 @@ class _ProfileBodyState extends State<ProfileBody> {
                                 );
                               },
                             ),
-                      ),
-                      SizedBox(height: 12.h),
-                      ProfileOrderHistorySection(
-                        orders: ProfileDemoData.orders,
                       ),
                       SizedBox(height: 104.h),
                     ],
