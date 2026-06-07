@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/widgets/support_chat_screen_body.dart';
 
 class SupportChatScreen extends StatelessWidget {

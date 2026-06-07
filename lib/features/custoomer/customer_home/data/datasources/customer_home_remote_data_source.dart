@@ -9,7 +9,9 @@ import '../models/product_model.dart';
 abstract class CustomerHomeRemoteDataSource {
   Future<Either<Failure, List<SliderModel>>> getSliders();
   Future<Either<Failure, List<CategoryModel>>> getCategories();
-  Future<Either<Failure, List<ProductModel>>> getCategoryProducts(int categoryId);
+  Future<Either<Failure, List<ProductModel>>> getCategoryProducts(
+    int categoryId,
+  );
   Future<Either<Failure, List<ProductModel>>> getPopularProducts();
   Future<Either<Failure, ProductModel>> getProductDetails(int productId);
 }
@@ -25,19 +27,16 @@ class CustomerHomeRemoteDataSourceImpl implements CustomerHomeRemoteDataSource {
       endPoint: EndPoints.customerSliders,
     );
 
-    return response.fold(
-      (failure) => Left(failure),
-      (data) {
-        try {
-          final slidersList = (data['data']['sliders'] as List)
-              .map((json) => SliderModel.fromJson(json))
-              .toList();
-          return Right(slidersList);
-        } catch (e) {
-          return Left(Failure('Failed to parse sliders data'));
-        }
-      },
-    );
+    return response.fold((failure) => Left(failure), (data) {
+      try {
+        final slidersList = (data['data']['sliders'] as List)
+            .map((json) => SliderModel.fromJson(json))
+            .toList();
+        return Right(slidersList);
+      } catch (e) {
+        return Left(Failure('Failed to parse sliders data'));
+      }
+    });
   }
 
   @override
@@ -46,41 +45,37 @@ class CustomerHomeRemoteDataSourceImpl implements CustomerHomeRemoteDataSource {
       endPoint: EndPoints.customerCategories,
     );
 
-    return response.fold(
-      (failure) => Left(failure),
-      (data) {
-        try {
-          final categoriesList = (data['data']['categories'] as List)
-              .map((json) => CategoryModel.fromJson(json))
-              .toList();
-          return Right(categoriesList);
-        } catch (e) {
-          return Left(Failure('Failed to parse categories data'));
-        }
-      },
-    );
+    return response.fold((failure) => Left(failure), (data) {
+      try {
+        final categoriesList = (data['data']['categories'] as List)
+            .map((json) => CategoryModel.fromJson(json))
+            .toList();
+        return Right(categoriesList);
+      } catch (e) {
+        return Left(Failure('Failed to parse categories data'));
+      }
+    });
   }
 
   @override
-  Future<Either<Failure, List<ProductModel>>> getCategoryProducts(int categoryId) async {
+  Future<Either<Failure, List<ProductModel>>> getCategoryProducts(
+    int categoryId,
+  ) async {
     final response = await networkService.getData(
       endPoint: EndPoints.customerProducts,
       queryParameters: {'category_id': categoryId},
     );
 
-    return response.fold(
-      (failure) => Left(failure),
-      (data) {
-        try {
-          final productsList = (data['data']['products'] as List)
-              .map((json) => ProductModel.fromJson(json))
-              .toList();
-          return Right(productsList);
-        } catch (e) {
-          return Left(Failure('Failed to parse category products data'));
-        }
-      },
-    );
+    return response.fold((failure) => Left(failure), (data) {
+      try {
+        final productsList = (data['data']['products'] as List)
+            .map((json) => ProductModel.fromJson(json))
+            .toList();
+        return Right(productsList);
+      } catch (e) {
+        return Left(Failure('Failed to parse category products data'));
+      }
+    });
   }
 
   @override
@@ -89,19 +84,16 @@ class CustomerHomeRemoteDataSourceImpl implements CustomerHomeRemoteDataSource {
       endPoint: EndPoints.customerProducts,
     );
 
-    return response.fold(
-      (failure) => Left(failure),
-      (data) {
-        try {
-          final productsList = (data['data']['products'] as List)
-              .map((json) => ProductModel.fromJson(json))
-              .toList();
-          return Right(productsList);
-        } catch (e) {
-          return Left(Failure('Failed to parse popular products data'));
-        }
-      },
-    );
+    return response.fold((failure) => Left(failure), (data) {
+      try {
+        final productsList = (data['data']['products'] as List)
+            .map((json) => ProductModel.fromJson(json))
+            .toList();
+        return Right(productsList);
+      } catch (e) {
+        return Left(Failure('Failed to parse popular products data'));
+      }
+    });
   }
 
   @override
@@ -110,16 +102,13 @@ class CustomerHomeRemoteDataSourceImpl implements CustomerHomeRemoteDataSource {
       endPoint: '${EndPoints.customerProducts}/$productId',
     );
 
-    return response.fold(
-      (failure) => Left(failure),
-      (data) {
-        try {
-          final product = ProductModel.fromJson(data['data']['product']);
-          return Right(product);
-        } catch (e) {
-          return Left(Failure('Failed to parse product details data'));
-        }
-      },
-    );
+    return response.fold((failure) => Left(failure), (data) {
+      try {
+        final product = ProductModel.fromJson(data['data']['product']);
+        return Right(product);
+      } catch (e) {
+        return Left(Failure('Failed to parse product details data'));
+      }
+    });
   }
 }

@@ -43,11 +43,7 @@ class OrdersSummaryBottomBar extends StatelessWidget {
                 valueColor: const Color(0xFF1B2028),
               ),
             ),
-            Container(
-              width: 1.w,
-              height: 40.h,
-              color: const Color(0xFFF3F4F6),
-            ),
+            Container(width: 1.w, height: 40.h, color: const Color(0xFFF3F4F6)),
             Expanded(
               child: OrdersSummaryItemWidget(
                 icon: Icons.account_balance_wallet_outlined,

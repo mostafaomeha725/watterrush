@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/utils/spacing.dart';
@@ -25,11 +25,7 @@ class SpecialOffersStatsBar extends StatelessWidget {
       ),
       child: Row(
         children: <Widget>[
-          Icon(
-            Icons.bolt_rounded,
-            size: 18.sp,
-            color: const Color(0xFF1E73D9),
-          ),
+          Icon(Icons.bolt_rounded, size: 18.sp, color: const Color(0xFF1E73D9)),
           horizontalSpacing(8),
           Expanded(
             child: AppText(

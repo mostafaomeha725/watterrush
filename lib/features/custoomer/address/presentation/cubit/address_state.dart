@@ -2,9 +2,13 @@ import 'package:equatable/equatable.dart';
 import '../../domain/entities/address_entity.dart';
 
 enum AddressStatus { initial, loading, success, failure }
+
 enum AddressCreateStatus { initial, loading, success, failure }
+
 enum AddressUpdateStatus { initial, loading, success, failure }
+
 enum AddressSetDefaultStatus { initial, loading, success, failure }
+
 enum AddressDeleteStatus { initial, loading, success, failure }
 
 class AddressState extends Equatable {
@@ -70,24 +74,25 @@ class AddressState extends Equatable {
       errorMessage: errorMessage ?? this.errorMessage,
       createErrorMessage: createErrorMessage ?? this.createErrorMessage,
       updateErrorMessage: updateErrorMessage ?? this.updateErrorMessage,
-      setDefaultErrorMessage: setDefaultErrorMessage ?? this.setDefaultErrorMessage,
+      setDefaultErrorMessage:
+          setDefaultErrorMessage ?? this.setDefaultErrorMessage,
       deleteErrorMessage: deleteErrorMessage ?? this.deleteErrorMessage,
     );
   }
 
   @override
   List<Object?> get props => [
-        status,
-        createStatus,
-        updateStatus,
-        setDefaultStatus,
-        deleteStatus,
-        addresses,
-        selectedAddress,
-        errorMessage,
-        createErrorMessage,
-        updateErrorMessage,
-        setDefaultErrorMessage,
-        deleteErrorMessage,
-      ];
+    status,
+    createStatus,
+    updateStatus,
+    setDefaultStatus,
+    deleteStatus,
+    addresses,
+    selectedAddress,
+    errorMessage,
+    createErrorMessage,
+    updateErrorMessage,
+    setDefaultErrorMessage,
+    deleteErrorMessage,
+  ];
 }

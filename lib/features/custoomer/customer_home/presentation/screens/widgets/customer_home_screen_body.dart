@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waterrush/core/widgets/custom_loading.dart';
 import 'package:waterrush/core/widgets/custom_snack_bar.dart';
@@ -33,8 +33,12 @@ class CustomerHomeScreenBody extends StatelessWidget {
           List<HomeCategoryViewModel> displayCategories;
 
           if (state.categories.isNotEmpty) {
-            routeCategories = mapApiCategoriesToRouteCategories(state.categories);
-            displayCategories = mapApiCategoriesToHomeCategories(state.categories);
+            routeCategories = mapApiCategoriesToRouteCategories(
+              state.categories,
+            );
+            displayCategories = mapApiCategoriesToHomeCategories(
+              state.categories,
+            );
           } else {
             routeCategories = mapToRouteCategories(customerHomeCategories);
             displayCategories = customerHomeCategories;

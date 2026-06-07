@@ -6,22 +6,15 @@ import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/ca
 class ClearCartDialog extends StatelessWidget {
   final CartCubit cartCubit;
 
-  const ClearCartDialog({
-    super.key,
-    required this.cartCubit,
-  });
+  const ClearCartDialog({super.key, required this.cartCubit});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.r),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       title: Text(
         'Clear Cart',
-        style: font14w700.copyWith(
-          color: const Color(0xFF24385B),
-        ),
+        style: font14w700.copyWith(color: const Color(0xFF24385B)),
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -29,9 +22,7 @@ class ClearCartDialog extends StatelessWidget {
         children: [
           Text(
             'Are you sure you want to remove all items from your cart?',
-            style: font12w500.copyWith(
-              color: const Color(0xFF7E8EA8),
-            ),
+            style: font12w500.copyWith(color: const Color(0xFF7E8EA8)),
           ),
         ],
       ),
@@ -40,9 +31,7 @@ class ClearCartDialog extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
           child: Text(
             'Cancel',
-            style: font14w700.copyWith(
-              color: const Color(0xFF7E8EA8),
-            ),
+            style: font14w700.copyWith(color: const Color(0xFF7E8EA8)),
           ),
         ),
         TextButton(
@@ -52,9 +41,7 @@ class ClearCartDialog extends StatelessWidget {
           },
           child: Text(
             'Clear',
-            style: font14w700.copyWith(
-              color: Colors.redAccent,
-            ),
+            style: font14w700.copyWith(color: Colors.redAccent),
           ),
         ),
       ],

@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
@@ -28,11 +28,7 @@ class ProfileInfoRow extends StatelessWidget {
               color: const Color(0xFFEEF4FF),
               borderRadius: BorderRadius.circular(12.r),
             ),
-            child: Icon(
-              icon,
-              size: 20.sp,
-              color: const Color(0xFF2E8CF5),
-            ),
+            child: Icon(icon, size: 20.sp, color: const Color(0xFF2E8CF5)),
           ),
           SizedBox(width: 12.w),
           Expanded(

@@ -5,7 +5,9 @@ import 'package:waterrush/features/custoomer/customer_home/presentation/screens/
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_view_models.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/home_models.dart';
 
-List<HomeCategoryViewModel> mapApiCategoriesToHomeCategories(List<CategoryEntity> apiCategories) {
+List<HomeCategoryViewModel> mapApiCategoriesToHomeCategories(
+  List<CategoryEntity> apiCategories,
+) {
   return apiCategories.map((cat) {
     String imageUrl = '';
     if (cat.products.isNotEmpty && cat.products.first.images.isNotEmpty) {
@@ -20,7 +22,9 @@ List<HomeCategoryViewModel> mapApiCategoriesToHomeCategories(List<CategoryEntity
   }).toList();
 }
 
-List<CategoryItemData> mapApiCategoriesToRouteCategories(List<CategoryEntity> apiCategories) {
+List<CategoryItemData> mapApiCategoriesToRouteCategories(
+  List<CategoryEntity> apiCategories,
+) {
   return apiCategories.map((cat) {
     final products = cat.products.map((p) {
       String imageUrl = '';
@@ -106,8 +110,9 @@ List<CategoryItemData> mapToRouteCategories(
       ];
     }
 
-    final int onOfferCount =
-        products.where((OfferProductItemData p) => p.isOnOffer).length;
+    final int onOfferCount = products
+        .where((OfferProductItemData p) => p.isOnOffer)
+        .length;
 
     return CategoryItemData(
       id: 0, // Fallback for mock data

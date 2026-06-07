@@ -1,4 +1,4 @@
-﻿import '../../domain/entities/category_entity.dart';
+import '../../domain/entities/category_entity.dart';
 import 'product_model.dart';
 
 class CategoryModel extends CategoryEntity {
@@ -12,7 +12,8 @@ class CategoryModel extends CategoryEntity {
     return CategoryModel(
       id: json['id'],
       name: json['name'] ?? '',
-      products: (json['products'] as List?)
+      products:
+          (json['products'] as List?)
               ?.map((e) => ProductModel.fromJson(e))
               .toList() ??
           [],

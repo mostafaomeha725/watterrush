@@ -1,4 +1,4 @@
-﻿import '../../domain/entities/product_entity.dart';
+import '../../domain/entities/product_entity.dart';
 import 'product_image_model.dart';
 
 class ProductModel extends ProductEntity {
@@ -18,7 +18,8 @@ class ProductModel extends ProductEntity {
       description: json['description'] ?? '',
       price: (json['price'] as num?)?.toDouble() ?? 0.0,
       priceBefore: (json['price_before'] as num?)?.toDouble(),
-      images: (json['images'] as List?)
+      images:
+          (json['images'] as List?)
               ?.map((e) => ProductImageModel.fromJson(e))
               .toList() ??
           [],

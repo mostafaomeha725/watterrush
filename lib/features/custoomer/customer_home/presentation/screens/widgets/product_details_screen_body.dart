@@ -41,8 +41,8 @@ class _ProductDetailsScreenBodyState extends State<ProductDetailsScreenBody> {
         }
 
         final product = state.product!;
-        final bool hasDiscount = product.priceBefore != null &&
-            product.priceBefore! > product.price;
+        final bool hasDiscount =
+            product.priceBefore != null && product.priceBefore! > product.price;
 
         String imageUrl = '';
         if (product.images.isNotEmpty) {
@@ -65,7 +65,9 @@ class _ProductDetailsScreenBodyState extends State<ProductDetailsScreenBody> {
                       child: AppText(
                         'Product Details',
                         alignment: AlignmentDirectional.center,
-                        style: font18w700.copyWith(color: const Color(0xFF223A66)),
+                        style: font18w700.copyWith(
+                          color: const Color(0xFF223A66),
+                        ),
                       ),
                     ),
                     SizedBox(width: 40.w), // Balance for back button
@@ -89,10 +91,7 @@ class _ProductDetailsScreenBodyState extends State<ProductDetailsScreenBody> {
                           borderRadius: BorderRadius.circular(24.r),
                         ),
                         child: imageUrl.isNotEmpty
-                            ? AppImage(
-                                imageUrl: imageUrl,
-                                fit: BoxFit.contain,
-                              )
+                            ? AppImage(imageUrl: imageUrl, fit: BoxFit.contain)
                             : const SizedBox(),
                       ),
                       SizedBox(height: 24.h),
@@ -100,7 +99,9 @@ class _ProductDetailsScreenBodyState extends State<ProductDetailsScreenBody> {
                       // Title
                       AppText(
                         product.title,
-                        style: font22w700.copyWith(color: const Color(0xFF153A63)),
+                        style: font22w700.copyWith(
+                          color: const Color(0xFF153A63),
+                        ),
                       ),
                       SizedBox(height: 16.h),
 
@@ -109,7 +110,9 @@ class _ProductDetailsScreenBodyState extends State<ProductDetailsScreenBody> {
                         children: <Widget>[
                           AppText(
                             'EGP ${product.price.toStringAsFixed(0)}',
-                            style: font24w700.copyWith(color: const Color(0xFF1E73D9)),
+                            style: font24w700.copyWith(
+                              color: const Color(0xFF1E73D9),
+                            ),
                           ),
                           if (hasDiscount) ...<Widget>[
                             SizedBox(width: 12.w),
@@ -128,7 +131,9 @@ class _ProductDetailsScreenBodyState extends State<ProductDetailsScreenBody> {
                       // Description
                       AppText(
                         'Description',
-                        style: font16w700.copyWith(color: const Color(0xFF153A63)),
+                        style: font16w700.copyWith(
+                          color: const Color(0xFF153A63),
+                        ),
                       ),
                       SizedBox(height: 8.h),
                       AppText(

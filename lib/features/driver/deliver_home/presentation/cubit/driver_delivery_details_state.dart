@@ -1,4 +1,4 @@
-﻿import 'package:equatable/equatable.dart';
+import 'package:equatable/equatable.dart';
 import 'package:waterrush/features/driver/deliver_home/presentation/screens/widgets/deliver_home_models.dart';
 
 class DriverDeliveryDetailsState extends Equatable {

@@ -1,4 +1,4 @@
-﻿import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:waterrush/core/utils/easy_loading.dart';
 import 'package:waterrush/core/routes/app_routes.dart';

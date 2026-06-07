@@ -11,7 +11,9 @@ class GetScheduledTimesUseCase
   GetScheduledTimesUseCase(this.repository);
 
   @override
-  Future<Either<Failure, List<ScheduledTimeEntity>>> call(NoParams params) async {
+  Future<Either<Failure, List<ScheduledTimeEntity>>> call(
+    NoParams params,
+  ) async {
     return await repository.getScheduledTimes();
   }
 }

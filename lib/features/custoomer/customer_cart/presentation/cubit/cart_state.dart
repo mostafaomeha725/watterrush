@@ -65,17 +65,17 @@ class CartLoaded extends CartState {
 
   @override
   List<Object?> get props => [
-        cart,
-        isRemoving,
-        removeError,
-        removeSuccess,
-        isClearing,
-        clearError,
-        clearSuccess,
-        isAddingToCart,
-        addToCartError,
-        addToCartSuccess,
-      ];
+    cart,
+    isRemoving,
+    removeError,
+    removeSuccess,
+    isClearing,
+    clearError,
+    clearSuccess,
+    isAddingToCart,
+    addToCartError,
+    addToCartSuccess,
+  ];
 }
 
 class CartError extends CartState {

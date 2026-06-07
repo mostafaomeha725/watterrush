@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/core/utils/spacing.dart';
 import 'package:waterrush/features/driver/deliver_home/presentation/cubit/driver_delivery_details_state.dart';
@@ -7,10 +7,7 @@ import 'package:waterrush/features/driver/deliver_home/presentation/screens/widg
 import 'package:waterrush/features/driver/deliver_home/presentation/screens/widgets/driver_delivery_status_banner.dart';
 
 class DriverDeliveryDetailsHeader extends StatelessWidget {
-  const DriverDeliveryDetailsHeader({
-    super.key,
-    required this.state,
-  });
+  const DriverDeliveryDetailsHeader({super.key, required this.state});
 
   final DriverDeliveryDetailsState state;
 
@@ -68,9 +65,7 @@ class DriverDeliveryDetailsHeader extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(14.w, 10.h, 14.w, 16.h),
           child: Column(
             children: <Widget>[
-              DriverDeliveryHeaderTopRow(
-                state: state,
-              ),
+              DriverDeliveryHeaderTopRow(state: state),
               verticalSpacing(10),
               DriverDeliveryStatusBanner(
                 title: stageTitle,

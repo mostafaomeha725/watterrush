@@ -114,18 +114,27 @@ class CheckoutDeliveryTimeSection extends StatelessWidget {
                 return GestureDetector(
                   onTap: () => onScheduledTimeSelected(time.id),
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 8.h,
+                    ),
                     decoration: BoxDecoration(
-                      color: isSelected ? const Color(0xFF1E73D9) : Colors.white,
+                      color: isSelected
+                          ? const Color(0xFF1E73D9)
+                          : Colors.white,
                       borderRadius: BorderRadius.circular(20.r),
                       border: Border.all(
-                        color: isSelected ? const Color(0xFF1E73D9) : const Color(0xFFE3E8EF),
+                        color: isSelected
+                            ? const Color(0xFF1E73D9)
+                            : const Color(0xFFE3E8EF),
                       ),
                     ),
                     child: AppText(
                       '${time.label} (${time.timeFrom} - ${time.timeTo})',
                       style: font12w500.copyWith(
-                        color: isSelected ? Colors.white : const Color(0xFF0F2B46),
+                        color: isSelected
+                            ? Colors.white
+                            : const Color(0xFF0F2B46),
                       ),
                     ),
                   ),

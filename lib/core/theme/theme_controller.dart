@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 class ThemeController extends InheritedWidget {
   final ThemeMode themeMode;

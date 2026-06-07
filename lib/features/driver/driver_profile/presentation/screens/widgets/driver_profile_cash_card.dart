@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
@@ -58,19 +58,14 @@ class DriverProfileCashCard extends StatelessWidget {
                   SizedBox(height: 2.h),
                   AppText(
                     'Collected — hand to supervisor',
-                    style: font12w500.copyWith(
-                      color: const Color(0xFFCCF7E8),
-                    ),
+                    style: font12w500.copyWith(color: const Color(0xFFCCF7E8)),
                   ),
                 ],
               ),
             ],
           ),
           SizedBox(height: 16.h),
-          Container(
-            height: 1.h,
-            color: const Color(0x30FFFFFF),
-          ),
+          Container(height: 1.h, color: const Color(0x30FFFFFF)),
           SizedBox(height: 14.h),
           AppText(
             profile.cashCollected,

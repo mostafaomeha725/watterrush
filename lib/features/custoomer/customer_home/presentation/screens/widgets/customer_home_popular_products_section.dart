@@ -49,7 +49,10 @@ class CustomerHomePopularProductsSection extends StatelessWidget {
                     return CustomerHomePopularProductCard(
                       product: product,
                       onAddToCart: (int quantity) {
-                        context.read<CartCubit>().addToCart(product.id, quantity);
+                        context.read<CartCubit>().addToCart(
+                          product.id,
+                          quantity,
+                        );
                       },
                     );
                   },

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/widgets/checkout_header.dart';
-import 'package:waterrush/features/custoomer/customer_orders/presentation/screens/widgets/orders_dummy_data.dart';
+import 'package:waterrush/features/custoomer/customer_orders/domain/entities/customer_order_entity.dart';
 import 'order_details_banner_widget.dart';
 import 'order_details_info_cards_widget.dart';
 import 'order_progress_timeline_widget.dart';
@@ -11,17 +11,12 @@ import 'order_details_summary_widget.dart';
 import 'order_details_address_widget.dart';
 
 class CustomerOrderDetailsScreenBody extends StatelessWidget {
-  final String orderId;
+  final CustomerOrderEntity order;
 
-  const CustomerOrderDetailsScreenBody({super.key, required this.orderId});
+  const CustomerOrderDetailsScreenBody({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {
-    // Find order or fallback to first
-    final order = OrdersDummyData.orders.firstWhere(
-      (o) => o.id == orderId,
-      orElse: () => OrdersDummyData.orders.first,
-    );
 
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),

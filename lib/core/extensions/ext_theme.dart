@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 extension ExtTheme on BuildContext {
   ThemeData get theme => Theme.of(this);

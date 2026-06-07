@@ -1,4 +1,4 @@
-﻿class HomeBannerViewModel {
+class HomeBannerViewModel {
   const HomeBannerViewModel({
     required this.title,
     required this.subtitle,

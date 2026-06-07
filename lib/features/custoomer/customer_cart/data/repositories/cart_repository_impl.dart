@@ -34,17 +34,28 @@ class CartRepositoryImpl implements CartRepository {
   }
 
   @override
-  Future<Either<Failure, OrderEntity>> placeOrder(PlaceOrderParams params) async {
+  Future<Either<Failure, OrderEntity>> placeOrder(
+    PlaceOrderParams params,
+  ) async {
     return await remoteDataSource.placeOrder(params);
   }
 
   @override
   Future<Either<Failure, void>> addToCart(AddToCartParams params) async {
-    return await remoteDataSource.addToCart(productId: params.productId, quantity: params.quantity);
+    return await remoteDataSource.addToCart(
+      productId: params.productId,
+      quantity: params.quantity,
+    );
   }
 
   @override
-  Future<Either<Failure, void>> updateCartItem({required int itemId, required int quantity}) async {
-    return await remoteDataSource.updateCartItem(itemId: itemId, quantity: quantity);
+  Future<Either<Failure, void>> updateCartItem({
+    required int itemId,
+    required int quantity,
+  }) async {
+    return await remoteDataSource.updateCartItem(
+      itemId: itemId,
+      quantity: quantity,
+    );
   }
 }

@@ -1,4 +1,4 @@
-﻿enum PreferencesKeys {
+enum PreferencesKeys {
   currentLanguage,
   currentCurrency,
   fcmToken,

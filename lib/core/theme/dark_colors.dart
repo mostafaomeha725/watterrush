@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 class AppDarkColors {
   static const Color formFieldBorder = Color(0xFFE8E8E8);

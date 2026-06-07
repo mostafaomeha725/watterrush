@@ -18,13 +18,14 @@ class CreateAddressBottomSheet extends StatefulWidget {
   const CreateAddressBottomSheet({super.key});
 
   @override
-  State<CreateAddressBottomSheet> createState() => _CreateAddressBottomSheetState();
+  State<CreateAddressBottomSheet> createState() =>
+      _CreateAddressBottomSheetState();
 }
 
 class _CreateAddressBottomSheetState extends State<CreateAddressBottomSheet> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _addressTextController = TextEditingController();
-  
+
   String? _selectedMapAddress;
   String? _errorMessage;
   double? _selectedMapLatitude;
@@ -39,7 +40,9 @@ class _CreateAddressBottomSheetState extends State<CreateAddressBottomSheet> {
 
   void _saveAddress() {
     if (_titleController.text.trim().isEmpty) {
-      setState(() => _errorMessage = 'Please enter a title (e.g. Home, Office)');
+      setState(
+        () => _errorMessage = 'Please enter a title (e.g. Home, Office)',
+      );
       return;
     }
     if (_selectedMapLatitude == null || _selectedMapLongitude == null) {
@@ -50,25 +53,29 @@ class _CreateAddressBottomSheetState extends State<CreateAddressBottomSheet> {
       setState(() => _errorMessage = 'Please enter your address details');
       return;
     }
-    
+
     setState(() => _errorMessage = null);
 
     context.read<AddressCubit>().createAddress(
-          title: _titleController.text.trim(),
-          address: _addressTextController.text.trim(),
-          lat: _selectedMapLatitude!.toString(),
-          lng: _selectedMapLongitude!.toString(),
-          isDefault: false,
-        );
+      title: _titleController.text.trim(),
+      address: _addressTextController.text.trim(),
+      lat: _selectedMapLatitude!.toString(),
+      lng: _selectedMapLongitude!.toString(),
+      isDefault: false,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<AddressCubit, AddressState>(
-      listenWhen: (previous, current) => previous.createStatus != current.createStatus,
+      listenWhen: (previous, current) =>
+          previous.createStatus != current.createStatus,
       listener: (context, state) {
         if (state.createStatus == AddressCreateStatus.success) {
-          Helpers.showSuccessSnack(context: context, message: 'Address added successfully');
+          Helpers.showSuccessSnack(
+            context: context,
+            message: 'Address added successfully',
+          );
           Navigator.pop(context); // close bottom sheet
         } else if (state.createStatus == AddressCreateStatus.failure) {
           setState(() => _errorMessage = state.createErrorMessage);
@@ -153,12 +160,16 @@ class _CreateAddressBottomSheetState extends State<CreateAddressBottomSheet> {
               BlocBuilder<AddressCubit, AddressState>(
                 builder: (context, state) {
                   return AppButton(
-                    text: state.createStatus == AddressCreateStatus.loading ? 'Saving...' : 'Save Address',
+                    text: state.createStatus == AddressCreateStatus.loading
+                        ? 'Saving...'
+                        : 'Save Address',
                     color: AppLightColors.buttonColor,
                     textSize: 16.sp,
                     textWeight: FontWeight.w700,
                     radius: 14.r,
-                    onPressed: state.createStatus == AddressCreateStatus.loading ? () {} : _saveAddress,
+                    onPressed: state.createStatus == AddressCreateStatus.loading
+                        ? () {}
+                        : _saveAddress,
                   );
                 },
               ),

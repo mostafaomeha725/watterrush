@@ -46,7 +46,9 @@ class CartPromoCodeCard extends StatelessWidget {
               child: AppFormField(
                 controller: controller,
                 hintText: 'Enter promo code',
-                fillColor: isApplied ? Colors.grey[200] : AppLightColors.defaultBackground,
+                fillColor: isApplied
+                    ? Colors.grey[200]
+                    : AppLightColors.defaultBackground,
                 radius: 30.r,
                 borderColor: const Color(0xFFD2D8E1),
                 focusedBorderColor: const Color(0xFF14AED3),

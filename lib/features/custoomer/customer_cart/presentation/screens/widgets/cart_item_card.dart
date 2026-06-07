@@ -47,7 +47,8 @@ class CartItemCard extends StatelessWidget {
               imageUrl: item.image,
               fit: BoxFit.cover,
               placeholder: (context, url) => const CupertinoActivityIndicator(),
-              errorWidget: (context, url, error) => AppAsset(assetName: Assets.test, fit: BoxFit.cover),
+              errorWidget: (context, url, error) =>
+                  AppAsset(assetName: Assets.test, fit: BoxFit.cover),
             ),
           ),
 

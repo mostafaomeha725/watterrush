@@ -36,12 +36,20 @@ class CartCubit extends Cubit<CartState> {
   Future<void> removeCartItem(int itemId) async {
     if (state is! CartLoaded) return;
     final currentState = state as CartLoaded;
-    
-    emit(currentState.copyWith(isRemoving: true, removeSuccess: false, removeError: null));
-    
+
+    emit(
+      currentState.copyWith(
+        isRemoving: true,
+        removeSuccess: false,
+        removeError: null,
+      ),
+    );
+
     final result = await removeCartItemUseCase(itemId);
     result.fold(
-      (Failure failure) => emit(currentState.copyWith(isRemoving: false, removeError: failure.message)),
+      (Failure failure) => emit(
+        currentState.copyWith(isRemoving: false, removeError: failure.message),
+      ),
       (_) {
         emit(currentState.copyWith(isRemoving: false, removeSuccess: true));
         // Refresh cart after success
@@ -53,12 +61,20 @@ class CartCubit extends Cubit<CartState> {
   Future<void> clearCart() async {
     if (state is! CartLoaded) return;
     final currentState = state as CartLoaded;
-    
-    emit(currentState.copyWith(isClearing: true, clearSuccess: false, clearError: null));
-    
+
+    emit(
+      currentState.copyWith(
+        isClearing: true,
+        clearSuccess: false,
+        clearError: null,
+      ),
+    );
+
     final result = await clearCartUseCase();
     result.fold(
-      (Failure failure) => emit(currentState.copyWith(isClearing: false, clearError: failure.message)),
+      (Failure failure) => emit(
+        currentState.copyWith(isClearing: false, clearError: failure.message),
+      ),
       (_) {
         emit(currentState.copyWith(isClearing: false, clearSuccess: true));
         // Refresh cart after success
@@ -75,20 +91,33 @@ class CartCubit extends Cubit<CartState> {
       // For simplicity, if not loaded, we load it first, then add.
       // Or we can just perform the add and then fetch cart.
     }
-    
+
     // We emit state based on whether Cart is loaded or not.
     // If it's loaded, we copy state.
     if (state is CartLoaded) {
       final currentState = state as CartLoaded;
-      emit(currentState.copyWith(isAddingToCart: true, addToCartSuccess: false, addToCartError: null));
+      emit(
+        currentState.copyWith(
+          isAddingToCart: true,
+          addToCartSuccess: false,
+          addToCartError: null,
+        ),
+      );
     }
-    
-    final result = await addToCartUseCase(AddToCartParams(productId: productId, quantity: quantity));
-    
+
+    final result = await addToCartUseCase(
+      AddToCartParams(productId: productId, quantity: quantity),
+    );
+
     result.fold(
       (Failure failure) {
         if (state is CartLoaded) {
-          emit((state as CartLoaded).copyWith(isAddingToCart: false, addToCartError: failure.message));
+          emit(
+            (state as CartLoaded).copyWith(
+              isAddingToCart: false,
+              addToCartError: failure.message,
+            ),
+          );
         } else {
           // If not loaded, we could emit an error state or a specific notification state
           // We will just let the UI handle the error if it was listening, but mostly UI listens to CartLoaded.
@@ -98,7 +127,12 @@ class CartCubit extends Cubit<CartState> {
       },
       (_) {
         if (state is CartLoaded) {
-          emit((state as CartLoaded).copyWith(isAddingToCart: false, addToCartSuccess: true));
+          emit(
+            (state as CartLoaded).copyWith(
+              isAddingToCart: false,
+              addToCartSuccess: true,
+            ),
+          );
         }
         // Refresh cart after successful add
         getCart();
@@ -109,13 +143,13 @@ class CartCubit extends Cubit<CartState> {
   Future<void> updateCartItem(int itemId, int quantity) async {
     if (state is CartLoaded) {
       final currentState = state as CartLoaded;
-      
+
       final oldItems = currentState.cart.items;
       final itemIndex = oldItems.indexWhere((item) => item.id == itemId);
-      
+
       if (itemIndex != -1) {
         final oldItem = oldItems[itemIndex];
-        
+
         final newItem = CartItemEntity(
           id: oldItem.id,
           productId: oldItem.productId,
@@ -126,44 +160,64 @@ class CartCubit extends Cubit<CartState> {
           quantity: quantity,
           itemSubtotal: oldItem.price * quantity,
         );
-        
+
         final newItems = List<CartItemEntity>.from(oldItems);
         newItems[itemIndex] = newItem;
-        
+
         num newTotal = 0;
         for (var item in newItems) {
           newTotal += item.itemSubtotal;
         }
-        
+
         final newCart = CartEntity(
           id: currentState.cart.id,
           items: newItems,
           total: newTotal,
         );
-        
-        emit(currentState.copyWith(
-          cart: newCart,
-          isAddingToCart: true, 
-          addToCartSuccess: false, 
-          addToCartError: null,
-        ));
+
+        emit(
+          currentState.copyWith(
+            cart: newCart,
+            isAddingToCart: true,
+            addToCartSuccess: false,
+            addToCartError: null,
+          ),
+        );
       } else {
-        emit(currentState.copyWith(isAddingToCart: true, addToCartSuccess: false, addToCartError: null));
+        emit(
+          currentState.copyWith(
+            isAddingToCart: true,
+            addToCartSuccess: false,
+            addToCartError: null,
+          ),
+        );
       }
     }
-    
-    final result = await updateCartItemUseCase(UpdateCartItemParams(itemId: itemId, quantity: quantity));
-    
+
+    final result = await updateCartItemUseCase(
+      UpdateCartItemParams(itemId: itemId, quantity: quantity),
+    );
+
     result.fold(
       (Failure failure) {
         if (state is CartLoaded) {
-          emit((state as CartLoaded).copyWith(isAddingToCart: false, addToCartError: failure.message));
+          emit(
+            (state as CartLoaded).copyWith(
+              isAddingToCart: false,
+              addToCartError: failure.message,
+            ),
+          );
           _getCartSilently(); // Revert to true state
         }
       },
       (_) {
         if (state is CartLoaded) {
-          emit((state as CartLoaded).copyWith(isAddingToCart: false, addToCartSuccess: false));
+          emit(
+            (state as CartLoaded).copyWith(
+              isAddingToCart: false,
+              addToCartSuccess: false,
+            ),
+          );
         }
         // Refresh cart silently to ensure backend calculation accuracy without UI jump
         _getCartSilently();

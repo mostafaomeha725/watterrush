@@ -8,7 +8,10 @@ class UpdateCartItemUseCase {
   UpdateCartItemUseCase(this.repository);
 
   Future<Either<Failure, void>> call(UpdateCartItemParams params) async {
-    return await repository.updateCartItem(itemId: params.itemId, quantity: params.quantity);
+    return await repository.updateCartItem(
+      itemId: params.itemId,
+      quantity: params.quantity,
+    );
   }
 }
 

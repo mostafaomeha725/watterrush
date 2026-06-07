@@ -48,15 +48,19 @@ class CustomerHomeCubit extends Cubit<CustomerHomeState> {
     emit(state.copyWith(slidersStatus: CustomerHomeStatus.loading));
     final result = await getSlidersUseCase();
     result.fold(
-      (failure) => emit(state.copyWith(
-        slidersStatus: CustomerHomeStatus.initial,
-        message: failure.message,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          slidersStatus: CustomerHomeStatus.initial,
+          message: failure.message,
+        ),
+      ),
       (sliders) {
-        emit(state.copyWith(
-          slidersStatus: CustomerHomeStatus.success,
-          sliders: sliders,
-        ));
+        emit(
+          state.copyWith(
+            slidersStatus: CustomerHomeStatus.success,
+            sliders: sliders,
+          ),
+        );
         _startAutoSlide(); // restart auto slide with real slider count
       },
     );
@@ -66,15 +70,19 @@ class CustomerHomeCubit extends Cubit<CustomerHomeState> {
     emit(state.copyWith(categoriesStatus: CustomerHomeStatus.loading));
     final result = await getCategoriesUseCase();
     result.fold(
-      (failure) => emit(state.copyWith(
-        categoriesStatus: CustomerHomeStatus.initial,
-        message: failure.message,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          categoriesStatus: CustomerHomeStatus.initial,
+          message: failure.message,
+        ),
+      ),
       (categories) {
-        emit(state.copyWith(
-          categoriesStatus: CustomerHomeStatus.success,
-          categories: categories,
-        ));
+        emit(
+          state.copyWith(
+            categoriesStatus: CustomerHomeStatus.success,
+            categories: categories,
+          ),
+        );
       },
     );
   }
@@ -83,15 +91,19 @@ class CustomerHomeCubit extends Cubit<CustomerHomeState> {
     emit(state.copyWith(popularProductsStatus: CustomerHomeStatus.loading));
     final result = await getPopularProductsUseCase();
     result.fold(
-      (failure) => emit(state.copyWith(
-        popularProductsStatus: CustomerHomeStatus.initial,
-        message: failure.message,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          popularProductsStatus: CustomerHomeStatus.initial,
+          message: failure.message,
+        ),
+      ),
       (products) {
-        emit(state.copyWith(
-          popularProductsStatus: CustomerHomeStatus.success,
-          popularProducts: products,
-        ));
+        emit(
+          state.copyWith(
+            popularProductsStatus: CustomerHomeStatus.success,
+            popularProducts: products,
+          ),
+        );
       },
     );
   }

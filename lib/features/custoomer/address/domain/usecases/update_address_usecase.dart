@@ -8,7 +8,9 @@ class UpdateAddressUseCase {
 
   UpdateAddressUseCase(this.repository);
 
-  Future<Either<Failure, AddressEntity>> call(UpdateAddressParams params) async {
+  Future<Either<Failure, AddressEntity>> call(
+    UpdateAddressParams params,
+  ) async {
     return await repository.updateAddress(params);
   }
 }

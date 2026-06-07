@@ -1,4 +1,4 @@
-﻿import 'package:waterrush/core/widgets/nav_bar_item.dart';
+import 'package:waterrush/core/widgets/nav_bar_item.dart';
 import 'package:waterrush/core/widgets/navigation_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

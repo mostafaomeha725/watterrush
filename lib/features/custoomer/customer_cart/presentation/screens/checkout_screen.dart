@@ -16,9 +16,7 @@ class CheckoutScreen extends StatelessWidget {
         BlocProvider(
           create: (context) => sl<CheckoutCubit>()..getScheduledTimes(),
         ),
-        BlocProvider(
-          create: (context) => sl<AddressCubit>(),
-        ),
+        BlocProvider(create: (context) => sl<AddressCubit>()),
       ],
       child: Scaffold(
         backgroundColor: const Color(0xFFF8F9FA),

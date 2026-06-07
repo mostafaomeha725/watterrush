@@ -11,9 +11,9 @@ class ProductDetailsState extends Equatable {
   });
 
   factory ProductDetailsState.initial() => const ProductDetailsState(
-        status: ProductDetailsStatus.initial,
-        message: '',
-      );
+    status: ProductDetailsStatus.initial,
+    message: '',
+  );
 
   final ProductDetailsStatus status;
   final String message;

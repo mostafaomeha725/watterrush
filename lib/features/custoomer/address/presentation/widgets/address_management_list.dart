@@ -45,16 +45,11 @@ class AddressManagementList extends StatelessWidget {
         } else if (state.status == AddressStatus.failure) {
           return Center(child: AppText(state.errorMessage));
         } else if (state.addresses.isEmpty) {
-          return const Center(
-            child: AppText('No saved addresses yet.'),
-          );
+          return const Center(child: AppText('No saved addresses yet.'));
         }
 
         return ListView.separated(
-          padding: EdgeInsets.symmetric(
-            horizontal: 22.w,
-            vertical: 8.h,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 8.h),
           itemCount: state.addresses.length,
           separatorBuilder: (context, index) => verticalSpacing(12),
           itemBuilder: (context, index) {

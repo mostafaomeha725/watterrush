@@ -1,4 +1,4 @@
-﻿import 'package:bloc/bloc.dart';
+import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import '../../../domain/entities/customer_entity.dart';
 import '../../../domain/usecases/register_customer_usecase.dart';

@@ -24,13 +24,16 @@ class CustomerHomeOfferSectionCard extends StatelessWidget {
           child: PageView.builder(
             controller: cubit.bannerController,
             clipBehavior: Clip.none,
-            itemCount: cubit.state.sliders.isNotEmpty 
-                ? cubit.state.sliders.length 
+            itemCount: cubit.state.sliders.isNotEmpty
+                ? cubit.state.sliders.length
                 : customerHomeBanners.length,
             onPageChanged: cubit.onBannerChanged,
             itemBuilder: (context, index) {
-              final data = customerHomeBanners[index % customerHomeBanners.length];
-              final slider = cubit.state.sliders.isNotEmpty ? cubit.state.sliders[index] : null;
+              final data =
+                  customerHomeBanners[index % customerHomeBanners.length];
+              final slider = cubit.state.sliders.isNotEmpty
+                  ? cubit.state.sliders[index]
+                  : null;
 
               return CustomerHomeOfferBanner(
                 data: data,
@@ -42,8 +45,8 @@ class CustomerHomeOfferSectionCard extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
         CustomerHomeOfferBannerIndicator(
-          itemCount: cubit.state.sliders.isNotEmpty 
-              ? cubit.state.sliders.length 
+          itemCount: cubit.state.sliders.isNotEmpty
+              ? cubit.state.sliders.length
               : customerHomeBanners.length,
           currentIndex: cubit.state.currentBannerIndex,
         ),

@@ -17,14 +17,10 @@ class DeleteAddressDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.r),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       title: Text(
         'Delete Address',
-        style: font14w700.copyWith(
-          color: const Color(0xFF24385B),
-        ),
+        style: font14w700.copyWith(color: const Color(0xFF24385B)),
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -32,9 +28,7 @@ class DeleteAddressDialog extends StatelessWidget {
         children: [
           Text(
             'Are you sure you want to delete ${address.title}?',
-            style: font12w500.copyWith(
-              color: const Color(0xFF7E8EA8),
-            ),
+            style: font12w500.copyWith(color: const Color(0xFF7E8EA8)),
           ),
         ],
       ),
@@ -43,9 +37,7 @@ class DeleteAddressDialog extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
           child: Text(
             'Cancel',
-            style: font14w700.copyWith(
-              color: const Color(0xFF7E8EA8),
-            ),
+            style: font14w700.copyWith(color: const Color(0xFF7E8EA8)),
           ),
         ),
         TextButton(
@@ -55,9 +47,7 @@ class DeleteAddressDialog extends StatelessWidget {
           },
           child: Text(
             'Delete',
-            style: font14w700.copyWith(
-              color: Colors.redAccent,
-            ),
+            style: font14w700.copyWith(color: Colors.redAccent),
           ),
         ),
       ],

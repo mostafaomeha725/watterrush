@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'orders_dummy_data.dart';
+import 'package:waterrush/features/custoomer/customer_orders/domain/entities/customer_order_entity.dart';
 
 extension OrderStatusExtension on OrderStatus {
   Color get statusColor {

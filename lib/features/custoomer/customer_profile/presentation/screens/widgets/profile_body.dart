@@ -72,10 +72,14 @@ class _ProfileBodyState extends State<ProfileBody> {
                             String location = 'Loading...';
                             String? locationTitle;
                             if (addressState.status == AddressStatus.success) {
-                              final defaultAddress = addressState.defaultAddress;
-                              location = defaultAddress?.address ?? 'No saved location';
+                              final defaultAddress =
+                                  addressState.defaultAddress;
+                              location =
+                                  defaultAddress?.address ??
+                                  'No saved location';
                               locationTitle = defaultAddress?.title;
-                            } else if (addressState.status == AddressStatus.failure) {
+                            } else if (addressState.status ==
+                                AddressStatus.failure) {
                               location = 'Failed to load location';
                             }
                             return GestureDetector(

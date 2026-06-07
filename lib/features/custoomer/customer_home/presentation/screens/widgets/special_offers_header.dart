@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:waterrush/core/theme/styles.dart';
@@ -21,9 +21,7 @@ class SpecialOffersHeader extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
-        border: Border(
-          bottom: BorderSide(color: Color(0xFFECF1F8)),
-        ),
+        border: Border(bottom: BorderSide(color: Color(0xFFECF1F8))),
       ),
       child: SafeArea(
         bottom: false,

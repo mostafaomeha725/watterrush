@@ -31,7 +31,11 @@ class CustomerHomeOfferBanner extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.r),
               gradient: const LinearGradient(
-                colors: [Color(0xFF0344B8), Color(0xFF1B7CF0), Color(0xFF86CEFF)],
+                colors: [
+                  Color(0xFF0344B8),
+                  Color(0xFF1B7CF0),
+                  Color(0xFF86CEFF),
+                ],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),

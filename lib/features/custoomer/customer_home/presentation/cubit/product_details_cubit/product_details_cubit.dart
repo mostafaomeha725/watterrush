@@ -17,15 +17,19 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     emit(state.copyWith(status: ProductDetailsStatus.loading));
     final result = await getProductDetailsUseCase(productId);
     result.fold(
-      (failure) => emit(state.copyWith(
-        status: ProductDetailsStatus.failure,
-        message: failure.message,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          status: ProductDetailsStatus.failure,
+          message: failure.message,
+        ),
+      ),
       (product) {
-        emit(state.copyWith(
-          status: ProductDetailsStatus.success,
-          product: product,
-        ));
+        emit(
+          state.copyWith(
+            status: ProductDetailsStatus.success,
+            product: product,
+          ),
+        );
       },
     );
   }

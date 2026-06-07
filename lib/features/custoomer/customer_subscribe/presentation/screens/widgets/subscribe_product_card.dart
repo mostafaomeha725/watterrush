@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/utils/spacing.dart';
@@ -118,16 +118,14 @@ class SubscribeProductCard extends StatelessWidget {
                     : null,
                 color: selected ? null : Colors.transparent,
                 border: Border.all(
-                  color: selected ? Colors.transparent : const Color(0xFFCBD5E1),
+                  color: selected
+                      ? Colors.transparent
+                      : const Color(0xFFCBD5E1),
                   width: 2,
                 ),
               ),
               child: selected
-                  ? Icon(
-                      Icons.check_rounded,
-                      size: 14.sp,
-                      color: Colors.white,
-                    )
+                  ? Icon(Icons.check_rounded, size: 14.sp, color: Colors.white)
                   : null,
             ),
           ],

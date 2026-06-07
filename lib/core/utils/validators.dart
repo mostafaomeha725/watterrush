@@ -1,4 +1,4 @@
-﻿class Validators {
+class Validators {
   static bool isValidEmail(String email) {
     return RegExp(
       r'^[a-zA-Z]\w*([_.-]\w*)?@[a-zA-Z\d]+([.-][a-zA-Z\d]+)*\.[a-zA-Z]{2,}$',

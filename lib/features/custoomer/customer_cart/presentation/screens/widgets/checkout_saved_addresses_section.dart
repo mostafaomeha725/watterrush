@@ -32,11 +32,11 @@ class CheckoutSavedAddressesSection extends StatelessWidget {
         ),
         verticalSpacing(12),
         if (addresses.isEmpty) ...[
-           AppText(
-             'No saved addresses found. Please add a new address.',
-             style: font14w400.copyWith(color: Colors.grey),
-           ),
-           verticalSpacing(10),
+          AppText(
+            'No saved addresses found. Please add a new address.',
+            style: font14w400.copyWith(color: Colors.grey),
+          ),
+          verticalSpacing(10),
         ] else ...[
           ListView.separated(
             shrinkWrap: true,
@@ -48,8 +48,8 @@ class CheckoutSavedAddressesSection extends StatelessWidget {
               return CheckoutAddressCard(
                 title: address.title,
                 address: address.address,
-                icon: address.title.toLowerCase().contains('office') 
-                    ? Icons.work_outline_rounded 
+                icon: address.title.toLowerCase().contains('office')
+                    ? Icons.work_outline_rounded
                     : Icons.home_outlined,
                 isSelected: address.id == selectedAddressId,
                 onTap: () => onAddressSelected(address.id),

@@ -1,4 +1,4 @@
-﻿class AppStrings {
+class AppStrings {
   static const String baseUrl =
       'https://optima-software-solutions.com/waterrush/api/';
   static const String perPage = '10';

@@ -1,4 +1,4 @@
-﻿import '../../domain/entities/slider_entity.dart';
+import '../../domain/entities/slider_entity.dart';
 
 class SliderModel extends SliderEntity {
   const SliderModel({

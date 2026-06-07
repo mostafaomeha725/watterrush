@@ -29,13 +29,14 @@ class _CustomerHomePopularProductCardState
 
   @override
   Widget build(BuildContext context) {
-    final bool hasDiscount = widget.product.priceBefore != null &&
+    final bool hasDiscount =
+        widget.product.priceBefore != null &&
         widget.product.priceBefore! > widget.product.price;
     final int discountPercentage = hasDiscount
         ? (((widget.product.priceBefore! - widget.product.price) /
-                    widget.product.priceBefore!) *
-                100)
-            .round()
+                      widget.product.priceBefore!) *
+                  100)
+              .round()
         : 0;
 
     String imageUrl = '';
@@ -44,7 +45,8 @@ class _CustomerHomePopularProductCardState
     }
 
     return GestureDetector(
-      onTap: () => context.push(Routes.productDetailsScreen, extra: widget.product.id),
+      onTap: () =>
+          context.push(Routes.productDetailsScreen, extra: widget.product.id),
       child: Container(
         width: 175.w, // Slightly increased width to fit actions
         margin: EdgeInsets.only(right: 12.w),

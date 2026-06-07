@@ -32,7 +32,7 @@ class _CheckoutScreenBodyState extends State<CheckoutScreenBody> {
   final TextEditingController _instructionsController = TextEditingController();
 
   bool _isScheduleSelected = false;
-  
+
   int? _selectedScheduledTimeId;
   int? _selectedAddressId;
 
@@ -59,21 +59,32 @@ class _CheckoutScreenBodyState extends State<CheckoutScreenBody> {
 
   void _proceedToPayment(BuildContext context) {
     if (_selectedAddressId == null) {
-      Helpers.showErrorSnack(context: context, message: 'Please select a delivery address');
+      Helpers.showErrorSnack(
+        context: context,
+        message: 'Please select a delivery address',
+      );
       return;
     }
 
     if (_isScheduleSelected) {
       if (_dateTimeController.text.isEmpty) {
-        Helpers.showErrorSnack(context: context, message: 'Please select a delivery date');
+        Helpers.showErrorSnack(
+          context: context,
+          message: 'Please select a delivery date',
+        );
         return;
       }
       if (_selectedScheduledTimeId == null) {
-        Helpers.showErrorSnack(context: context, message: 'Please select a scheduled time slot');
+        Helpers.showErrorSnack(
+          context: context,
+          message: 'Please select a scheduled time slot',
+        );
         return;
       }
     } else {
-      _dateTimeController.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
+      _dateTimeController.text = DateFormat(
+        'yyyy-MM-dd',
+      ).format(DateTime.now());
       final state = context.read<CheckoutCubit>().state;
       if (state.scheduledTimes.isNotEmpty) {
         _selectedScheduledTimeId = state.scheduledTimes.first.id;
@@ -112,9 +123,15 @@ class _CheckoutScreenBodyState extends State<CheckoutScreenBody> {
     return BlocConsumer<CheckoutCubit, CheckoutState>(
       listener: (context, state) {
         if (state.placeOrderStatus == CheckoutStatus.failure) {
-          Helpers.showErrorSnack(context: context, message: state.placeOrderMessage);
+          Helpers.showErrorSnack(
+            context: context,
+            message: state.placeOrderMessage,
+          );
         } else if (state.placeOrderStatus == CheckoutStatus.success) {
-          Helpers.showSuccessSnack(context: context, message: 'Order created successfully!');
+          Helpers.showSuccessSnack(
+            context: context,
+            message: 'Order created successfully!',
+          );
           context.go(Routes.mainNavigationScreen, extra: true);
         }
       },
@@ -161,16 +178,21 @@ class _CheckoutScreenBodyState extends State<CheckoutScreenBody> {
                         verticalSpacing(24),
                         BlocBuilder<AddressCubit, AddressState>(
                           builder: (context, addressState) {
-                            if (addressState.status == AddressStatus.loading && addressState.addresses.isEmpty) {
-                              return const Center(child: CircularProgressIndicator());
+                            if (addressState.status == AddressStatus.loading &&
+                                addressState.addresses.isEmpty) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
                             }
-                            
+
                             // Auto select the default address if nothing is selected
                             if (_selectedAddressId == null) {
                               if (addressState.selectedAddress != null) {
-                                _selectedAddressId = addressState.selectedAddress!.id;
+                                _selectedAddressId =
+                                    addressState.selectedAddress!.id;
                               } else if (addressState.addresses.isNotEmpty) {
-                                _selectedAddressId = addressState.addresses.first.id;
+                                _selectedAddressId =
+                                    addressState.addresses.first.id;
                               }
                             }
 
@@ -203,15 +225,15 @@ class _CheckoutScreenBodyState extends State<CheckoutScreenBody> {
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 16.h),
                   child: AppButton(
-                    text: state.placeOrderStatus == CheckoutStatus.loading 
-                        ? 'Placing Order...' 
+                    text: state.placeOrderStatus == CheckoutStatus.loading
+                        ? 'Placing Order...'
                         : 'Continue to Payment / Place Order',
                     color: AppLightColors.buttonColor,
                     textSize: 16.sp,
                     textWeight: FontWeight.w700,
                     radius: 14.r,
-                    onPressed: state.placeOrderStatus == CheckoutStatus.loading 
-                        ? () {} 
+                    onPressed: state.placeOrderStatus == CheckoutStatus.loading
+                        ? () {}
                         : () => _proceedToPayment(context),
                   ),
                 ),

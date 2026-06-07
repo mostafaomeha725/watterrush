@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:waterrush/features/auth/presentation/widgets/otp_screen_body.dart';
 
 class OtpScreen extends StatelessWidget {

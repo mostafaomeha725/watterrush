@@ -22,7 +22,9 @@ class CustomerHomeRepositoryImpl implements CustomerHomeRepository {
   }
 
   @override
-  Future<Either<Failure, List<ProductEntity>>> getCategoryProducts(int categoryId) async {
+  Future<Either<Failure, List<ProductEntity>>> getCategoryProducts(
+    int categoryId,
+  ) async {
     return await remoteDataSource.getCategoryProducts(categoryId);
   }
 
@@ -32,7 +34,9 @@ class CustomerHomeRepositoryImpl implements CustomerHomeRepository {
   }
 
   @override
-  Future<Either<Failure, ProductEntity>> getProductDetails(int productId) async {
+  Future<Either<Failure, ProductEntity>> getProductDetails(
+    int productId,
+  ) async {
     return await remoteDataSource.getProductDetails(productId);
   }
 }

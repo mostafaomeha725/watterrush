@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/widgets/bouncing_social_button.dart';
@@ -11,10 +11,7 @@ class DriverProfileHeaderTopRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        AppText(
-          'My Profile',
-          style: font20w700.copyWith(color: Colors.white),
-        ),
+        AppText('My Profile', style: font20w700.copyWith(color: Colors.white)),
         const Spacer(),
         SizedBox(
           width: 96.w,

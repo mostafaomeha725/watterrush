@@ -19,14 +19,18 @@ class CheckoutCubit extends Cubit<CheckoutState> {
     final result = await getScheduledTimesUseCase(NoParams());
 
     result.fold(
-      (failure) => emit(state.copyWith(
-        scheduledTimesStatus: CheckoutStatus.failure,
-        scheduledTimesMessage: failure.message,
-      )),
-      (times) => emit(state.copyWith(
-        scheduledTimesStatus: CheckoutStatus.success,
-        scheduledTimes: times,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          scheduledTimesStatus: CheckoutStatus.failure,
+          scheduledTimesMessage: failure.message,
+        ),
+      ),
+      (times) => emit(
+        state.copyWith(
+          scheduledTimesStatus: CheckoutStatus.success,
+          scheduledTimes: times,
+        ),
+      ),
     );
   }
 
@@ -36,14 +40,18 @@ class CheckoutCubit extends Cubit<CheckoutState> {
     final result = await placeOrderUseCase(params);
 
     result.fold(
-      (failure) => emit(state.copyWith(
-        placeOrderStatus: CheckoutStatus.failure,
-        placeOrderMessage: failure.message,
-      )),
-      (order) => emit(state.copyWith(
-        placeOrderStatus: CheckoutStatus.success,
-        placedOrder: order,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          placeOrderStatus: CheckoutStatus.failure,
+          placeOrderMessage: failure.message,
+        ),
+      ),
+      (order) => emit(
+        state.copyWith(
+          placeOrderStatus: CheckoutStatus.success,
+          placedOrder: order,
+        ),
+      ),
     );
   }
 }

@@ -20,9 +20,7 @@ class AddressSelectorAddNewWidget extends StatelessWidget {
           SizedBox(width: 8.w),
           AppText(
             'Add New Address',
-            style: font14w700.copyWith(
-              color: const Color(0xFF0b48c6),
-            ),
+            style: font14w700.copyWith(color: const Color(0xFF0b48c6)),
           ),
         ],
       ),

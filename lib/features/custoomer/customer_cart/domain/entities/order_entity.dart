@@ -32,19 +32,19 @@ class OrderEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        status,
-        subtotal,
-        deliveryFee,
-        total,
-        paymentMethod,
-        deliveryDate,
-        notes,
-        address,
-        scheduledTime,
-        promoCode,
-        items,
-      ];
+    id,
+    status,
+    subtotal,
+    deliveryFee,
+    total,
+    paymentMethod,
+    deliveryDate,
+    notes,
+    address,
+    scheduledTime,
+    promoCode,
+    items,
+  ];
 }
 
 class OrderAddressEntity extends Equatable {
@@ -106,14 +106,14 @@ class OrderItemEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        productId,
-        bundleId,
-        title,
-        price,
-        image,
-        quantity,
-        unitPrice,
-        subtotal,
-      ];
+    id,
+    productId,
+    bundleId,
+    title,
+    price,
+    image,
+    quantity,
+    unitPrice,
+    subtotal,
+  ];
 }

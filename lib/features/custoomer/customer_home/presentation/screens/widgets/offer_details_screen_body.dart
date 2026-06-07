@@ -95,11 +95,15 @@ class OfferDetailsScreenBody extends StatelessWidget {
                                       .decrementQuantity(index);
                                 },
                                 onAddToCart: () {
-                                  final cubit = context.read<OfferDetailsCubit>();
+                                  final cubit = context
+                                      .read<OfferDetailsCubit>();
                                   final product = state.offer!.products[index];
                                   final quantity = state.quantityFor(index);
-                                  
-                                  context.read<CartCubit>().addToCart(product.id, quantity);
+
+                                  context.read<CartCubit>().addToCart(
+                                    product.id,
+                                    quantity,
+                                  );
                                   cubit.addToCart(index);
                                 },
                               ),

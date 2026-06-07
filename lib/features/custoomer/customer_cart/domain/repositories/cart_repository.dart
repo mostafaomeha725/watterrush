@@ -13,5 +13,8 @@ abstract class CartRepository {
   Future<Either<Failure, List<ScheduledTimeEntity>>> getScheduledTimes();
   Future<Either<Failure, OrderEntity>> placeOrder(PlaceOrderParams params);
   Future<Either<Failure, void>> addToCart(AddToCartParams params);
-  Future<Either<Failure, void>> updateCartItem({required int itemId, required int quantity});
+  Future<Either<Failure, void>> updateCartItem({
+    required int itemId,
+    required int quantity,
+  });
 }

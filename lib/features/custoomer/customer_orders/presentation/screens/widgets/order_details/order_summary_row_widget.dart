@@ -34,7 +34,9 @@ class OrderSummaryRowWidget extends StatelessWidget {
               ),
               child: Icon(
                 isIconCheck ? Icons.check_rounded : Icons.circle,
-                color: isIconCheck ? const Color(0xFF10B981) : const Color(0xFFD9E0E8),
+                color: isIconCheck
+                    ? const Color(0xFF10B981)
+                    : const Color(0xFFD9E0E8),
                 size: isIconCheck ? 10.sp : 8.sp,
               ),
             ),
@@ -47,7 +49,9 @@ class OrderSummaryRowWidget extends StatelessWidget {
         ),
         AppText(
           value,
-          style: font12w700.copyWith(color: valueColor ?? const Color(0xFF1B2028)),
+          style: font12w700.copyWith(
+            color: valueColor ?? const Color(0xFF1B2028),
+          ),
         ),
       ],
     );

@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/utils/spacing.dart';
@@ -26,9 +26,7 @@ class SpecialOfferCardTopRow extends StatelessWidget {
           decoration: BoxDecoration(
             color: accentColor.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(8.r),
-            border: Border.all(
-              color: accentColor.withValues(alpha: 0.25),
-            ),
+            border: Border.all(color: accentColor.withValues(alpha: 0.25)),
           ),
           child: Row(
             children: <Widget>[

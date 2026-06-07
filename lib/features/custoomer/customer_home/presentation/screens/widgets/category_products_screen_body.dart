@@ -127,11 +127,17 @@ class _CategoryProductsScreenBodyState
                         },
                         onAddToCart: (int productIndex) {
                           final cubit = context.read<CategoryProductsCubit>();
-                          final product = cubit.state.category!.products[productIndex];
-                          final quantity = cubit.state.quantityFor(productIndex);
-                          
-                          context.read<CartCubit>().addToCart(product.id, quantity);
-                          
+                          final product =
+                              cubit.state.category!.products[productIndex];
+                          final quantity = cubit.state.quantityFor(
+                            productIndex,
+                          );
+
+                          context.read<CartCubit>().addToCart(
+                            product.id,
+                            quantity,
+                          );
+
                           cubit.addToCart(productIndex);
                         },
                       ),

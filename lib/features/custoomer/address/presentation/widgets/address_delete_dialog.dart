@@ -7,16 +7,14 @@ import 'package:waterrush/core/widgets/custom_text.dart';
 
 class AddressDeleteDialog extends StatelessWidget {
   const AddressDeleteDialog({super.key, required this.onConfirm});
-  
+
   final VoidCallback onConfirm;
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.symmetric(
-        horizontal: 24.w,
-      ),
+      insetPadding: EdgeInsets.symmetric(horizontal: 24.w),
       child: Container(
         padding: EdgeInsets.all(24.w),
         decoration: BoxDecoration(
@@ -28,16 +26,12 @@ class AddressDeleteDialog extends StatelessWidget {
           children: [
             AppText(
               'Confirm Deletion',
-              style: font18w700.copyWith(
-                color: const Color(0xFF0F2B46),
-              ),
+              style: font18w700.copyWith(color: const Color(0xFF0F2B46)),
             ),
             verticalSpacing(12),
             AppText(
               'Are you sure you want to delete this address?',
-              style: font14w400.copyWith(
-                color: const Color(0xFF7C8B99),
-              ),
+              style: font14w400.copyWith(color: const Color(0xFF7C8B99)),
               textAlign: TextAlign.center,
             ),
             verticalSpacing(24),

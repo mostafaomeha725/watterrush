@@ -29,10 +29,10 @@ class CreateAddressParams {
   });
 
   Map<String, dynamic> toJson() => {
-        "title": title,
-        "address": address,
-        "lat": lat,
-        "lng": lng,
-        "is_default": isDefault,
-      };
+    "title": title,
+    "address": address,
+    "lat": lat,
+    "lng": lng,
+    "is_default": isDefault,
+  };
 }

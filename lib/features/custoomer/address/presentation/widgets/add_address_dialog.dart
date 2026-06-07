@@ -16,7 +16,7 @@ import 'package:waterrush/features/custoomer/address/domain/usecases/update_addr
 
 class AddAddressDialog extends StatefulWidget {
   final AddressEntity? addressToUpdate;
-  
+
   const AddAddressDialog({super.key, this.addressToUpdate});
 
   @override
@@ -38,7 +38,10 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
       _titleController.text = address.title;
       _addressController.text = address.address;
       _isDefault = address.isDefault;
-      _selectedLocation = LatLng(double.parse(address.lat), double.parse(address.lng));
+      _selectedLocation = LatLng(
+        double.parse(address.lat),
+        double.parse(address.lng),
+      );
     }
   }
 
@@ -52,17 +55,25 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AddressCubit, AddressState>(
-      listenWhen: (previous, current) => 
-        previous.createStatus != current.createStatus ||
-        previous.updateStatus != current.updateStatus,
+      listenWhen: (previous, current) =>
+          previous.createStatus != current.createStatus ||
+          previous.updateStatus != current.updateStatus,
       listener: (context, state) {
-        if (state.createStatus == AddressCreateStatus.loading || state.updateStatus == AddressUpdateStatus.loading) {
-          EasyLoading.show(status: isUpdating ? 'Updating address...' : 'Saving address...');
+        if (state.createStatus == AddressCreateStatus.loading ||
+            state.updateStatus == AddressUpdateStatus.loading) {
+          EasyLoading.show(
+            status: isUpdating ? 'Updating address...' : 'Saving address...',
+          );
         } else {
           if (EasyLoading.isShow) EasyLoading.dismiss();
-          
-          if (state.createStatus == AddressCreateStatus.success || state.updateStatus == AddressUpdateStatus.success) {
-            EasyLoading.showSuccess(isUpdating ? 'Address updated successfully!' : 'Address added successfully!');
+
+          if (state.createStatus == AddressCreateStatus.success ||
+              state.updateStatus == AddressUpdateStatus.success) {
+            EasyLoading.showSuccess(
+              isUpdating
+                  ? 'Address updated successfully!'
+                  : 'Address added successfully!',
+            );
             Navigator.pop(context);
           } else if (state.createStatus == AddressCreateStatus.failure) {
             EasyLoading.showError(state.createErrorMessage);
@@ -72,7 +83,9 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
         }
       },
       child: Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+        ),
         child: Padding(
           padding: EdgeInsets.all(20.w),
           child: Column(
@@ -81,9 +94,18 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
             children: [
               Row(
                 children: [
-                  Icon(isUpdating ? Icons.edit_location_alt_rounded : Icons.add_location_alt_rounded, color: const Color(0xFF0b48c6), size: 24.sp),
+                  Icon(
+                    isUpdating
+                        ? Icons.edit_location_alt_rounded
+                        : Icons.add_location_alt_rounded,
+                    color: const Color(0xFF0b48c6),
+                    size: 24.sp,
+                  ),
                   SizedBox(width: 8.w),
-                  AppText(isUpdating ? 'Update Address' : 'Add New Address', style: font16w700.copyWith(color: const Color(0xFF24385B))),
+                  AppText(
+                    isUpdating ? 'Update Address' : 'Add New Address',
+                    style: font16w700.copyWith(color: const Color(0xFF24385B)),
+                  ),
                 ],
               ),
               SizedBox(height: 24.h),
@@ -108,10 +130,14 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                 children: [
                   Checkbox(
                     value: _isDefault,
-                    onChanged: (val) => setState(() => _isDefault = val ?? false),
+                    onChanged: (val) =>
+                        setState(() => _isDefault = val ?? false),
                     activeColor: const Color(0xFF0b48c6),
                   ),
-                  AppText('Set as default address', style: font12w800.copyWith(color: const Color(0xFF24385B))),
+                  AppText(
+                    'Set as default address',
+                    style: font12w800.copyWith(color: const Color(0xFF24385B)),
+                  ),
                 ],
               ),
               SizedBox(height: 10.h),
@@ -119,7 +145,9 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                 onTap: () async {
                   final dynamic result = await Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => const LocationOnMapScreen()),
+                    MaterialPageRoute(
+                      builder: (_) => const LocationOnMapScreen(),
+                    ),
                   );
                   if (result != null && result is Map<String, dynamic>) {
                     setState(() {
@@ -136,7 +164,10 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                 },
                 borderRadius: BorderRadius.circular(8.r),
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 10.w),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 12.h,
+                    horizontal: 10.w,
+                  ),
                   decoration: BoxDecoration(
                     border: Border.all(color: const Color(0xFF0b48c6)),
                     borderRadius: BorderRadius.circular(8.r),
@@ -144,11 +175,19 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.map_outlined, color: const Color(0xFF0b48c6), size: 20.sp),
+                      Icon(
+                        Icons.map_outlined,
+                        color: const Color(0xFF0b48c6),
+                        size: 20.sp,
+                      ),
                       SizedBox(width: 8.w),
                       AppText(
-                        _selectedLocation == null ? 'Pick Location on Map' : 'Location Selected ✓',
-                        style: font12w800.copyWith(color: const Color(0xFF0b48c6)),
+                        _selectedLocation == null
+                            ? 'Pick Location on Map'
+                            : 'Location Selected ✓',
+                        style: font12w800.copyWith(
+                          color: const Color(0xFF0b48c6),
+                        ),
                       ),
                     ],
                   ),
@@ -160,41 +199,46 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                 height: 50.h,
                 child: BlocBuilder<AddressCubit, AddressState>(
                   builder: (context, state) {
-                    final isLoading = state.createStatus == AddressCreateStatus.loading || state.updateStatus == AddressUpdateStatus.loading;
+                    final isLoading =
+                        state.createStatus == AddressCreateStatus.loading ||
+                        state.updateStatus == AddressUpdateStatus.loading;
                     return AppButton(
                       text: isUpdating ? 'Update Address' : 'Save Address',
                       onPressed: isLoading
                           ? null
                           : () {
-                              if (_titleController.text.trim().isEmpty || _addressController.text.trim().isEmpty) {
+                              if (_titleController.text.trim().isEmpty ||
+                                  _addressController.text.trim().isEmpty) {
                                 EasyLoading.showInfo('Please fill all fields');
                                 return;
                               }
-                              
+
                               if (_selectedLocation == null) {
-                                EasyLoading.showInfo('Please pick a location on the map');
+                                EasyLoading.showInfo(
+                                  'Please pick a location on the map',
+                                );
                                 return;
                               }
-                              
+
                               if (isUpdating) {
                                 context.read<AddressCubit>().updateAddress(
-                                      UpdateAddressParams(
-                                        id: widget.addressToUpdate!.id,
-                                        title: _titleController.text.trim(),
-                                        address: _addressController.text.trim(),
-                                        lat: _selectedLocation!.latitude,
-                                        lng: _selectedLocation!.longitude,
-                                        isDefault: _isDefault,
-                                      ),
-                                    );
+                                  UpdateAddressParams(
+                                    id: widget.addressToUpdate!.id,
+                                    title: _titleController.text.trim(),
+                                    address: _addressController.text.trim(),
+                                    lat: _selectedLocation!.latitude,
+                                    lng: _selectedLocation!.longitude,
+                                    isDefault: _isDefault,
+                                  ),
+                                );
                               } else {
                                 context.read<AddressCubit>().createAddress(
-                                      title: _titleController.text.trim(),
-                                      address: _addressController.text.trim(),
-                                      lat: _selectedLocation!.latitude.toString(),
-                                      lng: _selectedLocation!.longitude.toString(),
-                                      isDefault: _isDefault,
-                                    );
+                                  title: _titleController.text.trim(),
+                                  address: _addressController.text.trim(),
+                                  lat: _selectedLocation!.latitude.toString(),
+                                  lng: _selectedLocation!.longitude.toString(),
+                                  isDefault: _isDefault,
+                                );
                               }
                             },
                       color: const Color(0xFF0b48c6),

@@ -1,4 +1,4 @@
-﻿import 'package:equatable/equatable.dart';
+import 'package:equatable/equatable.dart';
 import 'package:waterrush/features/custoomer/customer_profile/presentation/screens/widgets/profile_models.dart';
 
 class ProfileOrderHistoryState extends Equatable {

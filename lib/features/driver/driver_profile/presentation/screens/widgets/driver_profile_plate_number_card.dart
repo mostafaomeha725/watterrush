@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
@@ -34,11 +34,19 @@ class DriverProfilePlateNumberCard extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Container(width: 16.w, height: 4.h, color: const Color(0xFFEA5151)),
+                Container(
+                  width: 16.w,
+                  height: 4.h,
+                  color: const Color(0xFFEA5151),
+                ),
                 SizedBox(height: 3.h),
                 Container(width: 16.w, height: 4.h, color: Colors.white),
                 SizedBox(height: 3.h),
-                Container(width: 16.w, height: 4.h, color: const Color(0xFF3BCB83)),
+                Container(
+                  width: 16.w,
+                  height: 4.h,
+                  color: const Color(0xFF3BCB83),
+                ),
               ],
             ),
           ),

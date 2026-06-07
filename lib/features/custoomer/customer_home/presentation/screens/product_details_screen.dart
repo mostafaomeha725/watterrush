@@ -5,10 +5,7 @@ import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/pr
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/product_details_screen_body.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  const ProductDetailsScreen({
-    super.key,
-    required this.productId,
-  });
+  const ProductDetailsScreen({super.key, required this.productId});
 
   final int productId;
 

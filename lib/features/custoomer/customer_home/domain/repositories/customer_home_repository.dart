@@ -7,7 +7,9 @@ import '../entities/product_entity.dart';
 abstract class CustomerHomeRepository {
   Future<Either<Failure, List<SliderEntity>>> getSliders();
   Future<Either<Failure, List<CategoryEntity>>> getCategories();
-  Future<Either<Failure, List<ProductEntity>>> getCategoryProducts(int categoryId);
+  Future<Either<Failure, List<ProductEntity>>> getCategoryProducts(
+    int categoryId,
+  );
   Future<Either<Failure, List<ProductEntity>>> getPopularProducts();
   Future<Either<Failure, ProductEntity>> getProductDetails(int productId);
 }

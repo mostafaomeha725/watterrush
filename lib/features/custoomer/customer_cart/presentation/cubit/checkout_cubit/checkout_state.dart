@@ -33,7 +33,8 @@ class CheckoutState extends Equatable {
     return CheckoutState(
       scheduledTimesStatus: scheduledTimesStatus ?? this.scheduledTimesStatus,
       scheduledTimes: scheduledTimes ?? this.scheduledTimes,
-      scheduledTimesMessage: scheduledTimesMessage ?? this.scheduledTimesMessage,
+      scheduledTimesMessage:
+          scheduledTimesMessage ?? this.scheduledTimesMessage,
       placeOrderStatus: placeOrderStatus ?? this.placeOrderStatus,
       placedOrder: placedOrder ?? this.placedOrder,
       placeOrderMessage: placeOrderMessage ?? this.placeOrderMessage,
@@ -42,11 +43,11 @@ class CheckoutState extends Equatable {
 
   @override
   List<Object?> get props => [
-        scheduledTimesStatus,
-        scheduledTimes,
-        scheduledTimesMessage,
-        placeOrderStatus,
-        placedOrder,
-        placeOrderMessage,
-      ];
+    scheduledTimesStatus,
+    scheduledTimes,
+    scheduledTimesMessage,
+    placeOrderStatus,
+    placedOrder,
+    placeOrderMessage,
+  ];
 }

@@ -16,10 +16,12 @@ class AllPopularProductsScreenBody extends StatefulWidget {
   const AllPopularProductsScreenBody({super.key});
 
   @override
-  State<AllPopularProductsScreenBody> createState() => _AllPopularProductsScreenBodyState();
+  State<AllPopularProductsScreenBody> createState() =>
+      _AllPopularProductsScreenBodyState();
 }
 
-class _AllPopularProductsScreenBodyState extends State<AllPopularProductsScreenBody> {
+class _AllPopularProductsScreenBodyState
+    extends State<AllPopularProductsScreenBody> {
   // Store quantities for each product
   final Map<int, int> _quantities = {};
 
@@ -72,30 +74,36 @@ class _AllPopularProductsScreenBodyState extends State<AllPopularProductsScreenB
                   separatorBuilder: (context, index) => SizedBox(height: 16.h),
                   itemBuilder: (BuildContext context, int index) {
                     final product = state.popularProducts[index];
-                    final bool hasDiscount = product.priceBefore != null &&
+                    final bool hasDiscount =
+                        product.priceBefore != null &&
                         product.priceBefore! > product.price;
                     final int discountPercentage = hasDiscount
                         ? (((product.priceBefore! - product.price) /
-                                    product.priceBefore!) *
-                                100)
-                            .round()
+                                      product.priceBefore!) *
+                                  100)
+                              .round()
                         : 0;
 
-                    final OfferProductItemData mappedProduct = OfferProductItemData(
-                      id: product.id,
-                      name: product.title,
-                      subtitle: '', // No subtitle available
-                      imageUrl: product.images.isNotEmpty ? product.images.first.image : '',
-                      currentPrice: product.price,
-                      oldPrice: product.priceBefore ?? product.price,
-                      saveAmount: product.priceBefore != null
-                          ? (product.priceBefore! - product.price).toInt()
-                          : 0,
-                      rating: 5.0, // Dummy rating
-                      reviewsCount: 0, // Dummy reviews
-                      discountLabel: hasDiscount ? '-$discountPercentage%' : '',
-                      isPopular: true,
-                    );
+                    final OfferProductItemData mappedProduct =
+                        OfferProductItemData(
+                          id: product.id,
+                          name: product.title,
+                          subtitle: '', // No subtitle available
+                          imageUrl: product.images.isNotEmpty
+                              ? product.images.first.image
+                              : '',
+                          currentPrice: product.price,
+                          oldPrice: product.priceBefore ?? product.price,
+                          saveAmount: product.priceBefore != null
+                              ? (product.priceBefore! - product.price).toInt()
+                              : 0,
+                          rating: 5.0, // Dummy rating
+                          reviewsCount: 0, // Dummy reviews
+                          discountLabel: hasDiscount
+                              ? '-$discountPercentage%'
+                              : '',
+                          isPopular: true,
+                        );
 
                     final quantity = _quantities[product.id] ?? 1;
 
@@ -121,7 +129,10 @@ class _AllPopularProductsScreenBodyState extends State<AllPopularProductsScreenB
                           }
                         },
                         onAddToCart: () {
-                          context.read<CartCubit>().addToCart(product.id, quantity);
+                          context.read<CartCubit>().addToCart(
+                            product.id,
+                            quantity,
+                          );
                         },
                       ),
                     );

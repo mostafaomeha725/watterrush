@@ -160,7 +160,10 @@ class CustomerOffersScreenBody extends StatelessWidget {
             ),
             OffersLaunchBanner(
               onClaimNow: () {
-                context.push(Routes.specialOffersScreen, extra: CustomerOffersScreen._launchOffers);
+                context.push(
+                  Routes.specialOffersScreen,
+                  extra: CustomerOffersScreen._launchOffers,
+                );
               },
             ),
             SizedBox(height: 14.h),
@@ -188,13 +191,17 @@ class CustomerOffersScreenBody extends StatelessWidget {
                   final promoCodes = state.promoCodes;
 
                   if (promoCodes.isEmpty) {
-                    return const Center(child: Text('No offers available right now'));
+                    return const Center(
+                      child: Text('No offers available right now'),
+                    );
                   }
 
                   return Column(
                     children: promoCodes.map((promo) {
                       final isPercent = promo.type == 'percent';
-                      final discountText = isPercent ? '${promo.discount}% OFF' : '\$${promo.discount} OFF';
+                      final discountText = isPercent
+                          ? '${promo.discount}% OFF'
+                          : '\$${promo.discount} OFF';
 
                       final offerItem = OfferItemModel(
                         title: discountText,
@@ -210,7 +217,9 @@ class CustomerOffersScreenBody extends StatelessWidget {
                         child: OfferCouponCard(
                           item: offerItem,
                           onCopy: () async {
-                            await Clipboard.setData(ClipboardData(text: offerItem.code));
+                            await Clipboard.setData(
+                              ClipboardData(text: offerItem.code),
+                            );
                             if (context.mounted) {
                               CustomSnackBar.showSuccess(
                                 context,

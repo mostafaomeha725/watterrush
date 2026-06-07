@@ -17,12 +17,16 @@ class AddressRepositoryImpl implements AddressRepository {
   }
 
   @override
-  Future<Either<Failure, AddressEntity>> createAddress(CreateAddressParams params) async {
+  Future<Either<Failure, AddressEntity>> createAddress(
+    CreateAddressParams params,
+  ) async {
     return await remoteDataSource.createAddress(params.toJson());
   }
 
   @override
-  Future<Either<Failure, AddressEntity>> updateAddress(UpdateAddressParams params) async {
+  Future<Either<Failure, AddressEntity>> updateAddress(
+    UpdateAddressParams params,
+  ) async {
     return await remoteDataSource.updateAddress(params.id, params.toJson());
   }
 

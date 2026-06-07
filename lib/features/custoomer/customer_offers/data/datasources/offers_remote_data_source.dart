@@ -15,19 +15,24 @@ class OffersRemoteDataSourceImpl implements OffersRemoteDataSource {
 
   @override
   Future<Either<Failure, List<PromoCodeModel>>> getPromoCodes() async {
-    final response = await networkService.getData(endPoint: EndPoints.customerPromoCodes);
-
-    return response.fold(
-      (failure) => Left(failure),
-      (data) {
-        if (data['status'] == true) {
-          final List<dynamic> promoCodesJson = data['data']['promo_codes'] ?? [];
-          final promoCodes = promoCodesJson.map((json) => PromoCodeModel.fromJson(json)).toList();
-          return Right(promoCodes);
-        } else {
-          return Left(ServerFailure(message: data['message'] ?? 'Failed to fetch promo codes'));
-        }
-      },
+    final response = await networkService.getData(
+      endPoint: EndPoints.customerPromoCodes,
     );
+
+    return response.fold((failure) => Left(failure), (data) {
+      if (data['status'] == true) {
+        final List<dynamic> promoCodesJson = data['data']['promo_codes'] ?? [];
+        final promoCodes = promoCodesJson
+            .map((json) => PromoCodeModel.fromJson(json))
+            .toList();
+        return Right(promoCodes);
+      } else {
+        return Left(
+          ServerFailure(
+            message: data['message'] ?? 'Failed to fetch promo codes',
+          ),
+        );
+      }
+    });
   }
 }

@@ -59,7 +59,10 @@ class AddressItemCard extends StatelessWidget {
               ),
               if (address.isDefault)
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                    vertical: 4.h,
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xFF0F2B46),
                     borderRadius: BorderRadius.circular(8.r),
@@ -85,16 +88,19 @@ class AddressItemCard extends StatelessWidget {
                       value: 'default',
                       child: Text('Set as Default'),
                     ),
-                    const PopupMenuItem(
-                      value: 'edit',
-                      child: Text('Edit'),
-                    ),
+                    const PopupMenuItem(value: 'edit', child: Text('Edit')),
                     const PopupMenuItem(
                       value: 'delete',
-                      child: Text('Delete', style: TextStyle(color: Colors.red)),
+                      child: Text(
+                        'Delete',
+                        style: TextStyle(color: Colors.red),
+                      ),
                     ),
                   ],
-                  icon: const Icon(Icons.more_vert_rounded, color: Color(0xFF0F2B46)),
+                  icon: const Icon(
+                    Icons.more_vert_rounded,
+                    color: Color(0xFF0F2B46),
+                  ),
                 ),
             ],
           ),

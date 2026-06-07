@@ -13,8 +13,14 @@ abstract class CartRemoteDataSource {
   Future<Either<Failure, void>> clearCart();
   Future<Either<Failure, List<ScheduledTimeModel>>> getScheduledTimes();
   Future<Either<Failure, OrderModel>> placeOrder(PlaceOrderParams params);
-  Future<Either<Failure, void>> addToCart({required int productId, required int quantity});
-  Future<Either<Failure, void>> updateCartItem({required int itemId, required int quantity});
+  Future<Either<Failure, void>> addToCart({
+    required int productId,
+    required int quantity,
+  });
+  Future<Either<Failure, void>> updateCartItem({
+    required int itemId,
+    required int quantity,
+  });
 }
 
 class CartRemoteDataSourceImpl implements CartRemoteDataSource {
@@ -24,7 +30,9 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
 
   @override
   Future<Either<Failure, CartModel>> getCart() async {
-    final response = await networkService.getData(endPoint: EndPoints.customerCart);
+    final response = await networkService.getData(
+      endPoint: EndPoints.customerCart,
+    );
 
     return response.fold((failure) => Left(failure), (data) {
       if (data['status'] == true) {
@@ -47,15 +55,18 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
       endPoint: '${EndPoints.customerCartItems}/$itemId',
     );
 
-    return response.fold((failureString) => Left(ServerFailure(message: failureString)), (data) {
-      if (data['status'] == true) {
-        return const Right(null);
-      } else {
-        return Left(
-          ServerFailure(message: data['message'] ?? 'Failed to remove item'),
-        );
-      }
-    });
+    return response.fold(
+      (failureString) => Left(ServerFailure(message: failureString)),
+      (data) {
+        if (data['status'] == true) {
+          return const Right(null);
+        } else {
+          return Left(
+            ServerFailure(message: data['message'] ?? 'Failed to remove item'),
+          );
+        }
+      },
+    );
   }
 
   @override
@@ -64,20 +75,25 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
       endPoint: EndPoints.customerCart,
     );
 
-    return response.fold((failureString) => Left(ServerFailure(message: failureString)), (data) {
-      if (data['status'] == true) {
-        return const Right(null);
-      } else {
-        return Left(
-          ServerFailure(message: data['message'] ?? 'Failed to clear cart'),
-        );
-      }
-    });
+    return response.fold(
+      (failureString) => Left(ServerFailure(message: failureString)),
+      (data) {
+        if (data['status'] == true) {
+          return const Right(null);
+        } else {
+          return Left(
+            ServerFailure(message: data['message'] ?? 'Failed to clear cart'),
+          );
+        }
+      },
+    );
   }
 
   @override
   Future<Either<Failure, List<ScheduledTimeModel>>> getScheduledTimes() async {
-    final response = await networkService.getData(endPoint: EndPoints.customerScheduledTimes);
+    final response = await networkService.getData(
+      endPoint: EndPoints.customerScheduledTimes,
+    );
 
     return response.fold((failure) => Left(failure), (data) {
       if (data['status'] == true) {
@@ -88,14 +104,18 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
         return Right(scheduledTimes);
       } else {
         return Left(
-          ServerFailure(message: data['message'] ?? 'Failed to fetch scheduled times'),
+          ServerFailure(
+            message: data['message'] ?? 'Failed to fetch scheduled times',
+          ),
         );
       }
     });
   }
 
   @override
-  Future<Either<Failure, OrderModel>> placeOrder(PlaceOrderParams params) async {
+  Future<Either<Failure, OrderModel>> placeOrder(
+    PlaceOrderParams params,
+  ) async {
     final response = await networkService.postData(
       endPoint: EndPoints.customerOrders,
       data: params.toJson(),
@@ -113,13 +133,13 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, void>> addToCart({required int productId, required int quantity}) async {
+  Future<Either<Failure, void>> addToCart({
+    required int productId,
+    required int quantity,
+  }) async {
     final response = await networkService.postData(
       endPoint: EndPoints.customerCartItems,
-      data: {
-        'product_id': productId,
-        'quantity': quantity,
-      },
+      data: {'product_id': productId, 'quantity': quantity},
     );
 
     return response.fold((failure) => Left(failure), (data) {
@@ -127,29 +147,37 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
         return const Right(null);
       } else {
         return Left(
-          ServerFailure(message: data['message'] ?? 'Failed to add item to cart'),
+          ServerFailure(
+            message: data['message'] ?? 'Failed to add item to cart',
+          ),
         );
       }
     });
   }
 
   @override
-  Future<Either<Failure, void>> updateCartItem({required int itemId, required int quantity}) async {
+  Future<Either<Failure, void>> updateCartItem({
+    required int itemId,
+    required int quantity,
+  }) async {
     final response = await networkService.patchData(
       endPoint: '${EndPoints.customerCartItems}/$itemId',
-      data: {
-        'quantity': quantity,
-      },
+      data: {'quantity': quantity},
     );
 
-    return response.fold((failureString) => Left(ServerFailure(message: failureString)), (data) {
-      if (data['status'] == true) {
-        return const Right(null);
-      } else {
-        return Left(
-          ServerFailure(message: data['message'] ?? 'Failed to update item in cart'),
-        );
-      }
-    });
+    return response.fold(
+      (failureString) => Left(ServerFailure(message: failureString)),
+      (data) {
+        if (data['status'] == true) {
+          return const Right(null);
+        } else {
+          return Left(
+            ServerFailure(
+              message: data['message'] ?? 'Failed to update item in cart',
+            ),
+          );
+        }
+      },
+    );
   }
 }

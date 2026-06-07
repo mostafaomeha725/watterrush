@@ -51,11 +51,11 @@ class PlaceOrderParams extends Equatable {
 
   @override
   List<Object?> get props => [
-        addressId,
-        deliveryDate,
-        scheduledTimeId,
-        paymentMethod,
-        promoCode,
-        notes,
-      ];
+    addressId,
+    deliveryDate,
+    scheduledTimeId,
+    paymentMethod,
+    promoCode,
+    notes,
+  ];
 }

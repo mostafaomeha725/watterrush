@@ -53,6 +53,12 @@ import 'package:waterrush/features/custoomer/customer_offers/domain/repositories
 import 'package:waterrush/features/custoomer/customer_offers/domain/usecases/get_promo_codes_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_offers/presentation/cubit/offers_cubit.dart';
 
+import 'package:waterrush/features/custoomer/customer_orders/data/datasources/orders_remote_data_source.dart';
+import 'package:waterrush/features/custoomer/customer_orders/data/repositories/orders_repository_impl.dart';
+import 'package:waterrush/features/custoomer/customer_orders/domain/repositories/orders_repository.dart';
+import 'package:waterrush/features/custoomer/customer_orders/domain/usecases/get_orders_usecase.dart';
+import 'package:waterrush/features/custoomer/customer_orders/presentation/cubit/customer_orders_cubit.dart';
+
 final sl = GetIt.instance;
 
 class ServiceLocator {
@@ -65,6 +71,7 @@ class ServiceLocator {
     _initAuth();
     _initCustomerHome();
     _initCustomerCart();
+    _initCustomerOrders();
   }
 
   /// =============================
@@ -215,5 +222,19 @@ class ServiceLocator {
     );
     sl.registerLazySingleton(() => GetPromoCodesUseCase(sl()));
     sl.registerFactory(() => OffersCubit(getPromoCodesUseCase: sl()));
+  }
+
+  /// =============================
+  /// CUSTOMER ORDERS FEATURE
+  /// =============================
+  void _initCustomerOrders() {
+    sl.registerLazySingleton<OrdersRemoteDataSource>(
+      () => OrdersRemoteDataSourceImpl(networkService: sl()),
+    );
+    sl.registerLazySingleton<OrdersRepository>(
+      () => OrdersRepositoryImpl(remoteDataSource: sl()),
+    );
+    sl.registerLazySingleton(() => GetOrdersUseCase(repository: sl()));
+    sl.registerFactory(() => CustomerOrdersCubit(getOrdersUseCase: sl()));
   }
 }

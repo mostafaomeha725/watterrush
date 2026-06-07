@@ -1,4 +1,4 @@
-﻿import 'package:equatable/equatable.dart';
+import 'package:equatable/equatable.dart';
 import 'package:waterrush/core/utils/app_date_time.dart';
 
 class ProfileOrderModel extends Equatable {

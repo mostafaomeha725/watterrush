@@ -27,10 +27,20 @@ class OrderModel extends OrderEntity {
       paymentMethod: json['payment_method'] ?? '',
       deliveryDate: json['delivery_date'] ?? '',
       notes: json['notes'],
-      address: json['address'] != null ? OrderAddressModel.fromJson(json['address']) : null,
-      scheduledTime: json['scheduled_time'] != null ? ScheduledTimeModel.fromJson(json['scheduled_time']) : null,
-      promoCode: json['promo_code'] != null ? OrderPromoCodeModel.fromJson(json['promo_code']) : null,
-      items: json['items'] != null ? (json['items'] as List).map((i) => OrderItemModel.fromJson(i)).toList() : [],
+      address: json['address'] != null
+          ? OrderAddressModel.fromJson(json['address'])
+          : null,
+      scheduledTime: json['scheduled_time'] != null
+          ? ScheduledTimeModel.fromJson(json['scheduled_time'])
+          : null,
+      promoCode: json['promo_code'] != null
+          ? OrderPromoCodeModel.fromJson(json['promo_code'])
+          : null,
+      items: json['items'] != null
+          ? (json['items'] as List)
+                .map((i) => OrderItemModel.fromJson(i))
+                .toList()
+          : [],
     );
   }
 }

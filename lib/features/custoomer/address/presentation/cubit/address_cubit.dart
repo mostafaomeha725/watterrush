@@ -31,16 +31,20 @@ class AddressCubit extends Cubit<AddressState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          status: AddressStatus.failure,
-          errorMessage: failure.message,
-        ));
+        emit(
+          state.copyWith(
+            status: AddressStatus.failure,
+            errorMessage: failure.message,
+          ),
+        );
       },
       (addresses) {
         AddressEntity? defaultAddr;
         if (state.selectedAddress != null) {
           try {
-            defaultAddr = addresses.firstWhere((address) => address.id == state.selectedAddress!.id);
+            defaultAddr = addresses.firstWhere(
+              (address) => address.id == state.selectedAddress!.id,
+            );
           } catch (e) {
             defaultAddr = null;
           }
@@ -53,12 +57,14 @@ class AddressCubit extends Cubit<AddressState> {
             defaultAddr = addresses.first;
           }
         }
-        
-        emit(state.copyWith(
-          status: AddressStatus.success,
-          addresses: addresses,
-          selectedAddress: defaultAddr,
-        ));
+
+        emit(
+          state.copyWith(
+            status: AddressStatus.success,
+            addresses: addresses,
+            selectedAddress: defaultAddr,
+          ),
+        );
       },
     );
   }
@@ -88,10 +94,12 @@ class AddressCubit extends Cubit<AddressState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          createStatus: AddressCreateStatus.failure,
-          createErrorMessage: failure.message,
-        ));
+        emit(
+          state.copyWith(
+            createStatus: AddressCreateStatus.failure,
+            createErrorMessage: failure.message,
+          ),
+        );
       },
       (addressEntity) {
         emit(state.copyWith(createStatus: AddressCreateStatus.success));
@@ -108,10 +116,12 @@ class AddressCubit extends Cubit<AddressState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          setDefaultStatus: AddressSetDefaultStatus.failure,
-          setDefaultErrorMessage: failure.message,
-        ));
+        emit(
+          state.copyWith(
+            setDefaultStatus: AddressSetDefaultStatus.failure,
+            setDefaultErrorMessage: failure.message,
+          ),
+        );
       },
       (addressEntity) {
         emit(state.copyWith(setDefaultStatus: AddressSetDefaultStatus.success));
@@ -127,10 +137,12 @@ class AddressCubit extends Cubit<AddressState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          deleteStatus: AddressDeleteStatus.failure,
-          deleteErrorMessage: failure.message,
-        ));
+        emit(
+          state.copyWith(
+            deleteStatus: AddressDeleteStatus.failure,
+            deleteErrorMessage: failure.message,
+          ),
+        );
       },
       (_) {
         emit(state.copyWith(deleteStatus: AddressDeleteStatus.success));
@@ -146,15 +158,15 @@ class AddressCubit extends Cubit<AddressState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          updateStatus: AddressUpdateStatus.failure,
-          updateErrorMessage: failure.message,
-        ));
+        emit(
+          state.copyWith(
+            updateStatus: AddressUpdateStatus.failure,
+            updateErrorMessage: failure.message,
+          ),
+        );
       },
       (address) {
-        emit(state.copyWith(
-          updateStatus: AddressUpdateStatus.success,
-        ));
+        emit(state.copyWith(updateStatus: AddressUpdateStatus.success));
         getAddresses(); // Refresh list to reflect updates
       },
     );

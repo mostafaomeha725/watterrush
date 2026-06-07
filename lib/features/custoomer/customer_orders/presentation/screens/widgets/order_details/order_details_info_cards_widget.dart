@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:waterrush/features/custoomer/customer_orders/presentation/screens/widgets/orders_dummy_data.dart';
+import 'package:waterrush/features/custoomer/customer_orders/domain/entities/customer_order_entity.dart';
 import 'order_details_info_item_widget.dart';
 
 class OrderDetailsInfoCardsWidget extends StatelessWidget {
-  final OrderDummyModel order;
+  final CustomerOrderEntity order;
 
   const OrderDetailsInfoCardsWidget({super.key, required this.order});
 
@@ -17,7 +17,7 @@ class OrderDetailsInfoCardsWidget extends StatelessWidget {
           child: OrderDetailsInfoItemWidget(
             icon: Icons.calendar_today_outlined,
             title: 'Date',
-            value: order.date,
+            value: order.createdAt.split('T').first,
           ),
         ),
         Expanded(
@@ -35,7 +35,7 @@ class OrderDetailsInfoCardsWidget extends StatelessWidget {
           child: OrderDetailsInfoItemWidget(
             icon: Icons.receipt_long_outlined,
             title: 'Total',
-            value: 'EGP ${order.amount.toStringAsFixed(0)}',
+            value: 'EGP ${order.total.toStringAsFixed(0)}',
           ),
         ),
       ],

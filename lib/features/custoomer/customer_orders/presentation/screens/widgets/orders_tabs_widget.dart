@@ -8,7 +8,13 @@ import 'package:waterrush/features/custoomer/customer_orders/presentation/cubit/
 import 'package:waterrush/features/custoomer/customer_orders/presentation/cubit/customer_orders_state.dart';
 
 class OrdersTabsWidget extends StatelessWidget {
-  final List<String> tabs = ['All', 'Pending', 'In Progress', 'Delivered', 'Cancelled'];
+  final List<String> tabs = [
+    'All',
+    'Pending',
+    'In Progress',
+    'Delivered',
+    'Cancelled',
+  ];
 
   OrdersTabsWidget({super.key});
 
@@ -16,8 +22,10 @@ class OrdersTabsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CustomerOrdersCubit, CustomerOrdersState>(
       builder: (context, state) {
-        final selectedIndex = context.read<CustomerOrdersCubit>().selectedTabIndex;
-        
+        final selectedIndex = context
+            .read<CustomerOrdersCubit>()
+            .selectedTabIndex;
+
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -33,11 +41,16 @@ class OrdersTabsWidget extends StatelessWidget {
                   },
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
-                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.w,
+                      vertical: 10.h,
+                    ),
                     decoration: BoxDecoration(
-                      color: isSelected ? const Color(0xFF5D52FA) : Colors.white,
+                      color: isSelected
+                          ? const Color(0xFF5D52FA)
+                          : Colors.white,
                       borderRadius: BorderRadius.circular(20.r),
-                      border: isSelected 
+                      border: isSelected
                           ? Border.all(color: Colors.transparent)
                           : Border.all(color: const Color(0xFFF3F4F6)),
                       boxShadow: isSelected
@@ -53,8 +66,12 @@ class OrdersTabsWidget extends StatelessWidget {
                     child: AppText(
                       tabs[index],
                       style: font14w500.copyWith(
-                        color: isSelected ? Colors.white : const Color(0xFF6B7280),
-                        fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                        color: isSelected
+                            ? Colors.white
+                            : const Color(0xFF6B7280),
+                        fontWeight: isSelected
+                            ? FontWeight.w600
+                            : FontWeight.w500,
                       ),
                     ),
                   ),

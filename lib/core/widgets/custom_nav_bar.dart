@@ -119,8 +119,9 @@ class _CustomNavBarState extends State<CustomNavBar> {
                 );
               }
 
-              final List<Map<String, dynamic>> dynamicNavItems =
-                  _navItems.map((item) {
+              final List<Map<String, dynamic>> dynamicNavItems = _navItems.map((
+                item,
+              ) {
                 if (item['label'] == 'Cart') {
                   return <String, dynamic>{...item, 'badgeCount': cartCount};
                 }

@@ -1,4 +1,4 @@
-﻿import 'package:bloc/bloc.dart';
+import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import '../../../domain/usecases/logout_customer_usecase.dart';
 

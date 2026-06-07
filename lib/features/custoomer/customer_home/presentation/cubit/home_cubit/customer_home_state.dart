@@ -60,20 +60,21 @@ class CustomerHomeState extends Equatable {
       categories: categories ?? this.categories,
       categoriesStatus: categoriesStatus ?? this.categoriesStatus,
       popularProducts: popularProducts ?? this.popularProducts,
-      popularProductsStatus: popularProductsStatus ?? this.popularProductsStatus,
+      popularProductsStatus:
+          popularProductsStatus ?? this.popularProductsStatus,
     );
   }
 
   @override
   List<Object?> get props => [
-        currentBannerIndex,
-        status,
-        message,
-        sliders,
-        slidersStatus,
-        categories,
-        categoriesStatus,
-        popularProducts,
-        popularProductsStatus,
-      ];
+    currentBannerIndex,
+    status,
+    message,
+    sliders,
+    slidersStatus,
+    categories,
+    categoriesStatus,
+    popularProducts,
+    popularProductsStatus,
+  ];
 }

@@ -1,4 +1,4 @@
-﻿part of 'customer_login_cubit.dart';
+part of 'customer_login_cubit.dart';
 
 @immutable
 abstract class CustomerLoginState {}

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
-import 'package:waterrush/features/custoomer/customer_orders/presentation/screens/widgets/orders_dummy_data.dart';
+import 'package:waterrush/features/custoomer/customer_orders/domain/entities/customer_order_entity.dart';
 import 'package:waterrush/features/custoomer/customer_orders/presentation/screens/widgets/order_status_extension.dart';
 import 'order_details_info_item_widget.dart';
 
 class OrderDetailsBannerWidget extends StatelessWidget {
-  final OrderDummyModel order;
+  final CustomerOrderEntity order;
 
   const OrderDetailsBannerWidget({super.key, required this.order});
 
@@ -35,9 +35,7 @@ class OrderDetailsBannerWidget extends StatelessWidget {
               children: [
                 AppText(
                   'Current Status',
-                  style: font12w400.copyWith(
-                    color: order.status.statusColor,
-                  ),
+                  style: font12w400.copyWith(color: order.status.statusColor),
                 ),
                 SizedBox(height: 4.h),
                 AppText(

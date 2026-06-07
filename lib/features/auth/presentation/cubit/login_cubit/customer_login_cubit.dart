@@ -1,4 +1,4 @@
-﻿import 'package:bloc/bloc.dart';
+import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import '../../../domain/entities/customer_entity.dart';
 import '../../../domain/usecases/login_customer_usecase.dart';
@@ -11,10 +11,7 @@ class CustomerLoginCubit extends Cubit<CustomerLoginState> {
   CustomerLoginCubit(this._loginCustomerUseCase)
     : super(CustomerLoginInitial());
 
-  Future<void> login({
-    required String phone,
-    required String password,
-  }) async {
+  Future<void> login({required String phone, required String password}) async {
     emit(CustomerLoginLoading());
     final result = await _loginCustomerUseCase(
       phone: phone,
