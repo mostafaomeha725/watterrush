@@ -1,4 +1,4 @@
-﻿import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/network/endpoints.dart';
 import '../../../../core/network/network_service.dart';
@@ -19,6 +19,10 @@ abstract class AuthRemoteDataSource {
   });
 
   Future<Either<Failure, CustomerModel>> getCustomerProfile();
+
+  Future<Either<Failure, CustomerModel>> updateCustomerProfile({
+    required String name,
+  });
 
   Future<Either<Failure, void>> logoutCustomer();
 }
@@ -117,6 +121,26 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         return Right(customer);
       } catch (e) {
         return Left(Failure('Failed to parse customer profile data'));
+      }
+    });
+  }
+
+  @override
+  Future<Either<Failure, CustomerModel>> updateCustomerProfile({
+    required String name,
+  }) async {
+    final response = await networkService.putData(
+      endPoint: EndPoints.customerUpdateProfile,
+      data: {'name': name},
+    );
+
+    return response.fold((failure) => Left(failure), (data) async {
+      try {
+        final resData = data['data'];
+        final customer = CustomerModel.fromJson(resData['customer']);
+        return Right(customer);
+      } catch (e) {
+        return Left(Failure('Failed to parse updated customer profile data'));
       }
     });
   }

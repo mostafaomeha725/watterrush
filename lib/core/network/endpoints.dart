@@ -7,6 +7,7 @@ class EndPoints {
   static const String customerLogin = 'customer/auth/login';
   static const String customerLogout = 'customer/auth/logout';
   static const String customerProfile = 'customer/auth/me';
+  static const String customerUpdateProfile = 'customer/auth/profile';
 
   static const String customerSliders = 'customer/sliders';
   static const String customerCategories = 'customer/categories';

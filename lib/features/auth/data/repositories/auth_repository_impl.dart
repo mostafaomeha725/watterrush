@@ -1,4 +1,4 @@
-﻿import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart';
 import '../../../../core/error/failure.dart';
 import '../../domain/entities/customer_entity.dart';
 import '../../domain/repositories/auth_repository.dart';
@@ -43,5 +43,12 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, CustomerEntity>> getCustomerProfile() async {
     return await remoteDataSource.getCustomerProfile();
+  }
+
+  @override
+  Future<Either<Failure, CustomerEntity>> updateCustomerProfile({
+    required String name,
+  }) async {
+    return await remoteDataSource.updateCustomerProfile(name: name);
   }
 }

@@ -6,6 +6,7 @@ import 'package:waterrush/core/widgets/bouncing_social_button.dart';
 import 'package:waterrush/features/custoomer/customer_profile/presentation/screens/widgets/profile_contact_card.dart';
 import 'package:waterrush/features/custoomer/customer_profile/presentation/screens/widgets/profile_demo_data.dart';
 import 'package:waterrush/features/custoomer/customer_profile/presentation/screens/widgets/profile_hero_header.dart';
+import 'package:waterrush/features/custoomer/customer_profile/presentation/screens/widgets/edit_profile_dialog.dart';
 import 'package:waterrush/core/utils/easy_loading.dart';
 import 'package:waterrush/core/routes/route_paths.dart';
 import 'package:waterrush/core/di/services_locator.dart';
@@ -37,18 +38,27 @@ class _ProfileBodyState extends State<ProfileBody> {
   Widget build(BuildContext context) {
     return BlocConsumer<ProfileCubit, ProfileState>(
       listener: (context, state) {
-        if (state is ProfileLoading) {
+        if (state is ProfileLoading || state is ProfileUpdateLoading) {
           showLoading();
         } else if (state is ProfileSuccess) {
           hideLoading();
         } else if (state is ProfileFailure) {
           hideLoading();
           showError(state.message);
+        } else if (state is ProfileUpdateSuccess) {
+          hideLoading();
+          showSuccess('Profile updated successfully');
+        } else if (state is ProfileUpdateFailure) {
+          hideLoading();
+          showError(state.message);
         }
       },
       builder: (context, state) {
-        if (state is ProfileSuccess) {
-          final customer = state.customer;
+        if (state is ProfileSuccess || state is ProfileUpdateSuccess) {
+          final customer = state is ProfileSuccess
+              ? state.customer
+              : (state as ProfileUpdateSuccess).customer;
+
           return SingleChildScrollView(
             child: Column(
               children: [
@@ -59,6 +69,19 @@ class _ProfileBodyState extends State<ProfileBody> {
                       : 'Inactive Member',
                   phone: customer.phone,
                   imageUrl: 'https://i.pravatar.cc/240?img=11',
+                  onEditPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (ctx) => EditProfileDialog(
+                        initialName: customer.name,
+                        onSave: (newName) {
+                          context.read<ProfileCubit>().updateProfile(
+                            name: newName,
+                          );
+                        },
+                      ),
+                    );
+                  },
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),

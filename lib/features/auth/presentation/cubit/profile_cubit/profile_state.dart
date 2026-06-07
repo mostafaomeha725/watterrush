@@ -17,3 +17,17 @@ class ProfileFailure extends ProfileState {
 
   ProfileFailure(this.message);
 }
+
+class ProfileUpdateLoading extends ProfileState {}
+
+class ProfileUpdateSuccess extends ProfileState {
+  final CustomerEntity customer;
+
+  ProfileUpdateSuccess(this.customer);
+}
+
+class ProfileUpdateFailure extends ProfileState {
+  final String message;
+
+  ProfileUpdateFailure(this.message);
+}

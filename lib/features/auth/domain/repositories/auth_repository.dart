@@ -1,4 +1,4 @@
-﻿import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart';
 import '../../../../core/error/failure.dart';
 import '../entities/customer_entity.dart';
 
@@ -16,6 +16,10 @@ abstract class AuthRepository {
   });
 
   Future<Either<Failure, CustomerEntity>> getCustomerProfile();
+
+  Future<Either<Failure, CustomerEntity>> updateCustomerProfile({
+    required String name,
+  });
 
   Future<Either<Failure, void>> logoutCustomer();
 }

@@ -10,6 +10,7 @@ import 'package:waterrush/features/auth/domain/usecases/register_customer_usecas
 import 'package:waterrush/features/auth/domain/usecases/login_customer_usecase.dart';
 import 'package:waterrush/features/auth/domain/usecases/logout_customer_usecase.dart';
 import 'package:waterrush/features/auth/domain/usecases/get_customer_profile_usecase.dart';
+import 'package:waterrush/features/auth/domain/usecases/update_customer_profile_usecase.dart';
 import 'package:waterrush/features/auth/presentation/cubit/register_cubit/customer_register_cubit.dart';
 import 'package:waterrush/features/auth/presentation/cubit/login_cubit/customer_login_cubit.dart';
 import 'package:waterrush/features/auth/presentation/cubit/logout_cubit/customer_logout_cubit.dart';
@@ -106,11 +107,12 @@ class ServiceLocator {
     sl.registerLazySingleton(() => LoginCustomerUseCase(sl()));
     sl.registerLazySingleton(() => LogoutCustomerUseCase(sl()));
     sl.registerLazySingleton(() => GetCustomerProfileUseCase(sl()));
+    sl.registerLazySingleton(() => UpdateCustomerProfileUseCase(sl()));
 
     sl.registerFactory(() => CustomerRegisterCubit(sl()));
     sl.registerFactory(() => CustomerLoginCubit(sl()));
     sl.registerFactory(() => CustomerLogoutCubit(sl()));
-    sl.registerFactory(() => ProfileCubit(sl()));
+    sl.registerFactory(() => ProfileCubit(sl(), sl()));
   }
 
   /// =============================

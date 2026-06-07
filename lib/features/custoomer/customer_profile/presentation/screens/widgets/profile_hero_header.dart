@@ -13,12 +13,14 @@ class ProfileHeroHeader extends StatelessWidget {
     required this.name,
     required this.subtitle,
     required this.phone,
+    required this.onEditPressed,
   });
 
   final String imageUrl;
   final String name;
   final String subtitle;
   final String phone;
+  final VoidCallback onEditPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +55,24 @@ class ProfileHeroHeader extends StatelessWidget {
           ],
         ),
         SizedBox(height: 42.h),
-        AppText(
-          name,
-          style: font20w700.copyWith(color: const Color(0xFF0F2B46)),
-          alignment: AlignmentDirectional.center,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AppText(
+              name,
+              style: font20w700.copyWith(color: const Color(0xFF0F2B46)),
+              alignment: AlignmentDirectional.center,
+            ),
+            SizedBox(width: 8.w),
+            GestureDetector(
+              onTap: onEditPressed,
+              child: Icon(
+                Icons.edit_rounded,
+                size: 20.sp,
+                color: const Color(0xFF0B48C6),
+              ),
+            ),
+          ],
         ),
         SizedBox(height: 4.h),
         Row(
