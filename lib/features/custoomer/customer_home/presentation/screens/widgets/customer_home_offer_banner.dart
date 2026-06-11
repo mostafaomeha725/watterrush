@@ -52,6 +52,7 @@ class CustomerHomeOfferBanner extends StatelessWidget {
                 Expanded(
                   child: CustomerHomeOfferBannerContent(
                     data: data,
+                    slider: slider,
                     onOrderNow: onOrderNow,
                   ),
                 ),

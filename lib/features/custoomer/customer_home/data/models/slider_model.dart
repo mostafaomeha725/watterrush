@@ -4,7 +4,11 @@ class SliderModel extends SliderEntity {
   const SliderModel({
     required super.id,
     required super.image,
-    required super.link,
+    required super.buttonLink,
+    required super.tag,
+    required super.title,
+    required super.description,
+    required super.buttonText,
     required super.sortOrder,
   });
 
@@ -12,7 +16,11 @@ class SliderModel extends SliderEntity {
     return SliderModel(
       id: json['id'],
       image: json['image'] ?? '',
-      link: json['link'] ?? '',
+      buttonLink: json['button_link'] ?? '',
+      tag: json['tag'] ?? '',
+      title: json['title'] ?? '',
+      description: json['description'] ?? '',
+      buttonText: json['button_text'] ?? '',
       sortOrder: json['sort_order'] ?? 0,
     );
   }
