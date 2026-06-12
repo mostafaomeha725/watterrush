@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waterrush/core/helpers/helpers.dart';
+import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/category_products_cubit/category_products_state.dart';
 
 import '../../../domain/usecases/get_sliders_usecase.dart';
 import '../../../domain/usecases/get_categories_usecase.dart';
@@ -111,6 +112,18 @@ class CustomerHomeCubit extends Cubit<CustomerHomeState> {
         );
       },
     );
+  }
+
+  void togglePopularProductsOnOffer() {
+    emit(
+      state.copyWith(
+        popularProductsShowOnOfferOnly: !state.popularProductsShowOnOfferOnly,
+      ),
+    );
+  }
+
+  void updatePopularProductsSort(CategoryProductsSort sort) {
+    emit(state.copyWith(popularProductsSort: sort));
   }
 
   Future<void> reorderLastOrder() async {

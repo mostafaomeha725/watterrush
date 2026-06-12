@@ -92,7 +92,9 @@ class _CategoryProductsScreenBodyState
                         vertical: 12.h,
                       ),
                       child: CategoryProductsFiltersRow(
-                        state: state,
+                        showOnOfferOnly: state.showOnOfferOnly,
+                        sort: state.sort,
+                        itemCount: state.displayedProductIndexes.length,
                         onToggleOnOffer: () {
                           context.read<CategoryProductsCubit>().toggleOnOffer();
                         },

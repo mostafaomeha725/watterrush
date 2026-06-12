@@ -25,34 +25,6 @@ class OfferProductCardDetails extends StatelessWidget {
                 maxLines: 1,
               ),
             ),
-            horizontalSpacing(6),
-            Container(
-              margin: EdgeInsets.only(top: 2.h),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Icon(
-                    Icons.star_rounded,
-                    size: 15.sp,
-                    color: const Color(0xFFF4A11A),
-                  ),
-                  horizontalSpacing(2),
-                  AppText(
-                    product.rating.toStringAsFixed(1),
-                    style: font12w700.copyWith(color: const Color(0xFF33567B)),
-                  ),
-                  horizontalSpacing(2),
-                  AppText(
-                    '(${product.reviewsCount})',
-                    style: font10w500.copyWith(
-                      color: const Color(0xFF9AAEC3),
-                      height: 1.35,
-                    ),
-                    textMargin: EdgeInsets.only(top: 1.h),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
         verticalSpacing(2),
@@ -68,24 +40,28 @@ class OfferProductCardDetails extends StatelessWidget {
               'EGP ${product.currentPrice.toStringAsFixed(0)}',
               style: font24w700.copyWith(color: const Color(0xFF0D67D3)),
             ),
-            horizontalSpacing(6),
-            Padding(
-              padding: EdgeInsets.only(bottom: 3.h),
-              child: AppText(
-                'EGP ${product.oldPrice.toStringAsFixed(0)}',
-                style: font12w500.copyWith(
-                  color: const Color(0xFF99AABE),
-                  decoration: TextDecoration.lineThrough,
+            if (product.oldPrice > product.currentPrice) ...[
+              horizontalSpacing(6),
+              Padding(
+                padding: EdgeInsets.only(bottom: 3.h),
+                child: AppText(
+                  'EGP ${product.oldPrice.toStringAsFixed(0)}',
+                  style: font12w500.copyWith(
+                    color: const Color(0xFF99AABE),
+                    decoration: TextDecoration.lineThrough,
+                  ),
                 ),
               ),
-            ),
+            ],
           ],
         ),
-        verticalSpacing(2),
-        AppText(
-          'Save EGP ${product.saveAmount}',
-          style: font12w700.copyWith(color: const Color(0xFF2AA964)),
-        ),
+        if (product.saveAmount > 0) ...[
+          verticalSpacing(2),
+          AppText(
+            'Save EGP ${product.saveAmount}',
+            style: font12w700.copyWith(color: const Color(0xFF2AA964)),
+          ),
+        ],
       ],
     );
   }

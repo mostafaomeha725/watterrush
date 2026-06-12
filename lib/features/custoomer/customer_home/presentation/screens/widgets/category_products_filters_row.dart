@@ -8,12 +8,16 @@ import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/ca
 class CategoryProductsFiltersRow extends StatelessWidget {
   const CategoryProductsFiltersRow({
     super.key,
-    required this.state,
+    required this.showOnOfferOnly,
+    required this.sort,
+    required this.itemCount,
     required this.onToggleOnOffer,
     required this.onSortSelected,
   });
 
-  final CategoryProductsState state;
+  final bool showOnOfferOnly;
+  final CategoryProductsSort sort;
+  final int itemCount;
   final VoidCallback onToggleOnOffer;
   final ValueChanged<CategoryProductsSort> onSortSelected;
 
@@ -26,12 +30,12 @@ class CategoryProductsFiltersRow extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 7.h),
             decoration: BoxDecoration(
-              color: state.showOnOfferOnly
+              color: showOnOfferOnly
                   ? const Color(0xFF0E69CF)
                   : Colors.white,
               borderRadius: BorderRadius.circular(999.r),
               border: Border.all(
-                color: state.showOnOfferOnly
+                color: showOnOfferOnly
                     ? const Color(0xFF0E69CF)
                     : const Color(0xFFD8E3F1),
               ),
@@ -41,7 +45,7 @@ class CategoryProductsFiltersRow extends StatelessWidget {
                 Icon(
                   Icons.local_offer_rounded,
                   size: 14.sp,
-                  color: state.showOnOfferOnly
+                  color: showOnOfferOnly
                       ? Colors.white
                       : const Color(0xFF7991AB),
                 ),
@@ -49,7 +53,7 @@ class CategoryProductsFiltersRow extends StatelessWidget {
                 AppText(
                   'On Offer',
                   style: font10w700.copyWith(
-                    color: state.showOnOfferOnly
+                    color: showOnOfferOnly
                         ? Colors.white
                         : const Color(0xFF637D99),
                   ),
@@ -79,7 +83,7 @@ class CategoryProductsFiltersRow extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              if (state.sort == sortItem)
+                              if (sort == sortItem)
                                 Icon(
                                   Icons.check,
                                   size: 16.sp,
@@ -112,7 +116,7 @@ class CategoryProductsFiltersRow extends StatelessWidget {
                   horizontalSpacing(5),
                   Expanded(
                     child: AppText(
-                      state.sort.label,
+                      sort.label,
                       style: font10w500.copyWith(
                         color: const Color(0xFF607A97),
                       ),
@@ -130,7 +134,7 @@ class CategoryProductsFiltersRow extends StatelessWidget {
         ),
         horizontalSpacing(8),
         AppText(
-          '${state.displayedProductIndexes.length} items',
+          '$itemCount items',
           style: font12w700.copyWith(color: const Color(0xFF0E69CF)),
         ),
       ],

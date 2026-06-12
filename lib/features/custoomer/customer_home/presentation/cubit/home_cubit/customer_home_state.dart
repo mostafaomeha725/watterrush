@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
+
 import '../../../domain/entities/slider_entity.dart';
 import '../../../domain/entities/category_entity.dart';
 import '../../../domain/entities/product_entity.dart';
+import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/category_products_cubit/category_products_state.dart';
 
 enum CustomerHomeStatus { initial, loading, success }
 
@@ -18,6 +20,8 @@ class CustomerHomeState extends Equatable {
     required this.popularProductsStatus,
     required this.popularProductsCurrentPage,
     required this.popularProductsLastPage,
+    required this.popularProductsShowOnOfferOnly,
+    required this.popularProductsSort,
   });
 
   factory CustomerHomeState.initial() => const CustomerHomeState(
@@ -32,6 +36,8 @@ class CustomerHomeState extends Equatable {
     popularProductsStatus: CustomerHomeStatus.initial,
     popularProductsCurrentPage: 1,
     popularProductsLastPage: 1,
+    popularProductsShowOnOfferOnly: false,
+    popularProductsSort: CategoryProductsSort.popular,
   );
 
   final int currentBannerIndex;
@@ -45,6 +51,8 @@ class CustomerHomeState extends Equatable {
   final CustomerHomeStatus popularProductsStatus;
   final int popularProductsCurrentPage;
   final int popularProductsLastPage;
+  final bool popularProductsShowOnOfferOnly;
+  final CategoryProductsSort popularProductsSort;
 
   CustomerHomeState copyWith({
     int? currentBannerIndex,
@@ -58,6 +66,8 @@ class CustomerHomeState extends Equatable {
     CustomerHomeStatus? popularProductsStatus,
     int? popularProductsCurrentPage,
     int? popularProductsLastPage,
+    bool? popularProductsShowOnOfferOnly,
+    CategoryProductsSort? popularProductsSort,
   }) {
     return CustomerHomeState(
       currentBannerIndex: currentBannerIndex ?? this.currentBannerIndex,
@@ -74,6 +84,9 @@ class CustomerHomeState extends Equatable {
           popularProductsCurrentPage ?? this.popularProductsCurrentPage,
       popularProductsLastPage:
           popularProductsLastPage ?? this.popularProductsLastPage,
+      popularProductsShowOnOfferOnly:
+          popularProductsShowOnOfferOnly ?? this.popularProductsShowOnOfferOnly,
+      popularProductsSort: popularProductsSort ?? this.popularProductsSort,
     );
   }
 
@@ -90,5 +103,7 @@ class CustomerHomeState extends Equatable {
     popularProductsStatus,
     popularProductsCurrentPage,
     popularProductsLastPage,
+    popularProductsShowOnOfferOnly,
+    popularProductsSort,
   ];
 }

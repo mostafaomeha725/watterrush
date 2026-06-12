@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:waterrush/core/theme/styles.dart';
-import 'package:waterrush/core/utils/easy_loading.dart';
 import 'package:waterrush/core/widgets/custom_loading.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
 import 'package:waterrush/core/routes/route_paths.dart';
@@ -13,6 +12,8 @@ import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/ho
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/home_models.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/offer_product_card.dart';
 import 'package:waterrush/core/widgets/pagination_widget.dart';
+import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/category_products_cubit/category_products_state.dart';
+import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/category_products_filters_row.dart';
 
 class AllPopularProductsScreenBody extends StatefulWidget {
   const AllPopularProductsScreenBody({super.key});
@@ -26,6 +27,14 @@ class _AllPopularProductsScreenBodyState
     extends State<AllPopularProductsScreenBody> {
   // Store quantities for each product
   final Map<int, int> _quantities = {};
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<CustomerHomeCubit>().getPopularProducts();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,49 +79,74 @@ class _AllPopularProductsScreenBodyState
                   );
                 }
 
+                final List<OfferProductItemData> mappedProducts =
+                    state.popularProducts.map((product) {
+                  final bool hasDiscount =
+                      product.priceBefore != null &&
+                      product.priceBefore! > product.price;
+                  final int discountPercentage = hasDiscount
+                      ? (((product.priceBefore! - product.price) /
+                                    product.priceBefore!) *
+                                100)
+                            .round()
+                      : 0;
+
+                  return OfferProductItemData(
+                    id: product.id,
+                    name: product.title,
+                    subtitle: product.description ?? '',
+                    imageUrl: product.images.isNotEmpty
+                        ? product.images.first.image
+                        : '',
+                    currentPrice: product.price,
+                    oldPrice: product.priceBefore ?? product.price,
+                    saveAmount: product.priceBefore != null
+                        ? (product.priceBefore! - product.price).toInt()
+                        : 0,
+                    rating: 5.0, // Dummy rating
+                    reviewsCount: 0, // Dummy reviews
+                    discountLabel: hasDiscount ? '-$discountPercentage%' : '',
+                    isPopular: true,
+                  );
+                }).toList();
+
+                List<OfferProductItemData> visibleProducts = mappedProducts.where((p) {
+                  return !state.popularProductsShowOnOfferOnly ||
+                         p.isOnOffer ||
+                         p.oldPrice > p.currentPrice;
+                }).toList();
+
+                visibleProducts.sort((first, second) {
+                  switch (state.popularProductsSort) {
+                    case CategoryProductsSort.popular:
+                      if (first.isPopular != second.isPopular) {
+                        return second.isPopular ? 1 : -1;
+                      }
+                      return second.rating.compareTo(first.rating);
+                    case CategoryProductsSort.priceLowToHigh:
+                      return first.currentPrice.compareTo(second.currentPrice);
+                    case CategoryProductsSort.priceHighToLow:
+                      return second.currentPrice.compareTo(first.currentPrice);
+                    case CategoryProductsSort.topRated:
+                      final int ratingCompare =
+                          second.rating.compareTo(first.rating);
+                      if (ratingCompare != 0) return ratingCompare;
+                      return second.reviewsCount.compareTo(first.reviewsCount);
+                  }
+                });
+
                 final listView = ListView.separated(
-                  padding: EdgeInsets.all(16.w),
-                  itemCount: state.popularProducts.length,
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                  itemCount: visibleProducts.length,
                   separatorBuilder: (context, index) => SizedBox(height: 16.h),
                   itemBuilder: (BuildContext context, int index) {
-                    final product = state.popularProducts[index];
-                    final bool hasDiscount =
-                        product.priceBefore != null &&
-                        product.priceBefore! > product.price;
-                    final int discountPercentage = hasDiscount
-                        ? (((product.priceBefore! - product.price) /
-                                      product.priceBefore!) *
-                                  100)
-                              .round()
-                        : 0;
-
-                    final OfferProductItemData mappedProduct =
-                        OfferProductItemData(
-                          id: product.id,
-                          name: product.title,
-                          subtitle: '', // No subtitle available
-                          imageUrl: product.images.isNotEmpty
-                              ? product.images.first.image
-                              : '',
-                          currentPrice: product.price,
-                          oldPrice: product.priceBefore ?? product.price,
-                          saveAmount: product.priceBefore != null
-                              ? (product.priceBefore! - product.price).toInt()
-                              : 0,
-                          rating: 5.0, // Dummy rating
-                          reviewsCount: 0, // Dummy reviews
-                          discountLabel: hasDiscount
-                              ? '-$discountPercentage%'
-                              : '',
-                          isPopular: true,
-                        );
-
-                    final quantity = _quantities[product.id] ?? 1;
+                    final mappedProduct = visibleProducts[index];
+                    final quantity = _quantities[mappedProduct.id] ?? 1;
 
                     return GestureDetector(
                       onTap: () => context.push(
                         Routes.productDetailsScreen,
-                        extra: product.id,
+                        extra: mappedProduct.id,
                       ),
                       child: OfferProductCard(
                         product: mappedProduct,
@@ -120,19 +154,19 @@ class _AllPopularProductsScreenBodyState
                         compactLayout: true,
                         onIncrement: () {
                           setState(() {
-                            _quantities[product.id] = quantity + 1;
+                            _quantities[mappedProduct.id] = quantity + 1;
                           });
                         },
                         onDecrement: () {
                           if (quantity > 1) {
                             setState(() {
-                              _quantities[product.id] = quantity - 1;
+                              _quantities[mappedProduct.id] = quantity - 1;
                             });
                           }
                         },
                         onAddToCart: () {
                           context.read<CartCubit>().addToCart(
-                            product.id,
+                            mappedProduct.id,
                             quantity,
                           );
                         },
@@ -143,6 +177,24 @@ class _AllPopularProductsScreenBodyState
 
                 return Column(
                   children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                      child: CategoryProductsFiltersRow(
+                        showOnOfferOnly: state.popularProductsShowOnOfferOnly,
+                        sort: state.popularProductsSort,
+                        itemCount: visibleProducts.length,
+                        onToggleOnOffer: () {
+                          context
+                              .read<CustomerHomeCubit>()
+                              .togglePopularProductsOnOffer();
+                        },
+                        onSortSelected: (sort) {
+                          context
+                              .read<CustomerHomeCubit>()
+                              .updatePopularProductsSort(sort);
+                        },
+                      ),
+                    ),
                     Expanded(child: listView),
                     if (state.popularProductsLastPage > 1)
                       PaginationWidget(
