@@ -67,7 +67,7 @@ class CustomerHomeBodyContent extends StatelessWidget {
           SizedBox(height: 14.h),
           const CustomerHomePopularProductsSection(),
           SizedBox(height: 12.h),
-          CustomerHomeReorderCard(onReorder: cubit.reorderLastOrder),
+          //  CustomerHomeReorderCard(onReorder: cubit.reorderLastOrder),
           SizedBox(height: 12.h),
           CustomerHomeTrustRow(
             items: customerHomeBottomTrustItems,

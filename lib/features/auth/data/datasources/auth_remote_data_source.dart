@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:waterrush/core/cache/preferences_storage_keys.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/network/endpoints.dart';
 import '../../../../core/network/network_service.dart';
@@ -58,6 +59,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         networkService.addToken(token);
 
         final customer = CustomerModel.fromJson(resData['customer']);
+        await preferencesStorage.putString(
+          key: PreferencesKeys.name,
+          value: customer.name,
+        );
+        await preferencesStorage.putString(
+          key: PreferencesKeys.phone,
+          value: customer.phone,
+        );
         return Right(customer);
       } catch (e) {
         return Left(Failure('Failed to parse user data'));
@@ -83,6 +92,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         networkService.addToken(token);
 
         final customer = CustomerModel.fromJson(resData['customer']);
+        await preferencesStorage.putString(
+          key: PreferencesKeys.name,
+          value: customer.name,
+        );
+        await preferencesStorage.putString(
+          key: PreferencesKeys.phone,
+          value: customer.phone,
+        );
         return Right(customer);
       } catch (e) {
         return Left(Failure('Failed to parse user data'));
@@ -118,6 +135,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       try {
         final resData = data['data'];
         final customer = CustomerModel.fromJson(resData['customer']);
+        await preferencesStorage.putString(
+          key: PreferencesKeys.name,
+          value: customer.name,
+        );
+        await preferencesStorage.putString(
+          key: PreferencesKeys.phone,
+          value: customer.phone,
+        );
         return Right(customer);
       } catch (e) {
         return Left(Failure('Failed to parse customer profile data'));
@@ -138,6 +163,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       try {
         final resData = data['data'];
         final customer = CustomerModel.fromJson(resData['customer']);
+        await preferencesStorage.putString(
+          key: PreferencesKeys.name,
+          value: customer.name,
+        );
+        await preferencesStorage.putString(
+          key: PreferencesKeys.phone,
+          value: customer.phone,
+        );
         return Right(customer);
       } catch (e) {
         return Left(Failure('Failed to parse updated customer profile data'));

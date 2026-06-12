@@ -4,12 +4,19 @@ import 'package:waterrush/core/constants/app_assets.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/widgets/app_asset.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
+import 'package:waterrush/core/di/services_locator.dart';
+import 'package:waterrush/core/cache/preferences_storage.dart';
+import 'package:waterrush/core/cache/preferences_storage_keys.dart';
 
 class CustomerHomeGreetingCard extends StatelessWidget {
   const CustomerHomeGreetingCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final prefs = sl<PreferencesStorage>();
+    final String fullName = prefs.getString(key: PreferencesKeys.name) ?? 'Guest';
+    final String firstName = fullName.split(' ').first;
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 11.h),
@@ -61,7 +68,7 @@ class CustomerHomeGreetingCard extends StatelessWidget {
                                 ),
                               ),
                               AppText(
-                                'Ahmed!',
+                                '$firstName!',
                                 style: font14w700.copyWith(
                                   color: const Color(0xFF1E6EF2),
                                 ),
