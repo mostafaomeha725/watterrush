@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/home_cubit/customer_home_cubit.dart';
-import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_mock_data.dart';
+import 'package:waterrush/core/widgets/custom_loading.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_offer_banner.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_offer_banner_indicator.dart';
 
@@ -17,6 +17,13 @@ class CustomerHomeOfferSectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (cubit.state.sliders.isEmpty) {
+      return SizedBox(
+        height: 280.h,
+        child: Center(child: CustomLoading.showLoader(scale: 0.7)),
+      );
+    }
+
     return Column(
       children: [
         SizedBox(
@@ -24,19 +31,12 @@ class CustomerHomeOfferSectionCard extends StatelessWidget {
           child: PageView.builder(
             controller: cubit.bannerController,
             clipBehavior: Clip.none,
-            itemCount: cubit.state.sliders.isNotEmpty
-                ? cubit.state.sliders.length
-                : customerHomeBanners.length,
+            itemCount: cubit.state.sliders.length,
             onPageChanged: cubit.onBannerChanged,
             itemBuilder: (context, index) {
-              final data =
-                  customerHomeBanners[index % customerHomeBanners.length];
-              final slider = cubit.state.sliders.isNotEmpty
-                  ? cubit.state.sliders[index]
-                  : null;
+              final slider = cubit.state.sliders[index];
 
               return CustomerHomeOfferBanner(
-                data: data,
                 slider: slider,
                 onOrderNow: onOrderNow,
               );
@@ -45,9 +45,7 @@ class CustomerHomeOfferSectionCard extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
         CustomerHomeOfferBannerIndicator(
-          itemCount: cubit.state.sliders.isNotEmpty
-              ? cubit.state.sliders.length
-              : customerHomeBanners.length,
+          itemCount: cubit.state.sliders.length,
           currentIndex: cubit.state.currentBannerIndex,
         ),
       ],

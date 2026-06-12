@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/widgets/app_image.dart';
+import 'package:waterrush/core/utils/easy_loading.dart';
 import 'package:waterrush/core/widgets/custom_loading.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/product_details_cubit/product_details_cubit.dart';
@@ -92,19 +93,42 @@ class _ProductDetailsScreenBodyState extends State<ProductDetailsScreenBody> {
                         ),
                         child: imageUrl.isNotEmpty
                             ? product.available
-                                ? AppImage(imageUrl: imageUrl, fit: BoxFit.contain)
-                                : ColorFiltered(
-                                    colorFilter: const ColorFilter.matrix(<double>[
-                                      0.2126, 0.7152, 0.0722, 0, 0,
-                                      0.2126, 0.7152, 0.0722, 0, 0,
-                                      0.2126, 0.7152, 0.0722, 0, 0,
-                                      0,      0,      0,      1, 0,
-                                    ]),
-                                    child: Opacity(
-                                      opacity: 0.7,
-                                      child: AppImage(imageUrl: imageUrl, fit: BoxFit.contain),
-                                    ),
-                                  )
+                                  ? AppImage(
+                                      imageUrl: imageUrl,
+                                      fit: BoxFit.contain,
+                                    )
+                                  : ColorFiltered(
+                                      colorFilter:
+                                          const ColorFilter.matrix(<double>[
+                                            0.2126,
+                                            0.7152,
+                                            0.0722,
+                                            0,
+                                            0,
+                                            0.2126,
+                                            0.7152,
+                                            0.0722,
+                                            0,
+                                            0,
+                                            0.2126,
+                                            0.7152,
+                                            0.0722,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            1,
+                                            0,
+                                          ]),
+                                      child: Opacity(
+                                        opacity: 0.7,
+                                        child: AppImage(
+                                          imageUrl: imageUrl,
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                    )
                             : const SizedBox(),
                       ),
                       SizedBox(height: 24.h),
@@ -204,7 +228,10 @@ class _ProductDetailsScreenBodyState extends State<ProductDetailsScreenBody> {
                         decoration: BoxDecoration(
                           color: const Color(0xFFFFF5F5),
                           borderRadius: BorderRadius.circular(16.r),
-                          border: Border.all(color: const Color(0xFFFFD6D6), width: 1.5),
+                          border: Border.all(
+                            color: const Color(0xFFFFD6D6),
+                            width: 1.5,
+                          ),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -217,7 +244,9 @@ class _ProductDetailsScreenBodyState extends State<ProductDetailsScreenBody> {
                             SizedBox(width: 8.w),
                             AppText(
                               'Currently Sold Out',
-                              style: font16w700.copyWith(color: const Color(0xFFE53935)),
+                              style: font16w700.copyWith(
+                                color: const Color(0xFFE53935),
+                              ),
                             ),
                           ],
                         ),

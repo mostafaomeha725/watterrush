@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/utils/spacing.dart';
 import 'package:waterrush/core/widgets/custom_button.dart';
+import 'package:waterrush/core/utils/easy_loading.dart';
 import 'package:waterrush/core/widgets/custom_loading.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/category_products_cubit/category_products_cubit.dart';
@@ -44,7 +45,7 @@ class _CategoryProductsScreenBodyState
   Widget build(BuildContext context) {
     return BlocBuilder<CategoryProductsCubit, CategoryProductsState>(
       builder: (BuildContext context, CategoryProductsState state) {
-        if (state.isLoading) {
+        if (state.isLoading && state.category == null) {
           return Center(child: CustomLoading.showLoader());
         }
 
@@ -148,7 +149,10 @@ class _CategoryProductsScreenBodyState
                         totalPages: state.lastPage,
                         currentPage: state.currentPage,
                         onPageChanged: (page) {
-                          context.read<CategoryProductsCubit>().loadCategory(state.category, page: page);
+                          context.read<CategoryProductsCubit>().loadCategory(
+                            state.category,
+                            page: page,
+                          );
                         },
                       ),
                   ],
@@ -188,6 +192,8 @@ class _CategoryProductsScreenBodyState
                     ),
                   ),
                 ),
+              if (state.isLoading && state.category != null)
+                Positioned.fill(child: CustomLoading.showLoader()),
             ],
           ),
         );

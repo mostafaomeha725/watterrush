@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:waterrush/core/widgets/custom_button.dart';
+import 'package:waterrush/core/utils/easy_loading.dart';
 import 'package:waterrush/core/widgets/custom_loading.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/offer_details_cubit/offer_details_cubit.dart';
@@ -21,7 +22,7 @@ class OfferDetailsScreenBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<OfferDetailsCubit, OfferDetailsState>(
       builder: (BuildContext context, OfferDetailsState state) {
-        if (state.isLoading) {
+        if (state.isLoading && state.offer == null) {
           return Center(child: CustomLoading.showLoader());
         }
 
@@ -154,6 +155,8 @@ class OfferDetailsScreenBody extends StatelessWidget {
                     ),
                   ),
                 ),
+              if (state.isLoading && state.offer != null)
+                Positioned.fill(child: CustomLoading.showLoader()),
             ],
           ),
         );

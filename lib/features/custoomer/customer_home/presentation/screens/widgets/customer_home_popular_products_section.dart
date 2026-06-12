@@ -32,10 +32,11 @@ class CustomerHomePopularProductsSection extends StatelessWidget {
               },
             ),
             SizedBox(height: 12.h),
-            if (state.popularProductsStatus == CustomerHomeStatus.loading)
+            if (state.popularProductsStatus == CustomerHomeStatus.loading ||
+                state.popularProducts.isEmpty)
               SizedBox(
                 height: 200.h,
-                child: Center(child: CustomLoading.showLoader()),
+                child: Center(child: CustomLoading.showLoader(scale: 0.7)),
               )
             else
               SizedBox(

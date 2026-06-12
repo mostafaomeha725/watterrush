@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:waterrush/core/theme/styles.dart';
+import 'package:waterrush/core/utils/easy_loading.dart';
 import 'package:waterrush/core/widgets/custom_loading.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
 import 'package:waterrush/core/routes/route_paths.dart';
@@ -139,7 +140,7 @@ class _AllPopularProductsScreenBodyState
                     );
                   },
                 );
-                
+
                 return Column(
                   children: [
                     Expanded(child: listView),
@@ -148,7 +149,9 @@ class _AllPopularProductsScreenBodyState
                         totalPages: state.popularProductsLastPage,
                         currentPage: state.popularProductsCurrentPage,
                         onPageChanged: (page) {
-                          context.read<CustomerHomeCubit>().getPopularProducts(page: page);
+                          context.read<CustomerHomeCubit>().getPopularProducts(
+                            page: page,
+                          );
                         },
                       ),
                   ],

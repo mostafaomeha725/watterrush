@@ -11,13 +11,11 @@ import '../../../domain/entities/slider_entity.dart';
 
 class CustomerHomeOfferBannerMedia extends StatelessWidget {
   const CustomerHomeOfferBannerMedia({
-    required this.data,
-    this.slider,
+    required this.slider,
     super.key,
   });
 
-  final HomeBannerViewModel data;
-  final SliderEntity? slider;
+  final SliderEntity slider;
 
   @override
   Widget build(BuildContext context) {
@@ -30,17 +28,11 @@ class CustomerHomeOfferBannerMedia extends StatelessWidget {
             top: 20.h,
             bottom: 20.h,
             right: 25.w,
-            child: slider != null
-                ? AppImage(
-                    imageUrl: slider!.image,
-                    width: 100.w,
-                    fit: BoxFit.contain,
-                  )
-                : AppAsset(
-                    assetName: Assets.gallon,
-                    width: 100.w,
-                    fit: BoxFit.contain,
-                  ),
+            child: AppImage(
+              imageUrl: slider.image,
+              width: 100.w,
+              fit: BoxFit.contain,
+            ),
           ),
           Positioned(
             top: 20.h,

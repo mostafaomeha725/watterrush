@@ -8,14 +8,12 @@ import 'customer_home_view_models.dart';
 
 class CustomerHomeOfferBannerContent extends StatelessWidget {
   const CustomerHomeOfferBannerContent({
-    required this.data,
-    this.slider,
+    required this.slider,
     required this.onOrderNow,
     super.key,
   });
 
-  final HomeBannerViewModel data;
-  final SliderEntity? slider;
+  final SliderEntity slider;
   final VoidCallback onOrderNow;
 
   @override
@@ -43,7 +41,7 @@ class CustomerHomeOfferBannerContent extends StatelessWidget {
                 ),
                 SizedBox(width: 6.w),
                 AppText(
-                  slider?.tag ?? 'LIMITED TIME',
+                  slider.tag,
                   style: font10w700.copyWith(color: Colors.white),
                 ),
               ],
@@ -51,42 +49,22 @@ class CustomerHomeOfferBannerContent extends StatelessWidget {
           ),
           SizedBox(height: 6.h),
           AppText(
-            slider?.title ?? data.title,
+            slider.title,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: font22w700.copyWith(color: Colors.white),
           ),
           SizedBox(height: 4.h),
-          if (slider != null)
-            AppText(
-              slider!.description,
-              maxLines: 2,
-              style: font12w500.copyWith(color: Colors.white),
-            )
-          else
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Get up to ',
-                    style: font12w500.copyWith(color: Colors.white),
-                  ),
-                  TextSpan(
-                    text: '35%',
-                    style: font12w500.copyWith(color: const Color(0xff08f1ff)),
-                  ),
-                  TextSpan(
-                    text: ' off on\nselected products',
-                    style: font12w500.copyWith(color: Colors.white),
-                  ),
-                ],
-              ),
-            ),
+          AppText(
+            slider.description,
+            maxLines: 2,
+            style: font12w500.copyWith(color: Colors.white),
+          ),
           SizedBox(height: 14.h),
           SizedBox(
             width: 148.w,
             child: AppButton.icon(
-              text: slider?.buttonText ?? 'Order Now',
+              text: slider.buttonText,
               onPressed: onOrderNow,
               height: 42.h,
               radius: 22.r,

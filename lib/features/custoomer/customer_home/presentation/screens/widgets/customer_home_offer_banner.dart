@@ -2,19 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'customer_home_offer_banner_content.dart';
 import 'customer_home_offer_banner_media.dart';
-import 'customer_home_view_models.dart';
 import '../../../domain/entities/slider_entity.dart';
 
 class CustomerHomeOfferBanner extends StatelessWidget {
   const CustomerHomeOfferBanner({
-    required this.data,
-    this.slider,
+    required this.slider,
     required this.onOrderNow,
     super.key,
   });
 
-  final HomeBannerViewModel data;
-  final SliderEntity? slider;
+  final SliderEntity slider;
   final VoidCallback onOrderNow;
 
   @override
@@ -51,7 +48,6 @@ class CustomerHomeOfferBanner extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomerHomeOfferBannerContent(
-                    data: data,
                     slider: slider,
                     onOrderNow: onOrderNow,
                   ),
@@ -64,7 +60,7 @@ class CustomerHomeOfferBanner extends StatelessWidget {
             top: 0,
             right: 0,
             bottom: 0,
-            child: CustomerHomeOfferBannerMedia(data: data, slider: slider),
+            child: CustomerHomeOfferBannerMedia(slider: slider),
           ),
         ],
       ),

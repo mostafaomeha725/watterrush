@@ -18,6 +18,9 @@ class CustomerHomeCubit extends Cubit<CustomerHomeState> {
     required this.getPopularProductsUseCase,
   }) : super(CustomerHomeState.initial()) {
     _startAutoSlide();
+  }
+
+  void initHome() {
     getSliders();
     getCategories();
     getPopularProducts();

@@ -22,7 +22,7 @@ class _AppLoader {
     EasyLoading.show(
       status: message,
       maskType: maskType,
-      indicator: const _MorphLoader(),
+      indicator: const AppMorphLoader(color: Colors.white),
     );
   }
 
@@ -70,14 +70,15 @@ class _AppLoader {
 // Morph Loader (Apple style)
 // ─────────────────────────────────────────
 
-class _MorphLoader extends StatefulWidget {
-  const _MorphLoader();
+class AppMorphLoader extends StatefulWidget {
+  final Color color;
+  const AppMorphLoader({super.key, this.color = Colors.white});
 
   @override
-  State<_MorphLoader> createState() => _MorphLoaderState();
+  State<AppMorphLoader> createState() => _AppMorphLoaderState();
 }
 
-class _MorphLoaderState extends State<_MorphLoader>
+class _AppMorphLoaderState extends State<AppMorphLoader>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
@@ -109,11 +110,12 @@ class _MorphLoaderState extends State<_MorphLoader>
         animation: _controller,
         builder: (_, __) {
           return CustomPaint(
-            painter: _MorphPainter(
+            painter: _AppMorphPainter(
               progress: _controller.value,
               segments: _segments,
               orbitRadius: _orbitRadius,
               dotMaxRadius: _dotMaxRadius,
+              color: widget.color,
             ),
           );
         },
@@ -122,18 +124,20 @@ class _MorphLoaderState extends State<_MorphLoader>
   }
 }
 
-class _MorphPainter extends CustomPainter {
-  const _MorphPainter({
+class _AppMorphPainter extends CustomPainter {
+  const _AppMorphPainter({
     required this.progress,
     required this.segments,
     required this.orbitRadius,
     required this.dotMaxRadius,
+    required this.color,
   });
 
   final double progress;
   final int segments;
   final double orbitRadius;
   final double dotMaxRadius;
+  final Color color;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -153,18 +157,18 @@ class _MorphPainter extends CustomPainter {
       final double x = cx + orbitRadius * cos(angle);
       final double y = cy + orbitRadius * sin(angle);
 
-      paint.color = Colors.white.withValues(alpha: alpha);
+      paint.color = color.withValues(alpha: alpha);
       canvas.drawCircle(Offset(x, y), dotRadius, paint);
     }
 
     // Center dot
     final double centerAlpha = 0.3 + 0.4 * sin(t * 2);
-    paint.color = Colors.white.withValues(alpha: centerAlpha);
+    paint.color = color.withValues(alpha: centerAlpha);
     canvas.drawCircle(Offset(cx, cy), 3, paint);
   }
 
   @override
-  bool shouldRepaint(_MorphPainter old) => old.progress != progress;
+  bool shouldRepaint(_AppMorphPainter old) => old.progress != progress;
 }
 
 // ─────────────────────────────────────────
