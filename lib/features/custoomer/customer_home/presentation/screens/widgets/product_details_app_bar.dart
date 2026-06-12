@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
 
-class AllPopularProductsAppBar extends StatelessWidget {
-  const AllPopularProductsAppBar({super.key});
+class ProductDetailsAppBar extends StatelessWidget {
+  const ProductDetailsAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class AllPopularProductsAppBar extends StatelessWidget {
           ),
           Expanded(
             child: AppText(
-              'All Popular Products',
+              'Product Details',
               alignment: AlignmentDirectional.center,
               style: font18w700.copyWith(color: const Color(0xFF223A66)),
             ),

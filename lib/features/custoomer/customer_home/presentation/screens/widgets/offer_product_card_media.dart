@@ -33,21 +33,22 @@ class OfferProductCardMedia extends StatelessWidget {
               showprogressIndicator: true,
             ),
           ),
-          Positioned(
-            top: 10.h,
-            left: 10.w,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-              decoration: BoxDecoration(
-                color: const Color(0xFFEF4444),
-                borderRadius: BorderRadius.circular(999.r),
-              ),
-              child: AppText(
-                discountBadgeText ?? product.discountLabel,
-                style: font10w700.copyWith(color: Colors.white),
+          if ((discountBadgeText ?? product.discountLabel).isNotEmpty)
+            Positioned(
+              top: 10.h,
+              left: 10.w,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFEF4444),
+                  borderRadius: BorderRadius.circular(999.r),
+                ),
+                child: AppText(
+                  discountBadgeText ?? product.discountLabel,
+                  style: font10w700.copyWith(color: Colors.white),
+                ),
               ),
             ),
-          ),
           if (product.isPopular && showPopularTag)
             Positioned(
               top: 10.h,

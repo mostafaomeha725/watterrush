@@ -41,6 +41,12 @@ class CategoryProductsCubit extends Cubit<CategoryProductsState> {
             if (p.images.isNotEmpty) {
               imageUrl = p.images.first.image;
             }
+            final bool hasDiscount =
+                p.priceBefore != null && p.priceBefore! > p.price;
+            final int discountPercentage = hasDiscount
+                ? (((p.priceBefore! - p.price) / p.priceBefore!) * 100).round()
+                : 0;
+
             return OfferProductItemData(
               id: p.id,
               name: p.title,
@@ -51,7 +57,7 @@ class CategoryProductsCubit extends Cubit<CategoryProductsState> {
               saveAmount: ((p.priceBefore ?? p.price) - p.price).toInt(),
               rating: 5.0,
               reviewsCount: 0,
-              discountLabel: '',
+              discountLabel: hasDiscount ? '-$discountPercentage%' : '',
             );
           }).toList();
 

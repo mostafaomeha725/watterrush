@@ -7,6 +7,9 @@ import 'package:waterrush/core/widgets/custom_text.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_state.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/category_products_cubit/category_products_state.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/offer_product_card.dart';
+import 'package:go_router/go_router.dart';
+import 'package:waterrush/core/routes/route_paths.dart';
+import 'package:waterrush/core/widgets/custom_nav_bar.dart';
 
 class CategoryProductsContent extends StatelessWidget {
   const CategoryProductsContent({
@@ -76,17 +79,27 @@ class CategoryProductsContent extends StatelessWidget {
 
         return Padding(
           padding: EdgeInsets.only(bottom: 12.h),
-          child: OfferProductCard(
-            product: product,
-            quantity: qty,
-            onIncrement: () => onIncrement(productIndex),
-            onDecrement: () => onDecrement(productIndex),
-            onAddToCart: () => onAddToCart(productIndex),
-            compactLayout: true,
-            isAdded: isAdded,
-            addButtonText: '+ Add',
-            addedButtonText: 'Added',
-            badgeTextOverride: 'OFFER',
+          child: GestureDetector(
+            onTap: () async {
+              final result = await context.push(
+                Routes.productDetailsScreen,
+                extra: product.id,
+              );
+              if (result == 'go_to_cart_tab' && context.mounted) {
+                CustomNavBar.switchToTab(context, 2);
+              }
+            },
+            child: OfferProductCard(
+              product: product,
+              quantity: qty,
+              onIncrement: () => onIncrement(productIndex),
+              onDecrement: () => onDecrement(productIndex),
+              onAddToCart: () => onAddToCart(productIndex),
+              compactLayout: true,
+              isAdded: isAdded,
+              addButtonText: '+ Add',
+              addedButtonText: 'Added',
+            ),
           ),
         );
       }).toList(),

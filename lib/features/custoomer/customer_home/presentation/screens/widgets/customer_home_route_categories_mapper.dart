@@ -31,6 +31,12 @@ List<CategoryItemData> mapApiCategoriesToRouteCategories(
       if (p.images.isNotEmpty) {
         imageUrl = p.images.first.image;
       }
+      final bool hasDiscount =
+          p.priceBefore != null && p.priceBefore! > p.price;
+      final int discountPercentage = hasDiscount
+          ? (((p.priceBefore! - p.price) / p.priceBefore!) * 100).round()
+          : 0;
+
       return OfferProductItemData(
         id: p.id,
         name: p.title,
@@ -41,7 +47,8 @@ List<CategoryItemData> mapApiCategoriesToRouteCategories(
         saveAmount: ((p.priceBefore ?? p.price) - p.price).toInt(),
         rating: 5.0, // Default rating as API doesn't provide
         reviewsCount: 0,
-        discountLabel: '',
+        discountLabel: hasDiscount ? '-$discountPercentage%' : '',
+        isOnOffer: hasDiscount,
       );
     }).toList();
 
@@ -50,6 +57,10 @@ List<CategoryItemData> mapApiCategoriesToRouteCategories(
       catImageUrl = cat.products.first.images.first.image;
     }
 
+    final int onOfferCount = products
+        .where((OfferProductItemData p) => p.isOnOffer)
+        .length;
+
     return CategoryItemData(
       id: cat.id,
       title: cat.name,
@@ -57,6 +68,7 @@ List<CategoryItemData> mapApiCategoriesToRouteCategories(
       imagePath: catImageUrl,
       products: products,
       categoryLabel: cat.name,
+      onOfferCount: onOfferCount,
     );
   }).toList();
 }

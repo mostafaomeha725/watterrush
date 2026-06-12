@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/widgets/custom_loading.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
-import 'package:waterrush/core/widgets/custom_nav_bar.dart';
-import 'package:waterrush/core/routes/route_paths.dart';
+
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/home_cubit/customer_home_cubit.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/home_cubit/customer_home_state.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/home_models.dart';
@@ -24,8 +22,6 @@ class AllPopularProductsScreenBody extends StatefulWidget {
 
 class _AllPopularProductsScreenBodyState
     extends State<AllPopularProductsScreenBody> {
-
-
   @override
   void initState() {
     super.initState();
@@ -75,7 +71,7 @@ class _AllPopularProductsScreenBodyState
                       return OfferProductItemData(
                         id: product.id,
                         name: product.title,
-                        subtitle: product.description ?? '',
+                        subtitle: product.description,
                         imageUrl: product.images.isNotEmpty
                             ? product.images.first.image
                             : '',

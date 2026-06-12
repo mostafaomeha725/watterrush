@@ -35,17 +35,18 @@ class AllCategoriesCardHeader extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFF4F52),
-                  borderRadius: BorderRadius.circular(999.r),
+              if (onOfferCount > 0)
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFF4F52),
+                    borderRadius: BorderRadius.circular(999.r),
+                  ),
+                  child: AppText(
+                    '$onOfferCount on offer',
+                    style: font10w700.copyWith(color: Colors.white),
+                  ),
                 ),
-                child: AppText(
-                  '$onOfferCount on offer',
-                  style: font10w700.copyWith(color: Colors.white),
-                ),
-              ),
               const Spacer(),
               Container(
                 constraints: BoxConstraints(minWidth: 56.w),

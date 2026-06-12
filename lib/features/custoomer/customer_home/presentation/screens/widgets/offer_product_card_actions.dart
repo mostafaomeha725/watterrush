@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/core/theme/styles.dart';
-import 'package:waterrush/core/utils/spacing.dart';
 import 'package:waterrush/core/widgets/custom_button.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
 
@@ -72,13 +71,15 @@ class OfferProductCardActions extends StatelessWidget {
                     color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 4,
                     offset: const Offset(0, 2),
-                  )
+                  ),
                 ],
               ),
               child: Icon(
                 quantity > 1 ? Icons.remove : Icons.delete_outline_rounded,
                 size: isLarge ? 18.sp : 16.sp,
-                color: quantity > 1 ? const Color(0xFF1E73D9) : const Color(0xFFE11D48),
+                color: quantity > 1
+                    ? const Color(0xFF1E73D9)
+                    : const Color(0xFFE11D48),
               ),
             ),
           ),
@@ -103,7 +104,7 @@ class OfferProductCardActions extends StatelessWidget {
                     color: const Color(0xFF1E73D9).withValues(alpha: 0.2),
                     blurRadius: 4,
                     offset: const Offset(0, 2),
-                  )
+                  ),
                 ],
               ),
               child: Icon(
