@@ -16,6 +16,8 @@ class CustomerHomeState extends Equatable {
     required this.categoriesStatus,
     required this.popularProducts,
     required this.popularProductsStatus,
+    required this.popularProductsCurrentPage,
+    required this.popularProductsLastPage,
   });
 
   factory CustomerHomeState.initial() => const CustomerHomeState(
@@ -28,6 +30,8 @@ class CustomerHomeState extends Equatable {
     categoriesStatus: CustomerHomeStatus.initial,
     popularProducts: [],
     popularProductsStatus: CustomerHomeStatus.initial,
+    popularProductsCurrentPage: 1,
+    popularProductsLastPage: 1,
   );
 
   final int currentBannerIndex;
@@ -39,6 +43,8 @@ class CustomerHomeState extends Equatable {
   final CustomerHomeStatus categoriesStatus;
   final List<ProductEntity> popularProducts;
   final CustomerHomeStatus popularProductsStatus;
+  final int popularProductsCurrentPage;
+  final int popularProductsLastPage;
 
   CustomerHomeState copyWith({
     int? currentBannerIndex,
@@ -50,6 +56,8 @@ class CustomerHomeState extends Equatable {
     CustomerHomeStatus? categoriesStatus,
     List<ProductEntity>? popularProducts,
     CustomerHomeStatus? popularProductsStatus,
+    int? popularProductsCurrentPage,
+    int? popularProductsLastPage,
   }) {
     return CustomerHomeState(
       currentBannerIndex: currentBannerIndex ?? this.currentBannerIndex,
@@ -62,6 +70,10 @@ class CustomerHomeState extends Equatable {
       popularProducts: popularProducts ?? this.popularProducts,
       popularProductsStatus:
           popularProductsStatus ?? this.popularProductsStatus,
+      popularProductsCurrentPage:
+          popularProductsCurrentPage ?? this.popularProductsCurrentPage,
+      popularProductsLastPage:
+          popularProductsLastPage ?? this.popularProductsLastPage,
     );
   }
 
@@ -76,5 +88,7 @@ class CustomerHomeState extends Equatable {
     categoriesStatus,
     popularProducts,
     popularProductsStatus,
+    popularProductsCurrentPage,
+    popularProductsLastPage,
   ];
 }

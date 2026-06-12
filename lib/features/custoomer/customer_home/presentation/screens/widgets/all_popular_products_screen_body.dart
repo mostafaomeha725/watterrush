@@ -11,6 +11,7 @@ import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/ho
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/home_cubit/customer_home_state.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/home_models.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/offer_product_card.dart';
+import 'package:waterrush/core/widgets/pagination_widget.dart';
 
 class AllPopularProductsScreenBody extends StatefulWidget {
   const AllPopularProductsScreenBody({super.key});
@@ -68,7 +69,7 @@ class _AllPopularProductsScreenBodyState
                   );
                 }
 
-                return ListView.separated(
+                final listView = ListView.separated(
                   padding: EdgeInsets.all(16.w),
                   itemCount: state.popularProducts.length,
                   separatorBuilder: (context, index) => SizedBox(height: 16.h),
@@ -137,6 +138,20 @@ class _AllPopularProductsScreenBodyState
                       ),
                     );
                   },
+                );
+                
+                return Column(
+                  children: [
+                    Expanded(child: listView),
+                    if (state.popularProductsLastPage > 1)
+                      PaginationWidget(
+                        totalPages: state.popularProductsLastPage,
+                        currentPage: state.popularProductsCurrentPage,
+                        onPageChanged: (page) {
+                          context.read<CustomerHomeCubit>().getPopularProducts(page: page);
+                        },
+                      ),
+                  ],
                 );
               },
             ),

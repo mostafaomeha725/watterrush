@@ -87,9 +87,9 @@ class CustomerHomeCubit extends Cubit<CustomerHomeState> {
     );
   }
 
-  Future<void> getPopularProducts() async {
+  Future<void> getPopularProducts({int page = 1}) async {
     emit(state.copyWith(popularProductsStatus: CustomerHomeStatus.loading));
-    final result = await getPopularProductsUseCase();
+    final result = await getPopularProductsUseCase(page: page);
     result.fold(
       (failure) => emit(
         state.copyWith(
@@ -97,11 +97,13 @@ class CustomerHomeCubit extends Cubit<CustomerHomeState> {
           message: failure.message,
         ),
       ),
-      (products) {
+      (paginatedData) {
         emit(
           state.copyWith(
             popularProductsStatus: CustomerHomeStatus.success,
-            popularProducts: products,
+            popularProducts: paginatedData.data,
+            popularProductsCurrentPage: paginatedData.currentPage,
+            popularProductsLastPage: paginatedData.lastPage,
           ),
         );
       },

@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
+import '../../../../../core/models/paginated_data.dart';
 import '../../../../../core/network/endpoints.dart';
 import '../../../../../core/network/network_service.dart';
 import '../models/slider_model.dart';
@@ -9,10 +10,13 @@ import '../models/product_model.dart';
 abstract class CustomerHomeRemoteDataSource {
   Future<Either<Failure, List<SliderModel>>> getSliders();
   Future<Either<Failure, List<CategoryModel>>> getCategories();
-  Future<Either<Failure, List<ProductModel>>> getCategoryProducts(
-    int categoryId,
-  );
-  Future<Either<Failure, List<ProductModel>>> getPopularProducts();
+  Future<Either<Failure, PaginatedData<ProductModel>>> getCategoryProducts(
+    int categoryId, {
+    int page = 1,
+  });
+  Future<Either<Failure, PaginatedData<ProductModel>>> getPopularProducts({
+    int page = 1,
+  });
   Future<Either<Failure, ProductModel>> getProductDetails(int productId);
 }
 
@@ -58,20 +62,23 @@ class CustomerHomeRemoteDataSourceImpl implements CustomerHomeRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, List<ProductModel>>> getCategoryProducts(
-    int categoryId,
-  ) async {
+  Future<Either<Failure, PaginatedData<ProductModel>>> getCategoryProducts(
+    int categoryId, {
+    int page = 1,
+  }) async {
     final response = await networkService.getData(
       endPoint: EndPoints.customerProducts,
-      queryParameters: {'category_id': categoryId},
+      queryParameters: {'category_id': categoryId, 'page': page},
     );
 
     return response.fold((failure) => Left(failure), (data) {
       try {
-        final productsList = (data['data']['products'] as List)
-            .map((json) => ProductModel.fromJson(json))
-            .toList();
-        return Right(productsList);
+        final paginatedData = PaginatedData<ProductModel>.fromJson(
+          data['data'],
+          ProductModel.fromJson,
+          'products',
+        );
+        return Right(paginatedData);
       } catch (e) {
         return Left(Failure('Failed to parse category products data'));
       }
@@ -79,17 +86,22 @@ class CustomerHomeRemoteDataSourceImpl implements CustomerHomeRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, List<ProductModel>>> getPopularProducts() async {
+  Future<Either<Failure, PaginatedData<ProductModel>>> getPopularProducts({
+    int page = 1,
+  }) async {
     final response = await networkService.getData(
       endPoint: EndPoints.customerProducts,
+      queryParameters: {'page': page},
     );
 
     return response.fold((failure) => Left(failure), (data) {
       try {
-        final productsList = (data['data']['products'] as List)
-            .map((json) => ProductModel.fromJson(json))
-            .toList();
-        return Right(productsList);
+        final paginatedData = PaginatedData<ProductModel>.fromJson(
+          data['data'],
+          ProductModel.fromJson,
+          'products',
+        );
+        return Right(paginatedData);
       } catch (e) {
         return Left(Failure('Failed to parse popular products data'));
       }

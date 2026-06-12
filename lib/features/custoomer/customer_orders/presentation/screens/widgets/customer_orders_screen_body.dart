@@ -10,6 +10,7 @@ import 'package:waterrush/features/custoomer/customer_orders/presentation/screen
 import 'package:waterrush/features/custoomer/customer_orders/presentation/screens/widgets/orders_list_header_widget.dart';
 import 'package:waterrush/features/custoomer/customer_orders/presentation/screens/widgets/order_item_card.dart';
 import 'package:waterrush/features/custoomer/customer_orders/presentation/screens/widgets/orders_summary_bottom_bar.dart';
+import 'package:waterrush/core/widgets/pagination_widget.dart';
 
 class CustomerOrdersScreenBody extends StatelessWidget {
   const CustomerOrdersScreenBody({super.key});
@@ -55,6 +56,14 @@ class CustomerOrdersScreenBody extends StatelessWidget {
                               .map((order) => OrderItemCard(order: order))
                               .toList(),
                         ),
+                      ),
+                    if (cubit.lastPage > 1)
+                      PaginationWidget(
+                        totalPages: cubit.lastPage,
+                        currentPage: cubit.currentPage,
+                        onPageChanged: (page) {
+                          cubit.getOrders(page: page);
+                        },
                       ),
                     SizedBox(height: 24.h),
                   ],

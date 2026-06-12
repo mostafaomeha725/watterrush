@@ -3,6 +3,7 @@ import '../../../../../core/error/failure.dart';
 import '../../domain/entities/slider_entity.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/product_entity.dart';
+import '../../../../../core/models/paginated_data.dart';
 import '../../domain/repositories/customer_home_repository.dart';
 import '../datasources/customer_home_remote_data_source.dart';
 
@@ -22,15 +23,18 @@ class CustomerHomeRepositoryImpl implements CustomerHomeRepository {
   }
 
   @override
-  Future<Either<Failure, List<ProductEntity>>> getCategoryProducts(
-    int categoryId,
-  ) async {
-    return await remoteDataSource.getCategoryProducts(categoryId);
+  Future<Either<Failure, PaginatedData<ProductEntity>>> getCategoryProducts(
+    int categoryId, {
+    int page = 1,
+  }) async {
+    return await remoteDataSource.getCategoryProducts(categoryId, page: page);
   }
 
   @override
-  Future<Either<Failure, List<ProductEntity>>> getPopularProducts() async {
-    return await remoteDataSource.getPopularProducts();
+  Future<Either<Failure, PaginatedData<ProductEntity>>> getPopularProducts({
+    int page = 1,
+  }) async {
+    return await remoteDataSource.getPopularProducts(page: page);
   }
 
   @override

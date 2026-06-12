@@ -29,6 +29,8 @@ class CategoryProductsState extends Equatable {
     this.sort = CategoryProductsSort.popular,
     this.displayedProductIndexes = const <int>[],
     this.addedProductIndexes = const <int>[],
+    this.currentPage = 1,
+    this.lastPage = 1,
   });
 
   final bool isLoading;
@@ -40,6 +42,8 @@ class CategoryProductsState extends Equatable {
   final CategoryProductsSort sort;
   final List<int> displayedProductIndexes;
   final List<int> addedProductIndexes;
+  final int currentPage;
+  final int lastPage;
 
   int quantityFor(int index) => quantities[index] ?? 1;
 
@@ -55,6 +59,8 @@ class CategoryProductsState extends Equatable {
     CategoryProductsSort? sort,
     List<int>? displayedProductIndexes,
     List<int>? addedProductIndexes,
+    int? currentPage,
+    int? lastPage,
     bool keepCurrentCategory = true,
   }) {
     return CategoryProductsState(
@@ -68,6 +74,8 @@ class CategoryProductsState extends Equatable {
       displayedProductIndexes:
           displayedProductIndexes ?? this.displayedProductIndexes,
       addedProductIndexes: addedProductIndexes ?? this.addedProductIndexes,
+      currentPage: currentPage ?? this.currentPage,
+      lastPage: lastPage ?? this.lastPage,
     );
   }
 
@@ -82,5 +90,7 @@ class CategoryProductsState extends Equatable {
     sort,
     displayedProductIndexes,
     addedProductIndexes,
+    currentPage,
+    lastPage,
   ];
 }

@@ -4,8 +4,10 @@ import 'package:waterrush/core/network/endpoints.dart';
 import 'package:waterrush/core/network/network_service.dart';
 import 'package:waterrush/features/custoomer/customer_orders/data/models/customer_order_model.dart';
 
+import 'package:waterrush/core/models/paginated_data.dart';
+
 abstract class OrdersRemoteDataSource {
-  Future<Either<Failure, List<CustomerOrderModel>>> getOrders();
+  Future<Either<Failure, PaginatedData<CustomerOrderModel>>> getOrders({int page = 1});
   Future<Either<Failure, CustomerOrderModel>> getOrderDetails(int id);
 }
 
@@ -15,18 +17,20 @@ class OrdersRemoteDataSourceImpl implements OrdersRemoteDataSource {
   OrdersRemoteDataSourceImpl({required this.networkService});
 
   @override
-  Future<Either<Failure, List<CustomerOrderModel>>> getOrders() async {
+  Future<Either<Failure, PaginatedData<CustomerOrderModel>>> getOrders({int page = 1}) async {
     final response = await networkService.getData(
       endPoint: EndPoints.customerOrders,
+      queryParameters: {'page': page},
     );
 
     return response.fold((failure) => Left(failure), (data) {
       if (data['status'] == true) {
-        final List ordersList = data['data']['orders'] ?? [];
-        final List<CustomerOrderModel> orders = ordersList
-            .map((item) => CustomerOrderModel.fromJson(item))
-            .toList();
-        return Right(orders);
+        final paginatedData = PaginatedData<CustomerOrderModel>.fromJson(
+          data['data'],
+          CustomerOrderModel.fromJson,
+          'orders',
+        );
+        return Right(paginatedData);
       } else {
         return Left(
           ServerFailure(message: data['message'] ?? 'Failed to fetch orders'),

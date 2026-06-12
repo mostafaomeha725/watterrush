@@ -13,6 +13,8 @@ class CustomerOrdersCubit extends Cubit<CustomerOrdersState> {
   int get selectedTabIndex => _selectedTabIndex;
 
   List<CustomerOrderEntity> orders = [];
+  int currentPage = 1;
+  int lastPage = 1;
 
   void changeTab(int index) {
     if (_selectedTabIndex == index) return;
@@ -21,11 +23,13 @@ class CustomerOrdersCubit extends Cubit<CustomerOrdersState> {
     getOrders();
   }
 
-  Future<void> getOrders() async {
+  Future<void> getOrders({int page = 1}) async {
     emit(GetOrdersLoading());
-    final result = await getOrdersUseCase.call();
-    result.fold((failure) => emit(GetOrdersFailure(failure.message)), (data) {
-      orders = data;
+    final result = await getOrdersUseCase.call(page: page);
+    result.fold((failure) => emit(GetOrdersFailure(failure.message)), (paginatedData) {
+      orders = paginatedData.data;
+      currentPage = paginatedData.currentPage;
+      lastPage = paginatedData.lastPage;
       emit(GetOrdersSuccess(orders));
     });
   }

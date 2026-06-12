@@ -8,12 +8,12 @@ class CategoryProductsCubit extends Cubit<CategoryProductsState> {
     required CategoryItemData? category,
     required this.getCategoryProductsUseCase,
   }) : super(CategoryProductsState(category: category)) {
-    _loadCategory(category);
+    loadCategory(category);
   }
 
   final GetCategoryProductsUseCase getCategoryProductsUseCase;
 
-  Future<void> _loadCategory(CategoryItemData? category) async {
+  Future<void> loadCategory(CategoryItemData? category, {int page = 1}) async {
     if (category == null) {
       emit(
         state.copyWith(
@@ -30,13 +30,13 @@ class CategoryProductsCubit extends Cubit<CategoryProductsState> {
 
     final safeCategory = category;
     if (safeCategory.id != 0) {
-      final result = await getCategoryProductsUseCase(safeCategory.id);
+      final result = await getCategoryProductsUseCase(safeCategory.id, page: page);
       result.fold(
         (failure) {
           emit(state.copyWith(isLoading: false));
         },
-        (products) {
-          final mappedProducts = products.map((p) {
+        (paginatedData) {
+          final mappedProducts = paginatedData.data.map((p) {
             String imageUrl = '';
             if (p.images.isNotEmpty) {
               imageUrl = p.images.first.image;
@@ -68,6 +68,11 @@ class CategoryProductsCubit extends Cubit<CategoryProductsState> {
           );
 
           category = updatedCategory;
+          
+          emit(state.copyWith(
+            currentPage: paginatedData.currentPage,
+            lastPage: paginatedData.lastPage,
+          ));
         },
       );
     } else {

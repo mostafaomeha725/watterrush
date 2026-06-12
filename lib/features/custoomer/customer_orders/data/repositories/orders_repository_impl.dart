@@ -3,6 +3,7 @@ import 'package:waterrush/core/error/failure.dart';
 import 'package:waterrush/features/custoomer/customer_orders/data/datasources/orders_remote_data_source.dart';
 import 'package:waterrush/features/custoomer/customer_orders/domain/entities/customer_order_entity.dart';
 import 'package:waterrush/features/custoomer/customer_orders/domain/repositories/orders_repository.dart';
+import 'package:waterrush/core/models/paginated_data.dart';
 
 class OrdersRepositoryImpl implements OrdersRepository {
   final OrdersRemoteDataSource remoteDataSource;
@@ -10,8 +11,8 @@ class OrdersRepositoryImpl implements OrdersRepository {
   OrdersRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<Either<Failure, List<CustomerOrderEntity>>> getOrders() async {
-    return await remoteDataSource.getOrders();
+  Future<Either<Failure, PaginatedData<CustomerOrderEntity>>> getOrders({int page = 1}) async {
+    return await remoteDataSource.getOrders(page: page);
   }
 
   @override

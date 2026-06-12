@@ -3,12 +3,14 @@ import 'package:waterrush/core/error/failure.dart';
 import 'package:waterrush/features/custoomer/customer_orders/domain/entities/customer_order_entity.dart';
 import 'package:waterrush/features/custoomer/customer_orders/domain/repositories/orders_repository.dart';
 
+import 'package:waterrush/core/models/paginated_data.dart';
+
 class GetOrdersUseCase {
   final OrdersRepository repository;
 
   GetOrdersUseCase({required this.repository});
 
-  Future<Either<Failure, List<CustomerOrderEntity>>> call() async {
-    return await repository.getOrders();
+  Future<Either<Failure, PaginatedData<CustomerOrderEntity>>> call({int page = 1}) async {
+    return await repository.getOrders(page: page);
   }
 }

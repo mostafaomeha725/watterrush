@@ -14,6 +14,7 @@ import 'package:waterrush/features/custoomer/customer_home/presentation/screens/
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/category_products_header.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/category_products_view_cart_button.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_cubit.dart';
+import 'package:waterrush/core/widgets/pagination_widget.dart';
 
 class CategoryProductsScreenBody extends StatefulWidget {
   const CategoryProductsScreenBody({super.key});
@@ -142,6 +143,14 @@ class _CategoryProductsScreenBodyState
                         },
                       ),
                     ),
+                    if (state.lastPage > 1)
+                      PaginationWidget(
+                        totalPages: state.lastPage,
+                        currentPage: state.currentPage,
+                        onPageChanged: (page) {
+                          context.read<CategoryProductsCubit>().loadCategory(state.category, page: page);
+                        },
+                      ),
                   ],
                 ),
               ),
