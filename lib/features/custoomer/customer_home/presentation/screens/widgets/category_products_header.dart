@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:waterrush/core/constants/app_assets.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/utils/spacing.dart';
-import 'package:waterrush/core/widgets/app_asset.dart';
 import 'package:waterrush/core/widgets/custom_search.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/home_models.dart';
@@ -90,52 +88,52 @@ class CategoryProductsHeader extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  GestureDetector(
-                    onTap: onCartTap,
-                    child: Container(
-                      width: 36.w,
-                      height: 36.w,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.18),
-                        borderRadius: BorderRadius.circular(12.r),
-                      ),
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: <Widget>[
-                          Center(
-                            child: AppAsset(
-                              assetName: Assets.shoppingBag,
-                              width: 18.w,
-                              height: 18.w,
-                              color: Colors.white,
-                            ),
-                          ),
-                          if (cartCount > 0)
-                            Positioned(
-                              right: -3.w,
-                              top: -4.h,
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 4.w,
-                                  vertical: 1.h,
-                                ),
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFFFF5B5B),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: AppText(
-                                  '$cartCount',
-                                  style: font10w700.copyWith(
-                                    color: Colors.white,
-                                  ),
-                                  alignment: AlignmentDirectional.center,
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // GestureDetector(
+                  //   onTap: onCartTap,
+                  //   child: Container(
+                  //     width: 36.w,
+                  //     height: 36.w,
+                  //     decoration: BoxDecoration(
+                  //       color: Colors.white.withValues(alpha: 0.18),
+                  //       borderRadius: BorderRadius.circular(12.r),
+                  //     ),
+                  //     child: Stack(
+                  //       clipBehavior: Clip.none,
+                  //       children: <Widget>[
+                  //         Center(
+                  //           child: AppAsset(
+                  //             assetName: Assets.shoppingBag,
+                  //             width: 18.w,
+                  //             height: 18.w,
+                  //             color: Colors.white,
+                  //           ),
+                  //         ),
+                  //         if (cartCount > 0)
+                  //           Positioned(
+                  //             right: -3.w,
+                  //             top: -4.h,
+                  //             child: Container(
+                  //               padding: EdgeInsets.symmetric(
+                  //                 horizontal: 4.w,
+                  //                 vertical: 1.h,
+                  //               ),
+                  //               decoration: const BoxDecoration(
+                  //                 color: Color(0xFFFF5B5B),
+                  //                 shape: BoxShape.circle,
+                  //               ),
+                  //               child: AppText(
+                  //                 '$cartCount',
+                  //                 style: font10w700.copyWith(
+                  //                   color: Colors.white,
+                  //                 ),
+                  //                 alignment: AlignmentDirectional.center,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
               verticalSpacing(10),

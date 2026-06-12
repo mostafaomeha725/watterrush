@@ -181,16 +181,6 @@ class CartCubit extends Cubit<CartState> {
         emit(
           currentState.copyWith(
             cart: newCart,
-            isAddingToCart: true,
-            addToCartSuccess: false,
-            addToCartError: null,
-          ),
-        );
-      } else {
-        emit(
-          currentState.copyWith(
-            isAddingToCart: true,
-            addToCartSuccess: false,
             addToCartError: null,
           ),
         );
@@ -206,7 +196,6 @@ class CartCubit extends Cubit<CartState> {
         if (state is CartLoaded) {
           emit(
             (state as CartLoaded).copyWith(
-              isAddingToCart: false,
               addToCartError: failure.message,
             ),
           );
@@ -214,14 +203,6 @@ class CartCubit extends Cubit<CartState> {
         }
       },
       (_) {
-        if (state is CartLoaded) {
-          emit(
-            (state as CartLoaded).copyWith(
-              isAddingToCart: false,
-              addToCartSuccess: false,
-            ),
-          );
-        }
         // Refresh cart silently to ensure backend calculation accuracy without UI jump
         _getCartSilently();
       },

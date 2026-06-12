@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:waterrush/core/constants/app_assets.dart';
 import 'package:waterrush/core/theme/styles.dart';
-import 'package:waterrush/core/widgets/app_asset.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
-import 'customer_home_view_models.dart';
 
 import 'package:waterrush/core/widgets/app_image.dart';
 import '../../../domain/entities/slider_entity.dart';
 
 class CustomerHomeOfferBannerMedia extends StatelessWidget {
-  const CustomerHomeOfferBannerMedia({
-    required this.slider,
-    super.key,
-  });
+  const CustomerHomeOfferBannerMedia({required this.slider, super.key});
 
   final SliderEntity slider;
 

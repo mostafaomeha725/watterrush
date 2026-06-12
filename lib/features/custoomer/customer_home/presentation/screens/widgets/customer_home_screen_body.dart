@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waterrush/core/utils/easy_loading.dart';
-import 'package:waterrush/core/widgets/custom_loading.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/home_cubit/customer_home_cubit.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/home_cubit/customer_home_state.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_body_content.dart';

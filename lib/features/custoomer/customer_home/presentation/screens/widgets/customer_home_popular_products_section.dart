@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:waterrush/core/routes/route_paths.dart';
 import 'package:waterrush/core/widgets/custom_loading.dart';
+import 'package:waterrush/core/widgets/custom_nav_bar.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_cubit.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/home_cubit/customer_home_cubit.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/home_cubit/customer_home_state.dart';
@@ -27,8 +28,13 @@ class CustomerHomePopularProductsSection extends StatelessWidget {
           children: <Widget>[
             CustomerHomeSectionHeader(
               title: 'Popular Products',
-              onSeeAll: () {
-                context.push(Routes.allPopularProductsScreen);
+              onSeeAll: () async {
+                final result = await context.push(
+                  Routes.allPopularProductsScreen,
+                );
+                if (result == 'go_to_cart_tab' && context.mounted) {
+                  CustomNavBar.switchToTab(context, 2);
+                }
               },
             ),
             SizedBox(height: 12.h),

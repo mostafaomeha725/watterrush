@@ -4,6 +4,7 @@ import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/utils/spacing.dart';
 import 'package:waterrush/core/widgets/custom_button.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
+import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_state.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/category_products_cubit/category_products_state.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/offer_product_card.dart';
 
@@ -15,6 +16,7 @@ class CategoryProductsContent extends StatelessWidget {
     required this.onIncrement,
     required this.onDecrement,
     required this.onAddToCart,
+    required this.cartState,
   });
 
   final CategoryProductsState state;
@@ -22,6 +24,7 @@ class CategoryProductsContent extends StatelessWidget {
   final ValueChanged<int> onIncrement;
   final ValueChanged<int> onDecrement;
   final ValueChanged<int> onAddToCart;
+  final CartState cartState;
 
   @override
   Widget build(BuildContext context) {
@@ -55,25 +58,38 @@ class CategoryProductsContent extends StatelessWidget {
     }
 
     return Column(
-      children: state.displayedProductIndexes
-          .map(
-            (int productIndex) => Padding(
-              padding: EdgeInsets.only(bottom: 12.h),
-              child: OfferProductCard(
-                product: state.category!.products[productIndex],
-                quantity: state.quantityFor(productIndex),
-                onIncrement: () => onIncrement(productIndex),
-                onDecrement: () => onDecrement(productIndex),
-                onAddToCart: () => onAddToCart(productIndex),
-                compactLayout: true,
-                isAdded: state.isAdded(productIndex),
-                addButtonText: '+ Add',
-                addedButtonText: 'Added',
-                badgeTextOverride: 'OFFER',
-              ),
-            ),
-          )
-          .toList(),
+      children: state.displayedProductIndexes.map((int productIndex) {
+        final product = state.category!.products[productIndex];
+        bool isAdded = false;
+        int qty = state.quantityFor(productIndex);
+
+        if (cartState is CartLoaded) {
+          final cart = (cartState as CartLoaded).cart;
+          try {
+            final cartItem = cart.items.firstWhere(
+              (i) => i.productId == product.id,
+            );
+            isAdded = true;
+            qty = cartItem.quantity;
+          } catch (_) {}
+        }
+
+        return Padding(
+          padding: EdgeInsets.only(bottom: 12.h),
+          child: OfferProductCard(
+            product: product,
+            quantity: qty,
+            onIncrement: () => onIncrement(productIndex),
+            onDecrement: () => onDecrement(productIndex),
+            onAddToCart: () => onAddToCart(productIndex),
+            compactLayout: true,
+            isAdded: isAdded,
+            addButtonText: '+ Add',
+            addedButtonText: 'Added',
+            badgeTextOverride: 'OFFER',
+          ),
+        );
+      }).toList(),
     );
   }
 }

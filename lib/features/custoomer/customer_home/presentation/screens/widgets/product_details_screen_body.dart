@@ -11,6 +11,8 @@ import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/pr
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/product_details_cubit/product_details_state.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/offer_product_card_actions.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_cubit.dart';
+import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_state.dart';
+import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/category_products_view_cart_button.dart';
 
 class ProductDetailsScreenBody extends StatefulWidget {
   const ProductDetailsScreenBody({super.key});
@@ -51,9 +53,11 @@ class _ProductDetailsScreenBodyState extends State<ProductDetailsScreenBody> {
         }
 
         return SafeArea(
-          child: Column(
-            children: <Widget>[
-              // Custom App Bar
+          child: Stack(
+            children: [
+              Column(
+                children: <Widget>[
+                  // Custom App Bar
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
                 child: Row(
@@ -200,25 +204,74 @@ class _ProductDetailsScreenBodyState extends State<ProductDetailsScreenBody> {
                   ],
                 ),
                 child: product.available
-                    ? OfferProductCardActions(
-                        quantity: quantity,
-                        isLarge: true,
-                        onIncrement: () {
-                          setState(() {
-                            quantity++;
-                          });
-                        },
-                        onDecrement: () {
-                          if (quantity > 1) {
-                            setState(() {
-                              quantity--;
-                            });
+                    ? BlocBuilder<CartCubit, CartState>(
+                        builder: (context, cartState) {
+                          bool isAdded = false;
+                          int currentQuantity = quantity;
+
+                          if (cartState is CartLoaded) {
+                            try {
+                              final cartItem = cartState.cart.items.firstWhere(
+                                (item) => item.productId == product.id,
+                              );
+                              isAdded = true;
+                              currentQuantity = cartItem.quantity;
+                            } catch (_) {}
                           }
-                        },
-                        onAddToCart: () {
-                          context.read<CartCubit>().addToCart(
-                            product.id,
-                            quantity,
+
+                          return OfferProductCardActions(
+                            quantity: currentQuantity,
+                            isAdded: isAdded,
+                            isLarge: true,
+                            onIncrement: () {
+                              if (isAdded && cartState is CartLoaded) {
+                                try {
+                                  final cartItem = cartState.cart.items.firstWhere(
+                                    (item) => item.productId == product.id,
+                                  );
+                                  context.read<CartCubit>().updateCartItem(
+                                    cartItem.id,
+                                    cartItem.quantity + 1,
+                                  );
+                                } catch (_) {}
+                              } else {
+                                setState(() {
+                                  quantity++;
+                                });
+                              }
+                            },
+                            onDecrement: () {
+                              if (isAdded && cartState is CartLoaded) {
+                                try {
+                                  final cartItem = cartState.cart.items.firstWhere(
+                                    (item) => item.productId == product.id,
+                                  );
+                                  if (cartItem.quantity == 1) {
+                                    context.read<CartCubit>().removeCartItem(cartItem.id);
+                                    setState(() {
+                                      quantity = 1;
+                                    });
+                                  } else {
+                                    context.read<CartCubit>().updateCartItem(
+                                      cartItem.id,
+                                      cartItem.quantity - 1,
+                                    );
+                                  }
+                                } catch (_) {}
+                              } else {
+                                if (quantity > 1) {
+                                  setState(() {
+                                    quantity--;
+                                  });
+                                }
+                              }
+                            },
+                            onAddToCart: () {
+                              context.read<CartCubit>().addToCart(
+                                product.id,
+                                currentQuantity,
+                              );
+                            },
                           );
                         },
                       )
@@ -254,7 +307,37 @@ class _ProductDetailsScreenBodyState extends State<ProductDetailsScreenBody> {
               ),
             ],
           ),
-        );
+          BlocBuilder<CartCubit, CartState>(
+            builder: (context, cartState) {
+              int globalCartCount = 0;
+              if (cartState is CartLoaded) {
+                globalCartCount = cartState.cart.items.fold(
+                  0,
+                  (sum, item) => sum + item.quantity,
+                );
+              }
+              if (globalCartCount > 0) {
+                return Positioned(
+                  right: 16.w,
+                  left: 16.w,
+                  bottom: 100.h,
+                  child: SafeArea(
+                    top: false,
+                    child: CategoryProductsViewCartButton(
+                      cartCount: globalCartCount,
+                      onPressed: () {
+                        context.pop('go_to_cart_tab');
+                      },
+                    ),
+                  ),
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ),
+        ],
+      ),
+    );
       },
     );
   }

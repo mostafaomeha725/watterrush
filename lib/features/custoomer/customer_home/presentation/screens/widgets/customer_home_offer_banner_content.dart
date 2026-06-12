@@ -4,7 +4,6 @@ import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/widgets/custom_button.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
 import '../../../domain/entities/slider_entity.dart';
-import 'customer_home_view_models.dart';
 
 class CustomerHomeOfferBannerContent extends StatelessWidget {
   const CustomerHomeOfferBannerContent({

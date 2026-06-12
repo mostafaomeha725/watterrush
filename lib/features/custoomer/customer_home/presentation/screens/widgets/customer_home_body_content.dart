@@ -8,12 +8,12 @@ import 'package:waterrush/features/custoomer/customer_home/presentation/screens/
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_mock_data.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_offer_section_card.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_popular_products_section.dart';
-import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_reorder_card.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_section_header.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_top_bar.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_trust_row.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/home_models.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_view_models.dart';
+import 'package:waterrush/core/widgets/custom_nav_bar.dart';
 
 class CustomerHomeBodyContent extends StatelessWidget {
   const CustomerHomeBodyContent({
@@ -36,46 +36,61 @@ class CustomerHomeBodyContent extends StatelessWidget {
         children: [
           CustomerHomeTopBar(
             onNotificationTap: () {},
-            onProfileTap: () => context.push(Routes.editProfileScreen),
+            onProfileTap: () => CustomNavBar.switchToTab(context, 4),
           ),
           SizedBox(height: 14.h),
           const CustomerHomeGreetingCard(),
           SizedBox(height: 12.h),
           CustomerHomeOfferSectionCard(
             cubit: cubit,
-            onBannerButtonTap: (slider) {
+            onBannerButtonTap: (slider) async {
               final text = slider.buttonText.trim().toLowerCase();
+              Object? result;
               if (text == 'shop now') {
-                context.push(
+                result = await context.push(
                   Routes.allCategoriesScreen,
                   extra: routeCategories,
                 );
               } else if (text == 'get yours') {
-                context.push(Routes.allPopularProductsScreen);
+                result = await context.push(Routes.allPopularProductsScreen);
               } else {
                 // Default / 'Order Now'
-                context.push(
+                result = await context.push(
                   Routes.specialOffersScreen,
                   extra: customerHomeOffers,
                 );
+              }
+              
+              if (result == 'go_to_cart_tab' && context.mounted) {
+                CustomNavBar.switchToTab(context, 2);
               }
             },
           ),
           SizedBox(height: 14.h),
           CustomerHomeSectionHeader(
             title: 'Shop by Category',
-            onSeeAll: () => context.push(
-              Routes.allCategoriesScreen,
-              extra: routeCategories,
-            ),
+            onSeeAll: () async {
+              final result = await context.push(
+                Routes.allCategoriesScreen,
+                extra: routeCategories,
+              );
+              if (result == 'go_to_cart_tab' && context.mounted) {
+                CustomNavBar.switchToTab(context, 2);
+              }
+            },
           ),
           SizedBox(height: 10.h),
           CustomerHomeCategoriesRow(
             categories: displayCategories,
-            onCategoryTap: (int index) => context.push(
-              Routes.categoryProductsScreen,
-              extra: routeCategories[index],
-            ),
+            onCategoryTap: (int index) async {
+              final result = await context.push(
+                Routes.categoryProductsScreen,
+                extra: routeCategories[index],
+              );
+              if (result == 'go_to_cart_tab' && context.mounted) {
+                CustomNavBar.switchToTab(context, 2);
+              }
+            },
           ),
           SizedBox(height: 14.h),
           const CustomerHomePopularProductsSection(),

@@ -29,91 +29,92 @@ class OfferProductCardActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: isLarge ? 12.w : 5.w,
-            vertical: isLarge ? 8.h : 4.h,
-          ),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF1F4F9),
-            borderRadius: BorderRadius.circular(999.r),
-          ),
-          child: Row(
-            children: <Widget>[
-              GestureDetector(
-                onTap: onDecrement,
-                child: Container(
-                  width: isLarge ? 32.w : 24.w,
-                  height: isLarge ? 32.w : 24.w,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE7EDF6),
-                    borderRadius: BorderRadius.circular(999.r),
-                  ),
-                  child: Icon(
-                    Icons.remove,
-                    size: isLarge ? 18.sp : 15.sp,
-                    color: const Color(0xFF5C7188),
-                  ),
-                ),
-              ),
-              horizontalSpacing(isLarge ? 16 : 10),
-              AppText(
-                '$quantity',
-                style: font14w700.copyWith(
-                  color: const Color(0xFF19324E),
-                  fontSize: isLarge ? 18.sp : 14.sp,
-                ),
-              ),
-              horizontalSpacing(isLarge ? 16 : 10),
-              GestureDetector(
-                onTap: onIncrement,
-                child: Container(
-                  width: isLarge ? 32.w : 24.w,
-                  height: isLarge ? 32.w : 24.w,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF1D70D9),
-                    borderRadius: BorderRadius.circular(999.r),
-                  ),
-                  child: Icon(
-                    Icons.add,
-                    size: isLarge ? 18.sp : 15.sp,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
-          ),
+    if (!isAdded) {
+      return SizedBox(
+        width: double.infinity,
+        child: AppButton(
+          text: addButtonText,
+          onPressed: onAddToCart,
+          color: const Color(0xFF1E73D9),
+          radius: 12.r,
+          height: isLarge ? 48.h : 38.h,
+          textSize: isLarge ? 14.sp : 12.sp,
+          textWeight: FontWeight.w700,
         ),
-        horizontalSpacing(isLarge ? 16 : 8),
-        Expanded(
-          child: isAdded
-              ? AppButton.icon(
-                  text: addedButtonText,
-                  onPressed: onAddToCart,
-                  color: const Color(0xFF17B26A),
-                  radius: 999.r,
-                  height: isLarge ? 48.h : 38.h,
-                  textSize: isLarge ? 14.sp : 12.sp,
-                  textWeight: FontWeight.w700,
-                  child: Icon(
-                    Icons.check_rounded,
-                    size: isLarge ? 18.sp : 14.sp,
-                    color: Colors.white,
-                  ),
-                )
-              : AppButton(
-                  text: addButtonText,
-                  onPressed: onAddToCart,
-                  color: const Color(0xFF1E73D9),
-                  radius: 999.r,
-                  height: isLarge ? 48.h : 38.h,
-                  textSize: isLarge ? 14.sp : 12.sp,
-                  textWeight: FontWeight.w700,
-                ),
-        ),
-      ],
+      );
+    }
+
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(
+        horizontal: isLarge ? 12.w : 6.w,
+        vertical: isLarge ? 8.h : 6.h,
+      ),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: const Color(0xFFE2E8F0)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          GestureDetector(
+            onTap: onDecrement,
+            behavior: HitTestBehavior.opaque,
+            child: Container(
+              width: isLarge ? 34.w : 28.w,
+              height: isLarge ? 34.w : 28.w,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  )
+                ],
+              ),
+              child: Icon(
+                quantity > 1 ? Icons.remove : Icons.delete_outline_rounded,
+                size: isLarge ? 18.sp : 16.sp,
+                color: quantity > 1 ? const Color(0xFF1E73D9) : const Color(0xFFE11D48),
+              ),
+            ),
+          ),
+          AppText(
+            '$quantity',
+            style: font14w700.copyWith(
+              color: const Color(0xFF0F172A),
+              fontSize: isLarge ? 18.sp : 15.sp,
+            ),
+          ),
+          GestureDetector(
+            onTap: onIncrement,
+            behavior: HitTestBehavior.opaque,
+            child: Container(
+              width: isLarge ? 34.w : 28.w,
+              height: isLarge ? 34.w : 28.w,
+              decoration: BoxDecoration(
+                color: const Color(0xFF1E73D9),
+                borderRadius: BorderRadius.circular(8.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF1E73D9).withValues(alpha: 0.2),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  )
+                ],
+              ),
+              child: Icon(
+                Icons.add,
+                size: isLarge ? 18.sp : 16.sp,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
