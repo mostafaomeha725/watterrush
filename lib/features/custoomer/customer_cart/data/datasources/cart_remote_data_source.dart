@@ -21,6 +21,7 @@ abstract class CartRemoteDataSource {
     required int itemId,
     required int quantity,
   });
+  Future<Either<Failure, double>> applyPromoCode(String code);
 }
 
 class CartRemoteDataSourceImpl implements CartRemoteDataSource {
@@ -179,5 +180,37 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
         }
       },
     );
+  }
+
+  @override
+  Future<Either<Failure, double>> applyPromoCode(String code) async {
+    final response = await networkService.getData(
+      endPoint: EndPoints.customerPromoCodes,
+    );
+
+    return response.fold((failure) => Left(failure), (data) {
+      if (data['status'] == true) {
+        final List<dynamic> promoCodesJson = data['data']['promo_codes'] ?? [];
+        final normalizedCode = code.trim().toUpperCase();
+
+        for (var json in promoCodesJson) {
+          final String promoCode = json['code'].toString().toUpperCase();
+          if (promoCode == normalizedCode) {
+            // Assume the API returns discount as a number (percentage or fixed)
+            final double discount = (json['discount'] as num).toDouble();
+            return Right(discount);
+          }
+        }
+        return const Left(
+          ServerFailure(message: 'Invalid or expired promo code'),
+        );
+      } else {
+        return Left(
+          ServerFailure(
+            message: data['message'] ?? 'Failed to validate promo code',
+          ),
+        );
+      }
+    });
   }
 }

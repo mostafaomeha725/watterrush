@@ -35,7 +35,6 @@ class _CustomerCartScreenBodyState extends State<CustomerCartScreenBody> {
   static const double _deliveryFee = 2.99;
 
   final TextEditingController _promoController = TextEditingController();
-  bool _isPromoApplied = false;
 
   @override
   void dispose() {
@@ -58,10 +57,15 @@ class _CustomerCartScreenBodyState extends State<CustomerCartScreenBody> {
               EasyLoading.showError(state.removeError!);
             } else if (state.clearError != null) {
               EasyLoading.showError(state.clearError!);
+            } else if (state.promoCodeError != null) {
+              EasyLoading.showError(state.promoCodeError!);
             } else if (state.removeSuccess) {
               EasyLoading.showSuccess('Item removed');
             } else if (state.clearSuccess) {
               EasyLoading.showSuccess('Cart cleared');
+            } else if (state.promoCode != null && state.discountPercentage > 0) {
+              // We might not want to show a toast every time state rebuilds,
+              // but for now, we leave it or rely on the UI changes.
             }
           }
         }
@@ -84,7 +88,21 @@ class _CustomerCartScreenBodyState extends State<CustomerCartScreenBody> {
           if (state is CartLoaded) {
             final items = state.cart.items;
             final subtotal = state.cart.total.toDouble();
-            final total = subtotal + (items.isEmpty ? 0 : _deliveryFee);
+            
+            final discount = subtotal * (state.discountPercentage / 100);
+            final delivery = items.isEmpty ? 0.0 : _deliveryFee;
+            final total = subtotal - discount + delivery;
+
+            // Sync controller if state has promo code
+            if (state.promoCode != null && _promoController.text != state.promoCode) {
+              _promoController.text = state.promoCode!;
+            } else if (state.promoCode == null && _promoController.text.isNotEmpty) {
+              // Wait, clearing the controller if promo code is null might be annoying
+              // if they just typed it and got an error. Let's only do it if they click remove.
+              // Actually, removePromoCode() clears the state, and we can clear the controller there.
+            }
+
+            final isApplied = state.promoCode != null && state.discountPercentage > 0;
 
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: 22.w),
@@ -110,25 +128,25 @@ class _CustomerCartScreenBodyState extends State<CustomerCartScreenBody> {
                       SizedBox(height: 22.h),
                       CartPromoCodeCard(
                         controller: _promoController,
-                        isApplied: _isPromoApplied,
+                        isApplied: isApplied,
                         onApply: () {
                           if (_promoController.text.trim().isNotEmpty) {
-                            setState(() {
-                              _isPromoApplied = true;
-                            });
+                            EasyLoading.show(status: 'Applying...');
+                            context.read<CartCubit>().applyPromoCode(
+                                  _promoController.text.trim(),
+                                );
                           }
                         },
                         onRemove: () {
-                          setState(() {
-                            _isPromoApplied = false;
-                            _promoController.clear();
-                          });
+                          _promoController.clear();
+                          context.read<CartCubit>().removePromoCode();
                         },
                       ),
                       SizedBox(height: 14.h),
                       CartBillSummaryCard(
                         subtotal: subtotal,
-                        deliveryFee: _deliveryFee,
+                        deliveryFee: delivery,
+                        discount: discount,
                         total: total,
                       ),
                       CartCheckoutBar(
@@ -137,7 +155,7 @@ class _CustomerCartScreenBodyState extends State<CustomerCartScreenBody> {
                           final promo = _promoController.text.trim();
                           context.push(
                             Routes.checkoutScreen,
-                            extra: (_isPromoApplied && promo.isNotEmpty)
+                            extra: (isApplied && promo.isNotEmpty)
                                 ? promo
                                 : null,
                           );

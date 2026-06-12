@@ -11,10 +11,12 @@ class CartBillSummaryCard extends StatelessWidget {
     required this.subtotal,
     required this.deliveryFee,
     required this.total,
+    this.discount = 0.0,
   });
 
   final double subtotal;
   final double deliveryFee;
+  final double discount;
   final double total;
 
   @override
@@ -38,6 +40,22 @@ class CartBillSummaryCard extends StatelessWidget {
           CartPriceRow(label: 'Subtotal', value: subtotal, bold: false),
           SizedBox(height: 8.h),
           CartPriceRow(label: 'Delivery Fee', value: deliveryFee, bold: false),
+          if (discount > 0) ...[
+            SizedBox(height: 8.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppText(
+                  'Discount',
+                  style: font14w400.copyWith(color: const Color(0xFFE22020)),
+                ),
+                AppText(
+                  '- EGP ${discount.toStringAsFixed(2)}',
+                  style: font14w700.copyWith(color: const Color(0xFFE22020)),
+                ),
+              ],
+            ),
+          ],
           SizedBox(height: 10.h),
           Divider(height: 1, color: const Color(0xFFD0D7E0)),
           SizedBox(height: 10.h),

@@ -1,12 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:waterrush/core/error/failure.dart';
+import 'package:waterrush/features/custoomer/customer_cart/data/datasources/cart_remote_data_source.dart';
 import 'package:waterrush/features/custoomer/customer_cart/domain/entities/order_entity.dart';
 import 'package:waterrush/features/custoomer/customer_cart/domain/entities/scheduled_time_entity.dart';
 import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/place_order_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/add_to_cart_usecase.dart';
 import '../../domain/entities/cart_entity.dart';
 import '../../domain/repositories/cart_repository.dart';
-import '../datasources/cart_remote_data_source.dart';
 
 class CartRepositoryImpl implements CartRepository {
   final CartRemoteDataSource remoteDataSource;
@@ -57,5 +57,10 @@ class CartRepositoryImpl implements CartRepository {
       itemId: itemId,
       quantity: quantity,
     );
+  }
+
+  @override
+  Future<Either<Failure, double>> applyPromoCode(String code) async {
+    return await remoteDataSource.applyPromoCode(code);
   }
 }

@@ -23,6 +23,10 @@ class CartLoaded extends CartState {
   final bool isAddingToCart;
   final String? addToCartError;
   final bool addToCartSuccess;
+  final String? promoCode;
+  final double discountPercentage;
+  final bool isApplyingPromoCode;
+  final String? promoCodeError;
 
   const CartLoaded({
     required this.cart,
@@ -35,6 +39,10 @@ class CartLoaded extends CartState {
     this.isAddingToCart = false,
     this.addToCartError,
     this.addToCartSuccess = false,
+    this.promoCode,
+    this.discountPercentage = 0.0,
+    this.isApplyingPromoCode = false,
+    this.promoCodeError,
   });
 
   CartLoaded copyWith({
@@ -48,6 +56,10 @@ class CartLoaded extends CartState {
     bool? isAddingToCart,
     String? addToCartError,
     bool? addToCartSuccess,
+    String? promoCode,
+    double? discountPercentage,
+    bool? isApplyingPromoCode,
+    String? promoCodeError,
   }) {
     return CartLoaded(
       cart: cart ?? this.cart,
@@ -60,6 +72,10 @@ class CartLoaded extends CartState {
       isAddingToCart: isAddingToCart ?? this.isAddingToCart,
       addToCartError: addToCartError,
       addToCartSuccess: addToCartSuccess ?? this.addToCartSuccess,
+      promoCode: promoCode ?? this.promoCode,
+      discountPercentage: discountPercentage ?? this.discountPercentage,
+      isApplyingPromoCode: isApplyingPromoCode ?? this.isApplyingPromoCode,
+      promoCodeError: promoCodeError,
     );
   }
 
@@ -75,6 +91,10 @@ class CartLoaded extends CartState {
     isAddingToCart,
     addToCartError,
     addToCartSuccess,
+    promoCode,
+    discountPercentage,
+    isApplyingPromoCode,
+    promoCodeError,
   ];
 }
 

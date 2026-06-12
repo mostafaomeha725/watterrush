@@ -7,6 +7,7 @@ import '../../domain/usecases/remove_cart_item_usecase.dart';
 import '../../domain/entities/cart_entity.dart';
 import '../../domain/entities/cart_item_entity.dart';
 import '../../domain/usecases/update_cart_item_usecase.dart';
+import '../../domain/usecases/apply_promo_code_usecase.dart';
 import 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
@@ -15,6 +16,7 @@ class CartCubit extends Cubit<CartState> {
   final ClearCartUseCase clearCartUseCase;
   final AddToCartUseCase addToCartUseCase;
   final UpdateCartItemUseCase updateCartItemUseCase;
+  final ApplyPromoCodeUseCase applyPromoCodeUseCase;
 
   CartCubit({
     required this.getCartUseCase,
@@ -22,6 +24,7 @@ class CartCubit extends Cubit<CartState> {
     required this.clearCartUseCase,
     required this.addToCartUseCase,
     required this.updateCartItemUseCase,
+    required this.applyPromoCodeUseCase,
   }) : super(CartInitial());
 
   Future<void> getCart() async {
@@ -223,6 +226,48 @@ class CartCubit extends Cubit<CartState> {
         _getCartSilently();
       },
     );
+  }
+
+  Future<void> applyPromoCode(String code) async {
+    if (state is! CartLoaded) return;
+    final currentState = state as CartLoaded;
+
+    emit(currentState.copyWith(
+      isApplyingPromoCode: true,
+      promoCodeError: null,
+    ));
+
+    final result = await applyPromoCodeUseCase(code);
+
+    result.fold(
+      (failure) {
+        emit(currentState.copyWith(
+          isApplyingPromoCode: false,
+          promoCodeError: failure.message,
+          promoCode: null,
+          discountPercentage: 0.0,
+        ));
+      },
+      (discount) {
+        emit(currentState.copyWith(
+          isApplyingPromoCode: false,
+          promoCode: code,
+          discountPercentage: discount,
+          promoCodeError: null,
+        ));
+      },
+    );
+  }
+
+  void removePromoCode() {
+    if (state is! CartLoaded) return;
+    final currentState = state as CartLoaded;
+
+    emit(currentState.copyWith(
+      promoCode: null,
+      discountPercentage: 0.0,
+      promoCodeError: null,
+    ));
   }
 
   Future<void> _getCartSilently() async {

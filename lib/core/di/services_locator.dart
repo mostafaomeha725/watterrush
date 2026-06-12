@@ -46,6 +46,7 @@ import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/updat
 import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/clear_cart_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/get_scheduled_times_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/place_order_usecase.dart';
+import 'package:waterrush/features/custoomer/customer_cart/domain/usecases/apply_promo_code_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_cubit.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/checkout_cubit/checkout_cubit.dart';
 import 'package:waterrush/features/custoomer/customer_offers/data/datasources/offers_remote_data_source.dart';
@@ -199,6 +200,7 @@ class ServiceLocator {
     sl.registerLazySingleton(() => ClearCartUseCase(sl()));
     sl.registerLazySingleton(() => GetScheduledTimesUseCase(sl()));
     sl.registerLazySingleton(() => PlaceOrderUseCase(sl()));
+    sl.registerLazySingleton(() => ApplyPromoCodeUseCase(sl()));
 
     sl.registerLazySingleton(
       () => CartCubit(
@@ -207,6 +209,7 @@ class ServiceLocator {
         clearCartUseCase: sl(),
         addToCartUseCase: sl(),
         updateCartItemUseCase: sl(),
+        applyPromoCodeUseCase: sl(),
       ),
     );
 
