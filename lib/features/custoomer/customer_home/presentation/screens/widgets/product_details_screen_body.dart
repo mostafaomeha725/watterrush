@@ -91,7 +91,20 @@ class _ProductDetailsScreenBodyState extends State<ProductDetailsScreenBody> {
                           borderRadius: BorderRadius.circular(24.r),
                         ),
                         child: imageUrl.isNotEmpty
-                            ? AppImage(imageUrl: imageUrl, fit: BoxFit.contain)
+                            ? product.available
+                                ? AppImage(imageUrl: imageUrl, fit: BoxFit.contain)
+                                : ColorFiltered(
+                                    colorFilter: const ColorFilter.matrix(<double>[
+                                      0.2126, 0.7152, 0.0722, 0, 0,
+                                      0.2126, 0.7152, 0.0722, 0, 0,
+                                      0.2126, 0.7152, 0.0722, 0, 0,
+                                      0,      0,      0,      1, 0,
+                                    ]),
+                                    child: Opacity(
+                                      opacity: 0.7,
+                                      child: AppImage(imageUrl: imageUrl, fit: BoxFit.contain),
+                                    ),
+                                  )
                             : const SizedBox(),
                       ),
                       SizedBox(height: 24.h),
@@ -162,25 +175,53 @@ class _ProductDetailsScreenBodyState extends State<ProductDetailsScreenBody> {
                     ),
                   ],
                 ),
-                child: OfferProductCardActions(
-                  quantity: quantity,
-                  isLarge: true,
-                  onIncrement: () {
-                    setState(() {
-                      quantity++;
-                    });
-                  },
-                  onDecrement: () {
-                    if (quantity > 1) {
-                      setState(() {
-                        quantity--;
-                      });
-                    }
-                  },
-                  onAddToCart: () {
-                    context.read<CartCubit>().addToCart(product.id, quantity);
-                  },
-                ),
+                child: product.available
+                    ? OfferProductCardActions(
+                        quantity: quantity,
+                        isLarge: true,
+                        onIncrement: () {
+                          setState(() {
+                            quantity++;
+                          });
+                        },
+                        onDecrement: () {
+                          if (quantity > 1) {
+                            setState(() {
+                              quantity--;
+                            });
+                          }
+                        },
+                        onAddToCart: () {
+                          context.read<CartCubit>().addToCart(
+                            product.id,
+                            quantity,
+                          );
+                        },
+                      )
+                    : Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(vertical: 14.h),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFF5F5),
+                          borderRadius: BorderRadius.circular(16.r),
+                          border: Border.all(color: const Color(0xFFFFD6D6), width: 1.5),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.hourglass_empty_rounded,
+                              size: 20.sp,
+                              color: const Color(0xFFE53935),
+                            ),
+                            SizedBox(width: 8.w),
+                            AppText(
+                              'Currently Sold Out',
+                              style: font16w700.copyWith(color: const Color(0xFFE53935)),
+                            ),
+                          ],
+                        ),
+                      ),
               ),
             ],
           ),

@@ -8,6 +8,7 @@ class ProductEntity extends Equatable {
   final double price;
   final double? priceBefore;
   final List<ProductImageEntity> images;
+  final bool available;
 
   const ProductEntity({
     required this.id,
@@ -16,6 +17,7 @@ class ProductEntity extends Equatable {
     required this.price,
     this.priceBefore,
     required this.images,
+    required this.available,
   });
 
   @override
@@ -26,5 +28,6 @@ class ProductEntity extends Equatable {
     price,
     priceBefore,
     images,
+    available,
   ];
 }
