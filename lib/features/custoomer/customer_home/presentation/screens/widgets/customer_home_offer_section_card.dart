@@ -4,16 +4,17 @@ import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/ho
 import 'package:waterrush/core/widgets/custom_loading.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_offer_banner.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_offer_banner_indicator.dart';
+import 'package:waterrush/features/custoomer/customer_home/domain/entities/slider_entity.dart';
 
 class CustomerHomeOfferSectionCard extends StatelessWidget {
   const CustomerHomeOfferSectionCard({
     required this.cubit,
-    required this.onOrderNow,
+    required this.onBannerButtonTap,
     super.key,
   });
 
   final CustomerHomeCubit cubit;
-  final VoidCallback onOrderNow;
+  final void Function(SliderEntity) onBannerButtonTap;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class CustomerHomeOfferSectionCard extends StatelessWidget {
 
               return CustomerHomeOfferBanner(
                 slider: slider,
-                onOrderNow: onOrderNow,
+                onOrderNow: () => onBannerButtonTap(slider),
               );
             },
           ),

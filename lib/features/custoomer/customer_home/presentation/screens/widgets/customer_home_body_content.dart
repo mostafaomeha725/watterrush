@@ -43,10 +43,23 @@ class CustomerHomeBodyContent extends StatelessWidget {
           SizedBox(height: 12.h),
           CustomerHomeOfferSectionCard(
             cubit: cubit,
-            onOrderNow: () => context.push(
-              Routes.specialOffersScreen,
-              extra: customerHomeOffers,
-            ),
+            onBannerButtonTap: (slider) {
+              final text = slider.buttonText.trim().toLowerCase();
+              if (text == 'shop now') {
+                context.push(
+                  Routes.allCategoriesScreen,
+                  extra: routeCategories,
+                );
+              } else if (text == 'get yours') {
+                context.push(Routes.allPopularProductsScreen);
+              } else {
+                // Default / 'Order Now'
+                context.push(
+                  Routes.specialOffersScreen,
+                  extra: customerHomeOffers,
+                );
+              }
+            },
           ),
           SizedBox(height: 14.h),
           CustomerHomeSectionHeader(
