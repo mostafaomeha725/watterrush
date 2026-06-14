@@ -1,11 +1,13 @@
-enum OrderStatus { pending, inProgress, onTheWay, delivered, cancelled }
+enum OrderStatus { pending, preparing, confirmed, onTheWay, delivered, cancelled }
 
 OrderStatus getOrderStatusFromString(String status) {
   switch (status.toLowerCase()) {
     case 'pending':
       return OrderStatus.pending;
-    case 'in_progress':
-      return OrderStatus.inProgress;
+    case 'preparing':
+      return OrderStatus.preparing;
+    case 'confirmed':
+      return OrderStatus.confirmed;
     case 'on_the_way':
       return OrderStatus.onTheWay;
     case 'delivered':

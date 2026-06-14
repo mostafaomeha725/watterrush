@@ -9,6 +9,7 @@ class OrderTimelineStepWidget extends StatelessWidget {
   final bool isCompleted;
   final bool isCurrent;
   final bool isLast;
+  final Color? activeColor;
 
   const OrderTimelineStepWidget({
     super.key,
@@ -17,15 +18,17 @@ class OrderTimelineStepWidget extends StatelessWidget {
     required this.isCompleted,
     required this.isCurrent,
     required this.isLast,
+    this.activeColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final themeColor = activeColor ?? const Color(0xFF0B48C6);
     Color iconColor = isCompleted || isCurrent
-        ? const Color(0xFF0B48C6)
+        ? themeColor
         : const Color(0xFFD9E0E8);
     Color textColor = isCompleted || isCurrent
-        ? const Color(0xFF0B48C6)
+        ? themeColor
         : const Color(0xFF0F2B46);
 
     return IntrinsicHeight(
@@ -115,13 +118,13 @@ class OrderTimelineStepWidget extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 8.w),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF0B48C6).withOpacity(0.1),
+                        color: themeColor.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(16.r),
                       ),
                       child: AppText(
                         'Current',
                         style: font10w500.copyWith(
-                          color: const Color(0xFF0B48C6),
+                          color: themeColor,
                         ),
                         alignment: AlignmentDirectional.center,
                       ),

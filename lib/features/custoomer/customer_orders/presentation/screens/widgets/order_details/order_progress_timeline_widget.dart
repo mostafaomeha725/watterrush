@@ -18,34 +18,45 @@ class OrderProgressTimelineWidget extends StatelessWidget {
         'title': 'Pending',
         'desc': 'We\'ve received your order',
       },
-      {
-        'status': OrderStatus.inProgress,
-        'title': 'Confirmed',
-        'desc': 'Your order is confirmed',
-      }, // Mocking confirmed as inProgress for UI matching
-      {
-        'status': OrderStatus.inProgress,
-        'title': 'Preparing',
-        'desc': 'We are preparing your order',
-      },
-      {
-        'status': OrderStatus.onTheWay,
-        'title': 'On The Way',
-        'desc': 'Your order is on the way',
-      },
-      {
-        'status': OrderStatus.delivered,
-        'title': 'Delivered',
-        'desc': 'Order completed',
-      },
+      if (currentStatus == OrderStatus.cancelled)
+        {
+          'status': OrderStatus.cancelled,
+          'title': 'Cancelled',
+          'desc': 'This order has been cancelled',
+        }
+      else ...[
+        {
+          'status': OrderStatus.confirmed,
+          'title': 'Confirmed',
+          'desc': 'Your order is confirmed',
+        },
+        {
+          'status': OrderStatus.preparing,
+          'title': 'Preparing',
+          'desc': 'Your order is being prepared',
+        },
+        {
+          'status': OrderStatus.onTheWay,
+          'title': 'On The Way',
+          'desc': 'Your order is on the way',
+        },
+        {
+          'status': OrderStatus.delivered,
+          'title': 'Delivered',
+          'desc': 'Order completed',
+        },
+      ],
     ];
 
-    // For simplicity, find index. Pending=0, Confirmed=1, Preparing=2, OnTheWay=3, Delivered=4.
     int currentIndex = 0;
-    if (currentStatus == OrderStatus.inProgress)
-      currentIndex = 2; // Assuming preparing
-    if (currentStatus == OrderStatus.onTheWay) currentIndex = 3;
-    if (currentStatus == OrderStatus.delivered) currentIndex = 4;
+    if (currentStatus == OrderStatus.cancelled) {
+      currentIndex = 1;
+    } else {
+      if (currentStatus == OrderStatus.confirmed) currentIndex = 1;
+      if (currentStatus == OrderStatus.preparing) currentIndex = 2;
+      if (currentStatus == OrderStatus.onTheWay) currentIndex = 3;
+      if (currentStatus == OrderStatus.delivered) currentIndex = 4;
+    }
 
     return Container(
       padding: EdgeInsets.all(20.r),
@@ -77,6 +88,9 @@ class OrderProgressTimelineWidget extends StatelessWidget {
                 isCompleted: isCompleted,
                 isCurrent: isCurrent,
                 isLast: index == steps.length - 1,
+                activeColor: isCurrent && currentStatus == OrderStatus.cancelled
+                    ? const Color(0xFFCE1126) // Cancelled Red
+                    : null,
               );
             },
           ),

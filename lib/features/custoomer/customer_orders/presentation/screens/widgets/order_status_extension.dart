@@ -6,8 +6,10 @@ extension OrderStatusExtension on OrderStatus {
     switch (this) {
       case OrderStatus.pending:
         return const Color(0xFF6B58FA);
-      case OrderStatus.inProgress:
+      case OrderStatus.confirmed:
         return const Color(0xFF0B48C6);
+      case OrderStatus.preparing:
+        return const Color(0xFFF59E0B);
       case OrderStatus.onTheWay:
         return const Color(0xFF1BA78F);
       case OrderStatus.delivered:
@@ -21,8 +23,10 @@ extension OrderStatusExtension on OrderStatus {
     switch (this) {
       case OrderStatus.pending:
         return const Color(0xFFF8F6FF);
-      case OrderStatus.inProgress:
+      case OrderStatus.confirmed:
         return const Color(0xFFF3F7FF);
+      case OrderStatus.preparing:
+        return const Color(0xFFFFFBEB);
       case OrderStatus.onTheWay:
         return const Color(0xFFEFFFFA);
       case OrderStatus.delivered:
@@ -36,8 +40,10 @@ extension OrderStatusExtension on OrderStatus {
     switch (this) {
       case OrderStatus.pending:
         return 'Pending';
-      case OrderStatus.inProgress:
-        return 'In Progress';
+      case OrderStatus.confirmed:
+        return 'Confirmed';
+      case OrderStatus.preparing:
+        return 'Preparing';
       case OrderStatus.onTheWay:
         return 'On The Way';
       case OrderStatus.delivered:
@@ -52,7 +58,8 @@ extension OrderStatusExtension on OrderStatus {
       case OrderStatus.pending:
       case OrderStatus.onTheWay:
         return Icons.access_time_filled_rounded;
-      case OrderStatus.inProgress:
+      case OrderStatus.confirmed:
+      case OrderStatus.preparing:
         return Icons.cached_rounded;
       case OrderStatus.delivered:
         return Icons.check_circle_rounded;
@@ -65,7 +72,8 @@ extension OrderStatusExtension on OrderStatus {
     switch (this) {
       case OrderStatus.pending:
         return 'assets/pending.png';
-      case OrderStatus.inProgress:
+      case OrderStatus.confirmed:
+      case OrderStatus.preparing:
         return 'assets/in progress.png';
       case OrderStatus.onTheWay:
         return 'assets/on the way.png';
@@ -80,7 +88,9 @@ extension OrderStatusExtension on OrderStatus {
     switch (this) {
       case OrderStatus.pending:
         return 'We\'ve received your order and will update you soon.';
-      case OrderStatus.inProgress:
+      case OrderStatus.confirmed:
+        return 'Your order is confirmed and will be prepared soon.';
+      case OrderStatus.preparing:
         return 'Your order is being prepared and will be on its way soon.';
       case OrderStatus.onTheWay:
         return 'Great news! Your order is on the way and will reach you soon.';

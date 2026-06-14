@@ -7,7 +7,7 @@ import 'package:waterrush/features/custoomer/customer_orders/data/models/custome
 import 'package:waterrush/core/models/paginated_data.dart';
 
 abstract class OrdersRemoteDataSource {
-  Future<Either<Failure, PaginatedData<CustomerOrderModel>>> getOrders({int page = 1});
+  Future<Either<Failure, PaginatedData<CustomerOrderModel>>> getOrders({int page = 1, String? status});
   Future<Either<Failure, CustomerOrderModel>> getOrderDetails(int id);
 }
 
@@ -17,10 +17,15 @@ class OrdersRemoteDataSourceImpl implements OrdersRemoteDataSource {
   OrdersRemoteDataSourceImpl({required this.networkService});
 
   @override
-  Future<Either<Failure, PaginatedData<CustomerOrderModel>>> getOrders({int page = 1}) async {
+  Future<Either<Failure, PaginatedData<CustomerOrderModel>>> getOrders({int page = 1, String? status}) async {
+    final Map<String, dynamic> queryParams = {'page': page};
+    if (status != null && status.isNotEmpty && status.toLowerCase() != 'all') {
+      queryParams['status'] = status.toLowerCase();
+    }
+    
     final response = await networkService.getData(
       endPoint: EndPoints.customerOrders,
-      queryParameters: {'page': page},
+      queryParameters: queryParams,
     );
 
     return response.fold((failure) => Left(failure), (data) {

@@ -11,8 +11,8 @@ class OrdersRepositoryImpl implements OrdersRepository {
   OrdersRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<Either<Failure, PaginatedData<CustomerOrderEntity>>> getOrders({int page = 1}) async {
-    return await remoteDataSource.getOrders(page: page);
+  Future<Either<Failure, PaginatedData<CustomerOrderEntity>>> getOrders({int page = 1, String? status}) async {
+    return await remoteDataSource.getOrders(page: page, status: status);
   }
 
   @override

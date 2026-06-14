@@ -10,7 +10,7 @@ class GetOrdersUseCase {
 
   GetOrdersUseCase({required this.repository});
 
-  Future<Either<Failure, PaginatedData<CustomerOrderEntity>>> call({int page = 1}) async {
-    return await repository.getOrders(page: page);
+  Future<Either<Failure, PaginatedData<CustomerOrderEntity>>> call({int page = 1, String? status}) async {
+    return await repository.getOrders(page: page, status: status);
   }
 }

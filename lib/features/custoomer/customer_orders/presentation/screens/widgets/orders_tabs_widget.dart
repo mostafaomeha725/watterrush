@@ -11,7 +11,9 @@ class OrdersTabsWidget extends StatelessWidget {
   final List<String> tabs = [
     'All',
     'Pending',
-    'In Progress',
+    'Confirmed',
+    'Preparing',
+    'On The Way',
     'Delivered',
     'Cancelled',
   ];

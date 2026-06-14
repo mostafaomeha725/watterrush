@@ -20,7 +20,7 @@ class CustomerOrdersScreenBody extends StatelessWidget {
     return BlocBuilder<CustomerOrdersCubit, CustomerOrdersState>(
       builder: (context, state) {
         final cubit = context.read<CustomerOrdersCubit>();
-        final orders = cubit.orders;
+        final orders = cubit.filteredOrders;
         final totalSpent = orders.fold<double>(
           0,
           (sum, item) => sum + item.total,
