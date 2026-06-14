@@ -13,7 +13,9 @@ import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/
 import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/widgets/cart_promo_code_card.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/widgets/empty_cart_widget.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/widgets/cart_items_list_widget.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:waterrush/core/utils/easy_loading.dart';
+import 'package:waterrush/core/widgets/custom_loading.dart';
+import 'package:waterrush/core/widgets/custom_text.dart';
 
 class CustomerCartScreen extends StatelessWidget {
   const CustomerCartScreen({super.key});
@@ -48,21 +50,21 @@ class _CustomerCartScreenBodyState extends State<CustomerCartScreenBody> {
       listener: (context, state) {
         if (state is CartLoaded) {
           if (state.isRemoving || state.isClearing) {
-            EasyLoading.show(
+            showLoading(
               status: state.isClearing ? 'Clearing cart...' : 'Removing...',
             );
           } else {
-            EasyLoading.dismiss();
+            hideLoading();
             if (state.removeError != null) {
-              EasyLoading.showError(state.removeError!);
+              showError(state.removeError!);
             } else if (state.clearError != null) {
-              EasyLoading.showError(state.clearError!);
+              showError(state.clearError!);
             } else if (state.promoCodeError != null) {
-              EasyLoading.showError(state.promoCodeError!);
+              showError(state.promoCodeError!);
             } else if (state.removeSuccess) {
-              EasyLoading.showSuccess('Item removed');
+              showSuccess('Item removed');
             } else if (state.clearSuccess) {
-              EasyLoading.showSuccess('Cart cleared');
+              showSuccess('Cart cleared');
             } else if (state.promoCode != null && state.discountPercentage > 0) {
               // We might not want to show a toast every time state rebuilds,
               // but for now, we leave it or rely on the UI changes.
@@ -73,14 +75,15 @@ class _CustomerCartScreenBodyState extends State<CustomerCartScreenBody> {
       child: BlocBuilder<CartCubit, CartState>(
         builder: (context, state) {
           if (state is CartLoading || state is CartInitial) {
-            return const Center(child: CupertinoActivityIndicator());
+            return Center(child: CustomLoading.showLoader());
           }
 
           if (state is CartError) {
             return Center(
-              child: Text(
+              child: AppText(
                 state.message,
-                style: const TextStyle(color: Colors.red),
+                color: Colors.red,
+                fontSize: 14.sp,
               ),
             );
           }
@@ -89,9 +92,13 @@ class _CustomerCartScreenBodyState extends State<CustomerCartScreenBody> {
             final items = state.cart.items;
             final subtotal = state.cart.total.toDouble();
             
-            final discount = subtotal * (state.discountPercentage / 100);
+            final isPercent = state.discountType == 'percent' || state.discountType == 'percentage';
+            final discount = isPercent 
+                ? subtotal * (state.discountPercentage / 100) 
+                : state.discountPercentage;
+                
             final delivery = items.isEmpty ? 0.0 : _deliveryFee;
-            final total = subtotal - discount + delivery;
+            final total = (subtotal - discount + delivery).clamp(0.0, double.infinity);
 
             // Sync controller if state has promo code
             if (state.promoCode != null && _promoController.text != state.promoCode) {
@@ -131,7 +138,7 @@ class _CustomerCartScreenBodyState extends State<CustomerCartScreenBody> {
                         isApplied: isApplied,
                         onApply: () {
                           if (_promoController.text.trim().isNotEmpty) {
-                            EasyLoading.show(status: 'Applying...');
+                            showLoading(status: 'Applying...');
                             context.read<CartCubit>().applyPromoCode(
                                   _promoController.text.trim(),
                                 );

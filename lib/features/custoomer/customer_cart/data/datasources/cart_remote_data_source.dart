@@ -21,7 +21,7 @@ abstract class CartRemoteDataSource {
     required int itemId,
     required int quantity,
   });
-  Future<Either<Failure, double>> applyPromoCode(String code);
+  Future<Either<Failure, Tuple2<String, double>>> applyPromoCode(String code);
 }
 
 class CartRemoteDataSourceImpl implements CartRemoteDataSource {
@@ -183,7 +183,7 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, double>> applyPromoCode(String code) async {
+  Future<Either<Failure, Tuple2<String, double>>> applyPromoCode(String code) async {
     final response = await networkService.getData(
       endPoint: EndPoints.customerPromoCodes,
     );
@@ -196,9 +196,9 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
         for (var json in promoCodesJson) {
           final String promoCode = json['code'].toString().toUpperCase();
           if (promoCode == normalizedCode) {
-            // Assume the API returns discount as a number (percentage or fixed)
             final double discount = (json['discount'] as num).toDouble();
-            return Right(discount);
+            final String type = json['type']?.toString() ?? 'percent';
+            return Right(Tuple2(type, discount));
           }
         }
         return const Left(

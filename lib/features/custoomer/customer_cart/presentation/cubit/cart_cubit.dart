@@ -229,11 +229,12 @@ class CartCubit extends Cubit<CartState> {
           discountPercentage: 0.0,
         ));
       },
-      (discount) {
+      (discountData) {
         emit(currentState.copyWith(
           isApplyingPromoCode: false,
           promoCode: code,
-          discountPercentage: discount,
+          discountType: discountData.value1,
+          discountPercentage: discountData.value2,
           promoCodeError: null,
         ));
       },

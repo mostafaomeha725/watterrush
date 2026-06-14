@@ -60,7 +60,7 @@ class CartRepositoryImpl implements CartRepository {
   }
 
   @override
-  Future<Either<Failure, double>> applyPromoCode(String code) async {
+  Future<Either<Failure, Tuple2<String, double>>> applyPromoCode(String code) async {
     return await remoteDataSource.applyPromoCode(code);
   }
 }

@@ -74,7 +74,7 @@ class AllCategoriesCardFooter extends StatelessWidget {
           child: AppButton(
             text: 'Browse',
             onPressed: onBrowse,
-            height: 34.h,
+            height: 44.h,
             color: const Color(0xFFE4F3FF),
             borderColor: const Color(0xFFD0E8FB),
             radius: 999.r,

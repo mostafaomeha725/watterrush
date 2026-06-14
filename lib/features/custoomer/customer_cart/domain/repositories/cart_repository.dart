@@ -17,5 +17,5 @@ abstract class CartRepository {
     required int itemId,
     required int quantity,
   });
-  Future<Either<Failure, double>> applyPromoCode(String code);
+  Future<Either<Failure, Tuple2<String, double>>> applyPromoCode(String code);
 }

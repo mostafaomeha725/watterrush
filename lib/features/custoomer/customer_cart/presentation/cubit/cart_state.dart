@@ -24,6 +24,7 @@ class CartLoaded extends CartState {
   final String? addToCartError;
   final bool addToCartSuccess;
   final String? promoCode;
+  final String discountType;
   final double discountPercentage;
   final bool isApplyingPromoCode;
   final String? promoCodeError;
@@ -40,6 +41,7 @@ class CartLoaded extends CartState {
     this.addToCartError,
     this.addToCartSuccess = false,
     this.promoCode,
+    this.discountType = 'percent',
     this.discountPercentage = 0.0,
     this.isApplyingPromoCode = false,
     this.promoCodeError,
@@ -57,6 +59,7 @@ class CartLoaded extends CartState {
     String? addToCartError,
     bool? addToCartSuccess,
     String? promoCode,
+    String? discountType,
     double? discountPercentage,
     bool? isApplyingPromoCode,
     String? promoCodeError,
@@ -73,6 +76,7 @@ class CartLoaded extends CartState {
       addToCartError: addToCartError,
       addToCartSuccess: addToCartSuccess ?? this.addToCartSuccess,
       promoCode: promoCode ?? this.promoCode,
+      discountType: discountType ?? this.discountType,
       discountPercentage: discountPercentage ?? this.discountPercentage,
       isApplyingPromoCode: isApplyingPromoCode ?? this.isApplyingPromoCode,
       promoCodeError: promoCodeError,
@@ -92,6 +96,7 @@ class CartLoaded extends CartState {
     addToCartError,
     addToCartSuccess,
     promoCode,
+    discountType,
     discountPercentage,
     isApplyingPromoCode,
     promoCodeError,

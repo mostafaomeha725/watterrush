@@ -7,7 +7,7 @@ class ApplyPromoCodeUseCase {
 
   ApplyPromoCodeUseCase(this.repository);
 
-  Future<Either<Failure, double>> call(String code) async {
+  Future<Either<Failure, Tuple2<String, double>>> call(String code) async {
     return await repository.applyPromoCode(code);
   }
 }
