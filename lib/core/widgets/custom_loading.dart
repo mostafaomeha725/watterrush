@@ -38,7 +38,7 @@ class CustomLoading {
                   color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
-                )
+                ),
               ],
             ),
             child: const AppMorphLoader(color: Colors.white),

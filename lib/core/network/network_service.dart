@@ -256,8 +256,11 @@ class NetworkService {
       } else if (e.type == DioExceptionType.receiveTimeout) {
         // safePrint('unable to connect to the server');
         return const Left("Unable to connect to the server");
+      } else if (e.type == DioExceptionType.connectionError ||
+          (e.error?.toString().contains('SocketException') ?? false)) {
+        return const Left('No internet connection. Please try again.');
       } else {
-        return Left(e.message ?? "");
+        return Left(e.message ?? 'An unexpected error occurred.');
       }
     } catch (e) {
       return Left(e.toString());
@@ -291,8 +294,11 @@ class NetworkService {
       } else if (e.type == DioExceptionType.receiveTimeout) {
         // safePrint('unable to connect to the server');
         return const Left("Unable to connect to the server");
+      } else if (e.type == DioExceptionType.connectionError ||
+          (e.error?.toString().contains('SocketException') ?? false)) {
+        return const Left('No internet connection. Please try again.');
       } else {
-        return Left(e.message ?? "");
+        return Left(e.message ?? 'An unexpected error occurred.');
       }
     } catch (e) {
       return Left(e.toString());
@@ -316,18 +322,7 @@ class NetworkService {
     } on FormatException {
       return const Left(Failure("Format Exception"));
     } on DioException catch (e) {
-      if (e.type == DioExceptionType.badResponse) {
-        return Left(Failure(e.response!.data['message']));
-        // return Left(_l)(e.message);
-      } else if (e.type == DioExceptionType.connectionTimeout) {
-        // safePrint('check your connection');
-        return const Left(Failure("Check your connection"));
-      } else if (e.type == DioExceptionType.receiveTimeout) {
-        return const Left(Failure("Unable to connect to the server"));
-      } else {
-        return Left(Failure(e.message ?? ""));
-        // return const Left("Check internet connection");
-      }
+      return handleDioExceoptions(e);
     } catch (e) {
       return Left(Failure(e.toString()));
     }
@@ -345,20 +340,22 @@ class NetworkService {
         return Left(Failure('Server error (${e.response?.statusCode})'));
       }
     } else if (e.type == DioExceptionType.connectionTimeout) {
-      return const Left(Failure("Connection timed out. Check your internet."));
+      return const Left(
+        Failure('Connection timed out. Check your internet.'),
+      );
     } else if (e.type == DioExceptionType.receiveTimeout) {
-      return const Left(Failure("Unable to connect to the server"));
+      return const Left(Failure('Unable to connect to the server.'));
     } else if (e.type == DioExceptionType.sendTimeout) {
-      return const Left(Failure("Request timed out. Try again."));
+      return const Left(Failure('Request timed out. Try again.'));
     } else if (e.type == DioExceptionType.connectionError) {
-      return const Left(Failure("No internet connection"));
+      return const Left(Failure('No internet connection. Please try again.'));
     } else if (e.type == DioExceptionType.unknown) {
       if (e.error != null && e.error.toString().contains('SocketException')) {
-        return const Left(Failure("No internet connection"));
+        return const Left(Failure('No internet connection. Please try again.'));
       }
-      return Left(Failure(e.message ?? "An unexpected error occurred"));
+      return Left(Failure(e.message ?? 'An unexpected error occurred.'));
     } else {
-      return Left(Failure(e.message ?? "An unexpected error occurred"));
+      return Left(Failure(e.message ?? 'An unexpected error occurred.'));
     }
   }
 

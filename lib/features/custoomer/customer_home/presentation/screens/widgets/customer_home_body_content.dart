@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:waterrush/core/routes/route_paths.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/home_cubit/customer_home_cubit.dart';
+import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/home_cubit/customer_home_state.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_categories_row.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_greeting_card.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_mock_data.dart';
@@ -60,7 +61,7 @@ class CustomerHomeBodyContent extends StatelessWidget {
                   extra: customerHomeOffers,
                 );
               }
-              
+
               if (result == 'go_to_cart_tab' && context.mounted) {
                 CustomNavBar.switchToTab(context, 2);
               }
@@ -82,6 +83,9 @@ class CustomerHomeBodyContent extends StatelessWidget {
           SizedBox(height: 10.h),
           CustomerHomeCategoriesRow(
             categories: displayCategories,
+            isLoading:
+                cubit.state.categoriesStatus == CustomerHomeStatus.loading,
+            errorMessage: cubit.state.message,
             onCategoryTap: (int index) async {
               final result = await context.push(
                 Routes.categoryProductsScreen,
