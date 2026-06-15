@@ -49,6 +49,7 @@ List<CategoryItemData> mapApiCategoriesToRouteCategories(
         reviewsCount: 0,
         discountLabel: hasDiscount ? '-$discountPercentage%' : '',
         isOnOffer: hasDiscount,
+        isAvailable: p.available,
       );
     }).toList();
 

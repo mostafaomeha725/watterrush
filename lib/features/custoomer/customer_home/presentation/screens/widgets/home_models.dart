@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:waterrush/features/custoomer/customer_home/domain/entities/product_entity.dart';
 
 class CategoryItemData {
   const CategoryItemData({
@@ -62,6 +63,7 @@ class OfferProductItemData {
     required this.discountLabel,
     this.isPopular = false,
     this.isOnOffer = false,
+    this.isAvailable = true,
   });
 
   final int id;
@@ -76,4 +78,33 @@ class OfferProductItemData {
   final String discountLabel;
   final bool isPopular;
   final bool isOnOffer;
+  final bool isAvailable;
+}
+
+extension ProductEntityX on ProductEntity {
+  OfferProductItemData toOfferProductItemData() {
+    final double discount = (priceBefore != null && priceBefore! > price)
+        ? ((priceBefore! - price) / priceBefore! * 100)
+        : 0;
+        
+    final int saveAmount = (priceBefore != null && priceBefore! > price)
+        ? (priceBefore! - price).toInt()
+        : 0;
+
+    return OfferProductItemData(
+      id: id,
+      name: title,
+      subtitle: description,
+      imageUrl: images.isNotEmpty ? images.first.image : '',
+      currentPrice: price,
+      oldPrice: priceBefore ?? price,
+      saveAmount: saveAmount,
+      rating: 5.0, // Default for now
+      reviewsCount: 100, // Default for now
+      discountLabel: '${discount.toInt()}% OFF',
+      isPopular: false,
+      isOnOffer: discount > 0,
+      isAvailable: available,
+    );
+  }
 }

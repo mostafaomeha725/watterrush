@@ -38,6 +38,13 @@ class CustomerHomeRepositoryImpl implements CustomerHomeRepository {
   }
 
   @override
+  Future<Either<Failure, PaginatedData<ProductEntity>>> getOfferProducts({
+    int page = 1,
+  }) async {
+    return await remoteDataSource.getOfferProducts(page: page);
+  }
+
+  @override
   Future<Either<Failure, ProductEntity>> getProductDetails(
     int productId,
   ) async {

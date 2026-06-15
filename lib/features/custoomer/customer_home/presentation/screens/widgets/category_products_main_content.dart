@@ -10,6 +10,7 @@ import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/ca
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/category_products_cubit/category_products_state.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/category_products_content.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/category_products_filters_row.dart';
+
 import 'package:waterrush/core/widgets/pagination_widget.dart';
 
 class CategoryProductsMainContent extends StatelessWidget {

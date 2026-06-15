@@ -17,6 +17,9 @@ abstract class CustomerHomeRemoteDataSource {
   Future<Either<Failure, PaginatedData<ProductModel>>> getPopularProducts({
     int page = 1,
   });
+  Future<Either<Failure, PaginatedData<ProductModel>>> getOfferProducts({
+    int page = 1,
+  });
   Future<Either<Failure, ProductModel>> getProductDetails(int productId);
 }
 
@@ -104,6 +107,29 @@ class CustomerHomeRemoteDataSourceImpl implements CustomerHomeRemoteDataSource {
         return Right(paginatedData);
       } catch (e) {
         return Left(Failure('Failed to parse popular products data'));
+      }
+    });
+  }
+
+  @override
+  Future<Either<Failure, PaginatedData<ProductModel>>> getOfferProducts({
+    int page = 1,
+  }) async {
+    final response = await networkService.getData(
+      endPoint: EndPoints.customerProducts,
+      queryParameters: {'is_offer': 1, 'page': page},
+    );
+
+    return response.fold((failure) => Left(failure), (data) {
+      try {
+        final paginatedData = PaginatedData<ProductModel>.fromJson(
+          data['data'],
+          ProductModel.fromJson,
+          'products',
+        );
+        return Right(paginatedData);
+      } catch (e) {
+        return Left(Failure('Failed to parse offer products data'));
       }
     });
   }

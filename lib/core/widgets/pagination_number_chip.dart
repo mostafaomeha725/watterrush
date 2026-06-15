@@ -28,14 +28,7 @@ class PaginationNumberChip extends StatelessWidget {
           width: isActive ? 48.w : 42.w,
           height: 42.w,
           decoration: BoxDecoration(
-            gradient: isActive
-                ? const LinearGradient(
-                    colors: [Color(0xFFFF9D42), Color(0xFFDB6000)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  )
-                : null,
-            color: isActive ? null : const Color(0xFFF8FAFC),
+            color: isActive ? const Color(0xFF1178DD) : const Color(0xFFF8FAFC),
             borderRadius: BorderRadius.circular(14.r),
             border: Border.all(
               color: isActive ? Colors.transparent : const Color(0xFFE2E8F0),
@@ -44,7 +37,7 @@ class PaginationNumberChip extends StatelessWidget {
             boxShadow: isActive
                 ? [
                     BoxShadow(
-                      color: const Color(0xFFDB6000).withOpacity(0.28),
+                      color: const Color(0xFF1178DD).withValues(alpha: 0.28),
                       blurRadius: 12,
                       offset: const Offset(0, 6),
                     ),

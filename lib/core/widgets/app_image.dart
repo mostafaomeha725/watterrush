@@ -40,8 +40,47 @@ class _AppImageState extends State<AppImage> {
     }
   }
 
+  Widget _buildPlaceholder() {
+    return Container(
+      width: widget.width,
+      height: widget.height,
+      decoration: BoxDecoration(
+        color: const Color(0xFFF3F7FF), // Soft light blue background
+        borderRadius: widget.borderRadius ?? BorderRadius.zero,
+      ),
+      child: Center(
+        child: Container(
+          padding: EdgeInsets.all(8.r),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF9AAEC3).withValues(alpha: 0.15),
+                blurRadius: 8.r,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Icon(
+            Icons.image_not_supported_rounded,
+            color: const Color(0xFF9AAEC3), // Soft grayish blue
+            size: 20.sp,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (widget.imageUrl.isEmpty) {
+      return ClipRRect(
+        borderRadius: widget.borderRadius ?? BorderRadius.zero,
+        child: _buildPlaceholder(),
+      );
+    }
+
     return ClipRRect(
       borderRadius: widget.borderRadius ?? BorderRadius.zero,
       child: CachedNetworkImage(
@@ -62,11 +101,7 @@ class _AppImageState extends State<AppImage> {
               : const SizedBox();
         },
         errorWidget: (context, url, error) {
-          return Container(
-            color: Colors.black,
-            padding: EdgeInsets.all(5.h),
-            child: const AppAsset(assetName: 'divido'),
-          );
+          return _buildPlaceholder();
         },
       ),
     );

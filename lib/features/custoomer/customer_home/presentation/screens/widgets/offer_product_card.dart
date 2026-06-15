@@ -86,6 +86,7 @@ class OfferProductCard extends StatelessWidget {
                             isAdded: isAdded,
                             addButtonText: addButtonText,
                             addedButtonText: addedButtonText,
+                            isAvailable: product.isAvailable,
                           ),
                         ],
                       ),

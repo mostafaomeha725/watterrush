@@ -32,6 +32,7 @@ import 'package:waterrush/features/custoomer/customer_home/domain/usecases/get_s
 import 'package:waterrush/features/custoomer/customer_home/domain/usecases/get_categories_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_home/domain/usecases/get_category_products_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_home/domain/usecases/get_popular_products_usecase.dart';
+import 'package:waterrush/features/custoomer/customer_home/domain/usecases/get_offer_products_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_home/domain/usecases/get_product_details_usecase.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/home_cubit/customer_home_cubit.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/category_products_cubit/category_products_cubit.dart';
@@ -140,6 +141,7 @@ class ServiceLocator {
     sl.registerLazySingleton(() => GetCategoriesUseCase(sl()));
     sl.registerLazySingleton(() => GetCategoryProductsUseCase(sl()));
     sl.registerLazySingleton(() => GetPopularProductsUseCase(sl()));
+    sl.registerLazySingleton(() => GetOfferProductsUseCase(sl()));
     sl.registerLazySingleton(() => GetProductDetailsUseCase(sl()));
     sl.registerLazySingleton(() => GetAddressesUseCase(sl()));
     sl.registerLazySingleton(() => CreateAddressUseCase(sl()));

@@ -44,20 +44,19 @@ class CustomerHomeCategoriesRow extends StatelessWidget {
       );
     }
 
-    return Row(
-      children: List<Widget>.generate(categories.length, (index) {
-        return Expanded(
-          child: Padding(
-            padding: EdgeInsetsDirectional.only(
-              end: index == categories.length - 1 ? 0 : 8.w,
-            ),
-            child: CustomerHomeCategoryCard(
-              data: categories[index],
-              onTap: () => onCategoryTap(index),
-            ),
-          ),
-        );
-      }),
+    return SizedBox(
+      height: 260.h,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: categories.length,
+        clipBehavior: Clip.none,
+        itemBuilder: (BuildContext context, int index) {
+          return CustomerHomeCategoryCard(
+            data: categories[index],
+            onTap: () => onCategoryTap(index),
+          );
+        },
+      ),
     );
   }
 }

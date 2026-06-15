@@ -10,6 +10,7 @@ import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/ho
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/home_cubit/customer_home_state.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_popular_product_card.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/customer_home_section_header.dart';
+import 'package:waterrush/core/widgets/pagination_widget.dart';
 
 class CustomerHomePopularProductsSection extends StatelessWidget {
   const CustomerHomePopularProductsSection({super.key});
@@ -46,7 +47,7 @@ class CustomerHomePopularProductsSection extends StatelessWidget {
               )
             else
               SizedBox(
-                height: 210.h, // Fixed height for horizontal list
+                height: 260.h, // Matched with category card height
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: state.popularProducts.length,
@@ -64,6 +65,14 @@ class CustomerHomePopularProductsSection extends StatelessWidget {
                     );
                   },
                 ),
+              ),
+            if (state.popularProductsLastPage > 1)
+              PaginationWidget(
+                totalPages: state.popularProductsLastPage,
+                currentPage: state.popularProductsCurrentPage,
+                onPageChanged: (page) {
+                  context.read<CustomerHomeCubit>().getPopularProducts(page: page);
+                },
               ),
           ],
         );

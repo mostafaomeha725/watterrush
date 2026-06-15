@@ -23,23 +23,33 @@ class CustomerHomePopularProductImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        Center(
-          child: imageUrl.isNotEmpty
-              ? product.available
-                  ? AppImage(imageUrl: imageUrl, fit: BoxFit.contain)
-                  : ColorFiltered(
-                      colorFilter: const ColorFilter.matrix(<double>[
-                        0.2126, 0.7152, 0.0722, 0, 0,
-                        0.2126, 0.7152, 0.0722, 0, 0,
-                        0.2126, 0.7152, 0.0722, 0, 0,
-                        0,      0,      0,      1, 0,
-                      ]),
-                      child: Opacity(
-                        opacity: 0.6,
-                        child: AppImage(imageUrl: imageUrl, fit: BoxFit.contain),
-                      ),
-                    )
-              : const SizedBox(), // Fallback if no image
+        Positioned.fill(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12.r),
+              border: Border.all(color: const Color(0xFFE5E7EB), width: 1),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(11.r),
+              child: imageUrl.isNotEmpty
+                  ? product.available
+                      ? AppImage(imageUrl: imageUrl, fit: BoxFit.contain)
+                      : ColorFiltered(
+                          colorFilter: const ColorFilter.matrix(<double>[
+                            0.2126, 0.7152, 0.0722, 0, 0,
+                            0.2126, 0.7152, 0.0722, 0, 0,
+                            0.2126, 0.7152, 0.0722, 0, 0,
+                            0,      0,      0,      1, 0,
+                          ]),
+                          child: Opacity(
+                            opacity: 0.6,
+                            child: AppImage(imageUrl: imageUrl, fit: BoxFit.contain),
+                          ),
+                        )
+                  : const SizedBox(), // Fallback if no image
+            ),
+          ),
         ),
         if (hasDiscount)
           Positioned(

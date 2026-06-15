@@ -15,6 +15,7 @@ class OfferProductCardActions extends StatelessWidget {
     this.addButtonText = 'Add to Cart',
     this.addedButtonText = 'Added',
     this.isLarge = false,
+    this.isAvailable = true,
   });
 
   final int quantity;
@@ -25,9 +26,37 @@ class OfferProductCardActions extends StatelessWidget {
   final String addButtonText;
   final String addedButtonText;
   final bool isLarge;
+  final bool isAvailable;
 
   @override
   Widget build(BuildContext context) {
+    if (!isAvailable) {
+      return Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(vertical: 8.h),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFF5F5),
+          borderRadius: BorderRadius.circular(10.r),
+          border: Border.all(color: const Color(0xFFFFD6D6)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.hourglass_empty_rounded,
+              size: 14.sp,
+              color: const Color(0xFFE53935),
+            ),
+            SizedBox(width: 4.w),
+            AppText(
+              'Sold Out',
+              style: font12w700.copyWith(color: const Color(0xFFE53935)),
+            ),
+          ],
+        ),
+      );
+    }
+
     if (!isAdded) {
       return SizedBox(
         width: double.infinity,

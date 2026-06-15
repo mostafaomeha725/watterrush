@@ -12,7 +12,10 @@ import 'package:waterrush/features/custoomer/customer_home/presentation/screens/
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/offer_terms_card.dart';
 import 'package:waterrush/core/theme/styles.dart';
 import 'package:waterrush/core/utils/spacing.dart';
+import 'package:waterrush/core/routes/route_paths.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_cubit.dart';
+import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/home_models.dart';
+import 'package:waterrush/core/widgets/pagination_widget.dart';
 
 class OfferDetailsScreenBody extends StatelessWidget {
   const OfferDetailsScreenBody({super.key});
@@ -70,45 +73,104 @@ class OfferDetailsScreenBody extends StatelessWidget {
                           OfferTermsCard(terms: state.offer!.terms),
                           verticalSpacing(14),
                           AppText(
-                            'Products in this offer (${state.offer!.products.length})',
+                            'Products in this offer (${state.apiProducts.length})',
                             style: font18w700.copyWith(
                               color: const Color(0xFF102A43),
                             ),
                           ),
                           verticalSpacing(10),
-                          ...List<Widget>.generate(
-                            state.offer!.products.length,
-                            (int index) => Padding(
-                              padding: EdgeInsets.only(bottom: 12.h),
-                              child: OfferProductCard(
-                                product: state.offer!.products[index],
-                                compactLayout: true,
-                                quantity: state.quantityFor(index),
-                                onIncrement: () {
-                                  context
-                                      .read<OfferDetailsCubit>()
-                                      .incrementQuantity(index);
-                                },
-                                onDecrement: () {
-                                  context
-                                      .read<OfferDetailsCubit>()
-                                      .decrementQuantity(index);
-                                },
-                                onAddToCart: () {
-                                  final cubit = context
-                                      .read<OfferDetailsCubit>();
-                                  final product = state.offer!.products[index];
-                                  final quantity = state.quantityFor(index);
-
-                                  context.read<CartCubit>().addToCart(
-                                    product.id,
-                                    quantity,
-                                  );
-                                  cubit.addToCart(index);
-                                },
+                          if (state.errorMessage != null)
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20.h),
+                              child: Center(
+                                child: AppText(
+                                  state.errorMessage!,
+                                  style: font14w400.copyWith(color: Colors.red),
+                                ),
                               ),
+                            )
+                          else if (state.apiProducts.isEmpty)
+                            Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(16.r),
+                                border: Border.all(color: const Color(0xFFD9E4F2)),
+                              ),
+                              child: Column(
+                                children: <Widget>[
+                                  AppText(
+                                    'No products available for this offer.',
+                                    style: font14w700.copyWith(color: const Color(0xFF23405F)),
+                                    alignment: AlignmentDirectional.center,
+                                  ),
+                                  verticalSpacing(12),
+                                  AppButton(
+                                    text: 'Show Popular Products',
+                                    onPressed: () => context.pushReplacement(Routes.allPopularProductsScreen),
+                                    color: const Color(0xFF1178DD),
+                                    textSize: 13.sp,
+                                    radius: 10.r,
+                                  ),
+                                ],
+                              ),
+                            )
+                          else
+                            ...List<Widget>.generate(
+                              state.apiProducts.length,
+                              (int index) {
+                                final productData = state.apiProducts[index].toOfferProductItemData();
+                                return Padding(
+                                  padding: EdgeInsets.only(bottom: 12.h),
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      final result = await context.push(
+                                        Routes.productDetailsScreen,
+                                        extra: productData.id,
+                                      );
+                                      if (result == 'go_to_cart_tab' && context.mounted) {
+                                        context.pop('go_to_cart_tab');
+                                      }
+                                    },
+                                    child: OfferProductCard(
+                                      product: productData,
+                                      compactLayout: true,
+                                      quantity: state.quantityFor(index),
+                                      onIncrement: () {
+                                        context
+                                            .read<OfferDetailsCubit>()
+                                            .incrementQuantity(index);
+                                      },
+                                      onDecrement: () {
+                                        context
+                                            .read<OfferDetailsCubit>()
+                                            .decrementQuantity(index);
+                                      },
+                                      onAddToCart: () {
+                                        final cubit = context.read<OfferDetailsCubit>();
+                                        final product = state.apiProducts[index];
+                                        final quantity = state.quantityFor(index);
+
+                                        context.read<CartCubit>().addToCart(
+                                          product.id,
+                                          quantity,
+                                        );
+                                        cubit.addToCart(index);
+                                      },
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
-                          ),
+                          if (state.lastPage > 1 && state.apiProducts.length > 1)
+                            PaginationWidget(
+                              totalPages: state.lastPage,
+                              currentPage: state.currentPage,
+                              onPageChanged: (page) {
+                                context.read<OfferDetailsCubit>().loadPage(page);
+                              },
+                            ),
                         ],
                       ),
                     ),

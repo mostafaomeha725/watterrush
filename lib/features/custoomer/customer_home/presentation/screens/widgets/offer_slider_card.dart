@@ -47,8 +47,8 @@ class OfferSliderCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(12.r),
               child: Container(
-                width: 74.w,
-                height: 74.w,
+                // width: 74.w,
+                // height: 74.w,
                 color: const Color(0x26FFFFFF),
                 child: AppAsset(assetName: data.imagePath, fit: BoxFit.cover),
               ),

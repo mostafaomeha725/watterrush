@@ -58,6 +58,7 @@ class CategoryProductsCubit extends Cubit<CategoryProductsState> {
               rating: 5.0,
               reviewsCount: 0,
               discountLabel: hasDiscount ? '-$discountPercentage%' : '',
+              isAvailable: p.available,
             );
           }).toList();
 

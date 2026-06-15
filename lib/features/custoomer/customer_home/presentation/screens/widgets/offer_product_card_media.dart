@@ -27,10 +27,20 @@ class OfferProductCardMedia extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           Positioned.fill(
-            child: AppImage(
-              imageUrl: product.imageUrl,
-              fit: BoxFit.cover,
-              showprogressIndicator: true,
+            child: Container(
+              margin: EdgeInsets.all(8.w),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12.r),
+                border: Border.all(color: const Color(0xFFE5E7EB), width: 1),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(11.r),
+                child: AppImage(
+                  imageUrl: product.imageUrl,
+                  fit: BoxFit.contain,
+                  showprogressIndicator: true,
+                ),
+              ),
             ),
           ),
           if ((discountBadgeText ?? product.discountLabel).isNotEmpty)

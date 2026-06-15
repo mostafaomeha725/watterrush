@@ -15,5 +15,8 @@ abstract class CustomerHomeRepository {
   Future<Either<Failure, PaginatedData<ProductEntity>>> getPopularProducts({
     int page = 1,
   });
+  Future<Either<Failure, PaginatedData<ProductEntity>>> getOfferProducts({
+    int page = 1,
+  });
   Future<Either<Failure, ProductEntity>> getProductDetails(int productId);
 }

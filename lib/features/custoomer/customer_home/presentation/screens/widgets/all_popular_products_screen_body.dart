@@ -86,6 +86,7 @@ class _AllPopularProductsScreenBodyState
                             ? '-$discountPercentage%'
                             : '',
                         isPopular: true,
+                        isAvailable: product.available,
                       );
                     })
                     .toList();

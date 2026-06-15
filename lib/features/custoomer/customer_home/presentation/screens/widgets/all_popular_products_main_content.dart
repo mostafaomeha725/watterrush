@@ -29,6 +29,18 @@ class AllPopularProductsMainContent extends StatelessWidget {
         final listView = AllPopularProductsList(
           products: visibleProducts,
           cartState: cartState,
+          footer: state.popularProductsLastPage > 1
+              ? SafeArea(
+                  top: false,
+                  child: PaginationWidget(
+                    totalPages: state.popularProductsLastPage,
+                    currentPage: state.popularProductsCurrentPage,
+                    onPageChanged: (page) {
+                      context.read<CustomerHomeCubit>().getPopularProducts(page: page);
+                    },
+                  ),
+                )
+              : null,
         );
 
         return Stack(
@@ -50,14 +62,6 @@ class AllPopularProductsMainContent extends StatelessWidget {
                   ),
                 ),
                 Expanded(child: listView),
-                if (state.popularProductsLastPage > 1)
-                  PaginationWidget(
-                    totalPages: state.popularProductsLastPage,
-                    currentPage: state.popularProductsCurrentPage,
-                    onPageChanged: (page) {
-                      context.read<CustomerHomeCubit>().getPopularProducts(page: page);
-                    },
-                  ),
               ],
             ),
             if (cartState is CartLoaded && cartState.cart.items.isNotEmpty)

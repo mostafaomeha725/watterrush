@@ -21,17 +21,18 @@ class CustomerHomeCategoryCard extends StatelessWidget {
     return BounceIt(
       onPressed: onTap,
       child: Container(
-        height: 230.h,
-        padding: EdgeInsets.all(10.w),
+        width: 175.w,
+        height: 260.h,
+        margin: EdgeInsets.only(right: 12.w),
+        padding: EdgeInsets.all(12.w),
         decoration: BoxDecoration(
-          color: const Color(0xFFF5F8FD),
-          borderRadius: BorderRadius.circular(18.r),
-          border: Border.all(color: const Color(0xFFE6EEFA)),
-          boxShadow: [
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16.r),
+          boxShadow: <BoxShadow>[
             BoxShadow(
-              color: const Color(0xFFBFD3F2).withOpacity(0.18),
-              blurRadius: 18,
-              offset: const Offset(0, 8),
+              color: Colors.black.withValues(alpha: 0.03),
+              blurRadius: 10.r,
+              offset: Offset(0, 4.h),
             ),
           ],
         ),
@@ -41,10 +42,23 @@ class CustomerHomeCategoryCard extends StatelessWidget {
             Expanded(
               child: Stack(
                 children: [
-                  Center(
-                    child: AppImage(
-                      imageUrl: data.imageUrl,
-                      fit: BoxFit.contain,
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12.r),
+                        border: Border.all(
+                          color: const Color(0xFFE5E7EB),
+                          width: 1,
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(11.r),
+                        child: AppImage(
+                          imageUrl: data.imageUrl,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
                     ),
                   ),
                   if (data.badgeText.isNotEmpty)
@@ -70,7 +84,7 @@ class CustomerHomeCategoryCard extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 10.h),
+            SizedBox(height: 12.h),
             AppText(
               data.title,
               maxLines: 1,

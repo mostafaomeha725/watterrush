@@ -14,10 +14,12 @@ class AllPopularProductsList extends StatefulWidget {
     super.key,
     required this.products,
     required this.cartState,
+    this.footer,
   });
 
   final List<OfferProductItemData> products;
   final CartState cartState;
+  final Widget? footer;
 
   @override
   State<AllPopularProductsList> createState() => _AllPopularProductsListState();
@@ -30,9 +32,13 @@ class _AllPopularProductsListState extends State<AllPopularProductsList> {
   Widget build(BuildContext context) {
     return ListView.separated(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-      itemCount: widget.products.length,
+      itemCount: widget.products.length + (widget.footer != null ? 1 : 0),
       separatorBuilder: (context, index) => SizedBox(height: 16.h),
       itemBuilder: (BuildContext context, int index) {
+        if (index == widget.products.length && widget.footer != null) {
+          return widget.footer!;
+        }
+
         final mappedProduct = widget.products[index];
         int quantity = _quantities[mappedProduct.id] ?? 1;
         bool isAdded = false;
