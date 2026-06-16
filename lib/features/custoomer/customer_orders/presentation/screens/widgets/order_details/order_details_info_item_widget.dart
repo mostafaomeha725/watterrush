@@ -18,17 +18,17 @@ class OrderDetailsInfoItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 4.w),
-      padding: EdgeInsets.all(12.r),
+      margin: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: const Color(0xFFF3F4F6)),
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: const Color(0xFFF1F5F9), width: 1.5),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.01),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
+            color: const Color(0xFF0F172A).withValues(alpha: 0.03),
+            blurRadius: 16,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -36,14 +36,14 @@ class OrderDetailsInfoItemWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.all(6.r),
+            padding: EdgeInsets.all(10.r),
             decoration: BoxDecoration(
-              color: const Color(0xFF0B48C6).withOpacity(0.05),
-              borderRadius: BorderRadius.circular(8.r),
+              color: const Color(0xFF1178DD).withValues(alpha: 0.08),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: Icon(icon, color: const Color(0xFF0B48C6), size: 12.sp),
+            child: Icon(icon, color: const Color(0xFF1178DD), size: 18.sp),
           ),
-          SizedBox(width: 8.w),
+          SizedBox(width: 12.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,14 +51,14 @@ class OrderDetailsInfoItemWidget extends StatelessWidget {
               children: [
                 AppText(
                   title,
-                  style: font10w500.copyWith(color: const Color(0xFF8B92A2)),
+                  style: font14w500.copyWith(color: const Color(0xFF64748B)),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: 2.h),
+                SizedBox(height: 4.h),
                 AppText(
                   value,
-                  style: font8w600.copyWith(color: const Color(0xFF1B2028)),
+                  style: font12w700.copyWith(color: const Color(0xFF1B2028)),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

@@ -70,9 +70,20 @@ class CustomerHomeAddressSelector extends StatelessWidget {
                 builder: (menuContext) {
                   return GestureDetector(
                     onTap: () {
-                      if (state.status == AddressStatus.success &&
-                          state.addresses.isNotEmpty) {
+                      if (state.status == AddressStatus.success) {
                         final addressCubit = context.read<AddressCubit>();
+
+                        if (state.addresses.isEmpty) {
+                          showDialog(
+                            context: context,
+                            builder: (_) => BlocProvider.value(
+                              value: addressCubit,
+                              child: const AddAddressDialog(),
+                            ),
+                          );
+                          return;
+                        }
+
                         final renderBox =
                             menuContext.findRenderObject() as RenderBox;
                         final size = renderBox.size;

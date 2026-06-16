@@ -10,6 +10,7 @@ import 'package:waterrush/features/custoomer/customer_orders/presentation/screen
 import 'package:waterrush/features/custoomer/customer_orders/presentation/screens/widgets/orders_list_header_widget.dart';
 import 'package:waterrush/features/custoomer/customer_orders/presentation/screens/widgets/order_item_card.dart';
 import 'package:waterrush/features/custoomer/customer_orders/presentation/screens/widgets/orders_summary_bottom_bar.dart';
+import 'package:waterrush/features/custoomer/customer_orders/presentation/screens/widgets/orders_empty_state_widget.dart';
 import 'package:waterrush/core/widgets/pagination_widget.dart';
 
 class CustomerOrdersScreenBody extends StatelessWidget {
@@ -21,6 +22,7 @@ class CustomerOrdersScreenBody extends StatelessWidget {
       builder: (context, state) {
         final cubit = context.read<CustomerOrdersCubit>();
         final orders = cubit.filteredOrders;
+
         final totalSpent = orders.fold<double>(
           0,
           (sum, item) => sum + item.total,
@@ -47,7 +49,7 @@ class CustomerOrdersScreenBody extends StatelessWidget {
                     else if (state is GetOrdersFailure)
                       Center(child: AppText(state.message))
                     else if (orders.isEmpty)
-                      const Center(child: AppText('No orders found.'))
+                      const OrdersEmptyStateWidget()
                     else
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20.w),

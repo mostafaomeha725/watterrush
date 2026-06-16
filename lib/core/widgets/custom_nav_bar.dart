@@ -85,13 +85,9 @@ class _CustomNavBarState extends State<CustomNavBar> {
         },
         listener: (context, state) {
           if (state is CartLoaded) {
-            if (state.isAddingToCart) {
-              showLoading();
-            } else if (state.addToCartSuccess) {
-              hideLoading();
+            if (state.addToCartSuccess) {
               showSuccess('Item added successfully');
             } else if (state.addToCartError != null) {
-              hideLoading();
               showError(state.addToCartError!);
             }
           }

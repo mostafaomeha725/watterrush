@@ -21,7 +21,10 @@ class CustomerHomeCategoriesRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading) {
+    final bool isInitialLoading = categories.isEmpty &&
+        (errorMessage == null || errorMessage!.isEmpty);
+
+    if (isLoading || isInitialLoading) {
       return SizedBox(
         height: 140.h,
         child: Center(child: CustomLoading.showLoader(scale: 0.7)),

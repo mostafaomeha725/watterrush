@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waterrush/core/error/failure.dart';
 import '../../domain/usecases/add_to_cart_usecase.dart';
@@ -28,11 +29,30 @@ class CartCubit extends Cubit<CartState> {
   }) : super(CartInitial());
 
   Future<void> getCart() async {
-    emit(CartLoading());
+    if (state is! CartLoaded) {
+      emit(CartLoading());
+    }
     final result = await getCartUseCase();
     result.fold(
-      (Failure failure) => emit(CartError(message: failure.message)),
-      (cart) => emit(CartLoaded(cart: cart)),
+      (Failure failure) {
+        if (state is! CartLoaded) {
+          emit(CartError(message: failure.message));
+        }
+      },
+      (cart) {
+        if (state is CartLoaded) {
+          emit(
+            (state as CartLoaded).copyWith(
+              cart: cart,
+              removeSuccess: false,
+              clearSuccess: false,
+              addToCartSuccess: false,
+            ),
+          );
+        } else {
+          emit(CartLoaded(cart: cart));
+        }
+      },
     );
   }
 
@@ -143,6 +163,9 @@ class CartCubit extends Cubit<CartState> {
     );
   }
 
+  final Map<int, Timer> _updateTimers = {};
+  int _inflightUpdates = 0;
+
   Future<void> updateCartItem(int itemId, int quantity) async {
     if (state is CartLoaded) {
       final currentState = state as CartLoaded;
@@ -178,65 +201,81 @@ class CartCubit extends Cubit<CartState> {
           total: newTotal,
         );
 
-        emit(
-          currentState.copyWith(
-            cart: newCart,
-            addToCartError: null,
-          ),
-        );
+        emit(currentState.copyWith(cart: newCart, addToCartError: null));
       }
     }
 
-    final result = await updateCartItemUseCase(
-      UpdateCartItemParams(itemId: itemId, quantity: quantity),
-    );
+    _updateTimers[itemId]?.cancel();
+    _updateTimers[itemId] = Timer(const Duration(milliseconds: 500), () async {
+      _inflightUpdates++;
 
-    result.fold(
-      (Failure failure) {
-        if (state is CartLoaded) {
-          emit(
-            (state as CartLoaded).copyWith(
-              addToCartError: failure.message,
-            ),
-          );
-          _getCartSilently(); // Revert to true state
-        }
-      },
-      (_) {
-        // Refresh cart silently to ensure backend calculation accuracy without UI jump
-        _getCartSilently();
-      },
-    );
+      final result = await updateCartItemUseCase(
+        UpdateCartItemParams(itemId: itemId, quantity: quantity),
+      );
+
+      _inflightUpdates--;
+
+      result.fold(
+        (Failure failure) {
+          if (state is CartLoaded) {
+            emit(
+              (state as CartLoaded).copyWith(addToCartError: failure.message),
+            );
+            if (_inflightUpdates == 0 &&
+                !_updateTimers.values.any((t) => t.isActive)) {
+              _getCartSilently();
+            }
+          }
+        },
+        (_) {
+          if (_inflightUpdates == 0 &&
+              !_updateTimers.values.any((t) => t.isActive)) {
+            _getCartSilently();
+          }
+        },
+      );
+    });
+  }
+
+  @override
+  Future<void> close() {
+    for (var timer in _updateTimers.values) {
+      timer.cancel();
+    }
+    return super.close();
   }
 
   Future<void> applyPromoCode(String code) async {
     if (state is! CartLoaded) return;
     final currentState = state as CartLoaded;
 
-    emit(currentState.copyWith(
-      isApplyingPromoCode: true,
-      promoCodeError: null,
-    ));
+    emit(
+      currentState.copyWith(isApplyingPromoCode: true, promoCodeError: null),
+    );
 
     final result = await applyPromoCodeUseCase(code);
 
     result.fold(
       (failure) {
-        emit(currentState.copyWith(
-          isApplyingPromoCode: false,
-          promoCodeError: failure.message,
-          promoCode: null,
-          discountPercentage: 0.0,
-        ));
+        emit(
+          currentState.copyWith(
+            isApplyingPromoCode: false,
+            promoCodeError: failure.message,
+            promoCode: null,
+            discountPercentage: 0.0,
+          ),
+        );
       },
       (discountData) {
-        emit(currentState.copyWith(
-          isApplyingPromoCode: false,
-          promoCode: code,
-          discountType: discountData.value1,
-          discountPercentage: discountData.value2,
-          promoCodeError: null,
-        ));
+        emit(
+          currentState.copyWith(
+            isApplyingPromoCode: false,
+            promoCode: code,
+            discountType: discountData.value1,
+            discountPercentage: discountData.value2,
+            promoCodeError: null,
+          ),
+        );
       },
     );
   }
@@ -245,11 +284,13 @@ class CartCubit extends Cubit<CartState> {
     if (state is! CartLoaded) return;
     final currentState = state as CartLoaded;
 
-    emit(currentState.copyWith(
-      promoCode: null,
-      discountPercentage: 0.0,
-      promoCodeError: null,
-    ));
+    emit(
+      currentState.copyWith(
+        promoCode: null,
+        discountPercentage: 0.0,
+        promoCodeError: null,
+      ),
+    );
   }
 
   Future<void> _getCartSilently() async {

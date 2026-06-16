@@ -31,7 +31,12 @@ class _AllPopularProductsListState extends State<AllPopularProductsList> {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      padding: EdgeInsets.only(
+        left: 16.w,
+        right: 16.w,
+        top: 12.h,
+        bottom: 100.h,
+      ),
       itemCount: widget.products.length + (widget.footer != null ? 1 : 0),
       separatorBuilder: (context, index) => SizedBox(height: 16.h),
       itemBuilder: (BuildContext context, int index) {
@@ -45,9 +50,8 @@ class _AllPopularProductsListState extends State<AllPopularProductsList> {
 
         if (widget.cartState is CartLoaded) {
           try {
-            final cartItem = (widget.cartState as CartLoaded).cart.items.firstWhere(
-              (i) => i.productId == mappedProduct.id,
-            );
+            final cartItem = (widget.cartState as CartLoaded).cart.items
+                .firstWhere((i) => i.productId == mappedProduct.id);
             isAdded = true;
             quantity = cartItem.quantity;
           } catch (_) {}
@@ -71,12 +75,8 @@ class _AllPopularProductsListState extends State<AllPopularProductsList> {
             onIncrement: () {
               if (isAdded && widget.cartState is CartLoaded) {
                 try {
-                  final cartItem = (widget.cartState as CartLoaded)
-                      .cart
-                      .items
-                      .firstWhere(
-                        (i) => i.productId == mappedProduct.id,
-                      );
+                  final cartItem = (widget.cartState as CartLoaded).cart.items
+                      .firstWhere((i) => i.productId == mappedProduct.id);
                   context.read<CartCubit>().updateCartItem(
                     cartItem.id,
                     cartItem.quantity + 1,
@@ -91,12 +91,8 @@ class _AllPopularProductsListState extends State<AllPopularProductsList> {
             onDecrement: () {
               if (isAdded && widget.cartState is CartLoaded) {
                 try {
-                  final cartItem = (widget.cartState as CartLoaded)
-                      .cart
-                      .items
-                      .firstWhere(
-                        (i) => i.productId == mappedProduct.id,
-                      );
+                  final cartItem = (widget.cartState as CartLoaded).cart.items
+                      .firstWhere((i) => i.productId == mappedProduct.id);
                   if (cartItem.quantity == 1) {
                     context.read<CartCubit>().removeCartItem(cartItem.id);
                     setState(() {
@@ -118,10 +114,7 @@ class _AllPopularProductsListState extends State<AllPopularProductsList> {
               }
             },
             onAddToCart: () {
-              context.read<CartCubit>().addToCart(
-                mappedProduct.id,
-                quantity,
-              );
+              context.read<CartCubit>().addToCart(mappedProduct.id, quantity);
             },
           ),
         );

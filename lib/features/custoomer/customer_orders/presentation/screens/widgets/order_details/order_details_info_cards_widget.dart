@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waterrush/features/custoomer/customer_orders/domain/entities/customer_order_entity.dart';
 import 'order_details_info_item_widget.dart';
 
@@ -9,34 +10,37 @@ class OrderDetailsInfoCardsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       children: [
-        Expanded(
-          flex: 5,
-          child: OrderDetailsInfoItemWidget(
-            icon: Icons.calendar_today_outlined,
-            title: 'Date',
-            value: order.createdAt.split('T').first,
-          ),
+        Row(
+          children: [
+            Expanded(
+              child: OrderDetailsInfoItemWidget(
+                icon: Icons.payment_outlined,
+                title: 'Payment',
+                value: order.paymentMethod,
+              ),
+            ),
+            Expanded(
+              child: OrderDetailsInfoItemWidget(
+                icon: Icons.receipt_long_outlined,
+                title: 'Total',
+                value: 'EGP ${order.total.toStringAsFixed(0)}',
+              ),
+            ),
+          ],
         ),
-        Expanded(
-          flex: 6,
-
-          child: OrderDetailsInfoItemWidget(
-            icon: Icons.payment_outlined,
-            title: 'Payment',
-            value: order.paymentMethod,
-          ),
-        ),
-        Expanded(
-          flex: 5,
-
-          child: OrderDetailsInfoItemWidget(
-            icon: Icons.receipt_long_outlined,
-            title: 'Total',
-            value: 'EGP ${order.total.toStringAsFixed(0)}',
-          ),
+        SizedBox(height: 12.h),
+        Row(
+          children: [
+            Expanded(
+              child: OrderDetailsInfoItemWidget(
+                icon: Icons.calendar_today_outlined,
+                title: 'Date',
+                value: order.createdAt.split('T').first,
+              ),
+            ),
+          ],
         ),
       ],
     );

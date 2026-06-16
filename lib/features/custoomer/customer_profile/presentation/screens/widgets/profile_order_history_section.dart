@@ -10,6 +10,7 @@ import 'package:waterrush/core/routes/route_paths.dart';
 import 'package:waterrush/features/custoomer/customer_profile/presentation/cubit/profile_order_history_cubit.dart';
 import 'package:waterrush/features/custoomer/customer_profile/presentation/cubit/profile_order_history_state.dart';
 import 'package:waterrush/features/custoomer/customer_profile/presentation/screens/widgets/profile_models.dart';
+import 'package:waterrush/core/widgets/custom_nav_bar.dart';
 
 class ProfileOrderHistorySection extends StatelessWidget {
   const ProfileOrderHistorySection({super.key, required this.orders});
@@ -40,8 +41,11 @@ class ProfileOrderHistorySection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 BounceIt(
-                  onPressed: () {
-                    context.push(Routes.customerOrdersScreen);
+                  onPressed: () async {
+                    final result = await context.push(Routes.customerOrdersScreen);
+                    if (result == 'go_to_cart_tab' && context.mounted) {
+                      CustomNavBar.switchToTab(context, 2);
+                    }
                   },
                   child: Padding(
                     padding: EdgeInsets.symmetric(

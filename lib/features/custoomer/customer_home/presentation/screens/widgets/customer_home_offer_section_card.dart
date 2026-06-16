@@ -20,7 +20,11 @@ class CustomerHomeOfferSectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (cubit.state.slidersStatus == CustomerHomeStatus.loading) {
+    final bool isInitialLoading = cubit.state.slidersStatus == CustomerHomeStatus.initial &&
+        cubit.state.sliders.isEmpty &&
+        cubit.state.message.isEmpty;
+
+    if (cubit.state.slidersStatus == CustomerHomeStatus.loading || isInitialLoading) {
       return SizedBox(
         height: 280.h,
         child: Center(child: CustomLoading.showLoader(scale: 0.7)),

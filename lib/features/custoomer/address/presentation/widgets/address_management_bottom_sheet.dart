@@ -97,7 +97,10 @@ class AddressManagementBottomSheet extends StatelessWidget {
                   return Center(child: AppText(state.errorMessage));
                 } else if (state.addresses.isEmpty) {
                   return const Center(
-                    child: AppText('No saved addresses yet.'),
+                    child: AppText(
+                      'No saved addresses yet.',
+                      alignment: AlignmentDirectional.center,
+                    ),
                   );
                 }
 

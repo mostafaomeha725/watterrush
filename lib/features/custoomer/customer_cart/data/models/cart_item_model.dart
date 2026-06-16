@@ -17,7 +17,7 @@ class CartItemModel extends CartItemEntity {
       id: json['id'],
       productId: json['product_id'],
       bundleId: json['bundle_id'],
-      title: json['title'],
+      title: json['title'] ?? '',
       price: json['price'] ?? 0,
       image: json['image'] ?? '',
       quantity: json['quantity'] ?? 0,

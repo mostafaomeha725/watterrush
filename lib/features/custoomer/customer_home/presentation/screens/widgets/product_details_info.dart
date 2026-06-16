@@ -47,20 +47,22 @@ class ProductDetailsInfo extends StatelessWidget {
             ],
           ],
         ),
-        SizedBox(height: 24.h),
-        AppText(
-          'Description',
-          style: font16w700.copyWith(color: const Color(0xFF153A63)),
-        ),
-        SizedBox(height: 8.h),
-        AppText(
-          description,
-          style: font14w400.copyWith(
-            color: Colors.black54,
-            height: 1.5,
+        if (description.isNotEmpty && description.toLowerCase() != 'null') ...<Widget>[
+          SizedBox(height: 24.h),
+          AppText(
+            'Description',
+            style: font16w700.copyWith(color: const Color(0xFF153A63)),
           ),
-        ),
-        SizedBox(height: 40.h),
+          SizedBox(height: 8.h),
+          AppText(
+            description,
+            style: font14w400.copyWith(
+              color: Colors.black54,
+              height: 1.5,
+            ),
+          ),
+          SizedBox(height: 40.h),
+        ],
       ],
     );
   }

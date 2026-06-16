@@ -114,17 +114,8 @@ class _PaginationWidgetState extends State<PaginationWidget> {
           SizedBox(height: 10.h),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(18.r),
-              border: Border.all(color: const Color(0xFFE6EBF2), width: 1.2),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFF0F172A).withOpacity(0.06),
-                  blurRadius: 16,
-                  offset: const Offset(0, 8),
-                ),
-              ],
+            decoration: const BoxDecoration(
+              color: Colors.transparent,
             ),
             child: isCompactPagination
                 ? Center(

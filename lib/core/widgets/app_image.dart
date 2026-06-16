@@ -1,10 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:waterrush/core/extensions/ext_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
-import '/core/widgets/app_asset.dart';
+import 'package:waterrush/core/extensions/ext_theme.dart';
 
 class AppImage extends StatefulWidget {
   const AppImage({
@@ -45,7 +42,7 @@ class _AppImageState extends State<AppImage> {
       width: widget.width,
       height: widget.height,
       decoration: BoxDecoration(
-        color: const Color(0xFFF3F7FF), // Soft light blue background
+        color: const Color(0xFFF3F7FF),
         borderRadius: widget.borderRadius ?? BorderRadius.zero,
       ),
       child: Center(
@@ -56,7 +53,7 @@ class _AppImageState extends State<AppImage> {
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF9AAEC3).withValues(alpha: 0.15),
+                color: const Color(0xFF9AAEC3).withOpacity(0.15),
                 blurRadius: 8.r,
                 offset: const Offset(0, 2),
               ),
@@ -64,7 +61,7 @@ class _AppImageState extends State<AppImage> {
           ),
           child: Icon(
             Icons.image_not_supported_rounded,
-            color: const Color(0xFF9AAEC3), // Soft grayish blue
+            color: const Color(0xFF9AAEC3),
             size: 20.sp,
           ),
         ),
@@ -83,24 +80,27 @@ class _AppImageState extends State<AppImage> {
 
     return ClipRRect(
       borderRadius: widget.borderRadius ?? BorderRadius.zero,
-      child: CachedNetworkImage(
-        fit: widget.fit ?? BoxFit.fill,
+      child: Image.network(
+        widget.imageUrl,
+        fit: widget.fit ?? BoxFit.cover,
         width: widget.width,
         height: widget.height,
-        imageUrl: widget.imageUrl,
-        imageBuilder: (context, imageProvider) {
-          _callOnImageLoadedOnce();
-          return Image(image: imageProvider, fit: widget.fit ?? BoxFit.fill);
-        },
-        progressIndicatorBuilder: (context, url, downloadProgress) {
+        frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+          if (frame != null || wasSynchronouslyLoaded) {
+            _callOnImageLoadedOnce();
+            return child;
+          }
+
           return widget.showprogressIndicator
-              ? SpinKitFadingCircle(
-                  color: context.colorScheme.primary,
-                  size: 30.h,
+              ? Center(
+                  child: SpinKitFadingCircle(
+                    color: context.colorScheme.primary,
+                    size: 30.h,
+                  ),
                 )
               : const SizedBox();
         },
-        errorWidget: (context, url, error) {
+        errorBuilder: (context, error, stackTrace) {
           return _buildPlaceholder();
         },
       ),

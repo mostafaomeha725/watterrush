@@ -19,8 +19,14 @@ class CustomerHomePopularProductsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CustomerHomeCubit, CustomerHomeState>(
       builder: (BuildContext context, CustomerHomeState state) {
+        final bool isInitialLoading = state.popularProductsStatus == CustomerHomeStatus.initial &&
+            state.popularProducts.isEmpty &&
+            state.message.isEmpty;
+
         if (state.popularProductsStatus == CustomerHomeStatus.initial &&
-            state.popularProducts.isEmpty) {
+            state.popularProducts.isEmpty &&
+            state.message.isNotEmpty) {
+          // If there's an error and no products, we can hide the section or show error
           return const SizedBox();
         }
 
@@ -39,11 +45,20 @@ class CustomerHomePopularProductsSection extends StatelessWidget {
               },
             ),
             SizedBox(height: 12.h),
-            if (state.popularProductsStatus == CustomerHomeStatus.loading ||
-                state.popularProducts.isEmpty)
+            if (state.popularProductsStatus == CustomerHomeStatus.loading || isInitialLoading)
               SizedBox(
                 height: 200.h,
                 child: Center(child: CustomLoading.showLoader(scale: 0.7)),
+              )
+            else if (state.popularProducts.isEmpty)
+              SizedBox(
+                height: 80.h,
+                child: Center(
+                  child: Text(
+                    'No popular products available.',
+                    style: TextStyle(color: const Color(0xFF102A43), fontSize: 14.sp),
+                  ),
+                ),
               )
             else
               SizedBox(

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:waterrush/core/widgets/custom_button.dart';
 import 'package:waterrush/core/widgets/custom_loading.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
+import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/cart_state.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/offer_details_cubit/offer_details_cubit.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/offer_details_cubit/offer_details_state.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/offer_details_header.dart';
@@ -89,26 +90,42 @@ class OfferDetailsScreenBody extends StatelessWidget {
                                 ),
                               ),
                             )
+                          else if (state.isLoading)
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20.h),
+                              child: Center(
+                                child: CustomLoading.showLoader(scale: 0.7),
+                              ),
+                            )
                           else if (state.apiProducts.isEmpty)
                             Container(
                               width: double.infinity,
-                              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 16.w,
+                                vertical: 24.h,
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(16.r),
-                                border: Border.all(color: const Color(0xFFD9E4F2)),
+                                border: Border.all(
+                                  color: const Color(0xFFD9E4F2),
+                                ),
                               ),
                               child: Column(
                                 children: <Widget>[
                                   AppText(
                                     'No products available for this offer.',
-                                    style: font14w700.copyWith(color: const Color(0xFF23405F)),
+                                    style: font14w700.copyWith(
+                                      color: const Color(0xFF23405F),
+                                    ),
                                     alignment: AlignmentDirectional.center,
                                   ),
                                   verticalSpacing(12),
                                   AppButton(
                                     text: 'Show Popular Products',
-                                    onPressed: () => context.pushReplacement(Routes.allPopularProductsScreen),
+                                    onPressed: () => context.pushReplacement(
+                                      Routes.allPopularProductsScreen,
+                                    ),
                                     color: const Color(0xFF1178DD),
                                     textSize: 13.sp,
                                     radius: 10.r,
@@ -117,58 +134,130 @@ class OfferDetailsScreenBody extends StatelessWidget {
                               ),
                             )
                           else
-                            ...List<Widget>.generate(
-                              state.apiProducts.length,
-                              (int index) {
-                                final productData = state.apiProducts[index].toOfferProductItemData();
-                                return Padding(
-                                  padding: EdgeInsets.only(bottom: 12.h),
-                                  child: GestureDetector(
-                                    onTap: () async {
-                                      final result = await context.push(
-                                        Routes.productDetailsScreen,
-                                        extra: productData.id,
-                                      );
-                                      if (result == 'go_to_cart_tab' && context.mounted) {
-                                        context.pop('go_to_cart_tab');
-                                      }
-                                    },
-                                    child: OfferProductCard(
-                                      product: productData,
-                                      compactLayout: true,
-                                      quantity: state.quantityFor(index),
-                                      onIncrement: () {
-                                        context
-                                            .read<OfferDetailsCubit>()
-                                            .incrementQuantity(index);
-                                      },
-                                      onDecrement: () {
-                                        context
-                                            .read<OfferDetailsCubit>()
-                                            .decrementQuantity(index);
-                                      },
-                                      onAddToCart: () {
-                                        final cubit = context.read<OfferDetailsCubit>();
-                                        final product = state.apiProducts[index];
-                                        final quantity = state.quantityFor(index);
+                            ...List<Widget>.generate(state.apiProducts.length, (
+                              int index,
+                            ) {
+                              final productData = state.apiProducts[index]
+                                  .toOfferProductItemData();
+                              return BlocBuilder<CartCubit, CartState>(
+                                builder: (context, cartState) {
+                                  bool isAdded = false;
+                                  int quantity = state.quantityFor(index);
 
-                                        context.read<CartCubit>().addToCart(
-                                          product.id,
-                                          quantity,
+                                  if (cartState is CartLoaded) {
+                                    try {
+                                      final cartItem = cartState.cart.items
+                                          .firstWhere(
+                                            (i) =>
+                                                i.productId == productData.id,
+                                          );
+                                      isAdded = true;
+                                      quantity = cartItem.quantity;
+                                    } catch (_) {}
+                                  }
+
+                                  return Padding(
+                                    padding: EdgeInsets.only(bottom: 12.h),
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        final result = await context.push(
+                                          Routes.productDetailsScreen,
+                                          extra: productData.id,
                                         );
-                                        cubit.addToCart(index);
+                                        if (result == 'go_to_cart_tab' &&
+                                            context.mounted) {
+                                          context.pop('go_to_cart_tab');
+                                        }
                                       },
+                                      child: OfferProductCard(
+                                        product: productData,
+                                        compactLayout: true,
+                                        quantity: quantity,
+                                        isAdded: isAdded,
+                                        addButtonText: '+ Add',
+                                        addedButtonText: 'Added',
+                                        onIncrement: () {
+                                          if (isAdded &&
+                                              cartState is CartLoaded) {
+                                            try {
+                                              final cartItem = cartState
+                                                  .cart
+                                                  .items
+                                                  .firstWhere(
+                                                    (i) =>
+                                                        i.productId ==
+                                                        productData.id,
+                                                  );
+                                              context
+                                                  .read<CartCubit>()
+                                                  .updateCartItem(
+                                                    cartItem.id,
+                                                    cartItem.quantity + 1,
+                                                  );
+                                            } catch (_) {}
+                                          } else {
+                                            context
+                                                .read<OfferDetailsCubit>()
+                                                .incrementQuantity(index);
+                                          }
+                                        },
+                                        onDecrement: () {
+                                          if (isAdded &&
+                                              cartState is CartLoaded) {
+                                            try {
+                                              final cartItem = cartState
+                                                  .cart
+                                                  .items
+                                                  .firstWhere(
+                                                    (i) =>
+                                                        i.productId ==
+                                                        productData.id,
+                                                  );
+                                              if (cartItem.quantity == 1) {
+                                                context
+                                                    .read<CartCubit>()
+                                                    .removeCartItem(
+                                                      cartItem.id,
+                                                    );
+                                              } else {
+                                                context
+                                                    .read<CartCubit>()
+                                                    .updateCartItem(
+                                                      cartItem.id,
+                                                      cartItem.quantity - 1,
+                                                    );
+                                              }
+                                            } catch (_) {}
+                                          } else {
+                                            context
+                                                .read<OfferDetailsCubit>()
+                                                .decrementQuantity(index);
+                                          }
+                                        },
+                                        onAddToCart: () {
+                                          context.read<CartCubit>().addToCart(
+                                            productData.id,
+                                            quantity,
+                                          );
+                                          context
+                                              .read<OfferDetailsCubit>()
+                                              .addToCart(index);
+                                        },
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                            ),
-                          if (state.lastPage > 1 && state.apiProducts.length > 1)
+                                  );
+                                },
+                              );
+                            }),
+                          if (state.lastPage > 1 &&
+                              state.apiProducts.length > 1)
                             PaginationWidget(
                               totalPages: state.lastPage,
                               currentPage: state.currentPage,
                               onPageChanged: (page) {
-                                context.read<OfferDetailsCubit>().loadPage(page);
+                                context.read<OfferDetailsCubit>().loadPage(
+                                  page,
+                                );
                               },
                             ),
                         ],
@@ -181,43 +270,64 @@ class OfferDetailsScreenBody extends StatelessWidget {
                 top: 0,
                 right: 0,
                 left: 0,
-                child: OfferDetailsHeader(
-                  offer: state.offer!,
-                  cartCount: state.cartCount,
-                  onBackTap: context.pop,
-                  onCartTap: () {
-                    context.pop('go_to_cart_tab');
+                child: BlocBuilder<CartCubit, CartState>(
+                  builder: (context, cartState) {
+                    int globalCartCount = 0;
+                    if (cartState is CartLoaded) {
+                      globalCartCount = cartState.cart.items.fold(
+                        0,
+                        (sum, item) => sum + item.quantity,
+                      );
+                    }
+                    return OfferDetailsHeader(
+                      offer: state.offer!,
+                      cartCount: globalCartCount,
+                      onBackTap: context.pop,
+                      onCartTap: () {
+                        context.pop('go_to_cart_tab');
+                      },
+                    );
                   },
                 ),
               ),
-              if (state.cartCount > 0)
-                Positioned(
-                  right: 22.w,
-                  left: 22.w,
-                  bottom: 16.h,
-                  child: SafeArea(
-                    top: false,
-                    child: AppButton.icon(
-                      text: 'View Cart (${state.cartCount})',
-                      onPressed: () {
-                        context.pop('go_to_cart_tab');
-                      },
+              Positioned(
+                right: 22.w,
+                left: 22.w,
+                bottom: 16.h,
+                child: BlocBuilder<CartCubit, CartState>(
+                  builder: (context, cartState) {
+                    int globalCartCount = 0;
+                    if (cartState is CartLoaded) {
+                      globalCartCount = cartState.cart.items.fold(
+                        0,
+                        (sum, item) => sum + item.quantity,
+                      );
+                    }
+                    
+                    if (globalCartCount == 0) return const SizedBox.shrink();
 
-                      color: const Color(0xFF1178DD),
-                      radius: 14.r,
-                      height: 50.h,
-                      textSize: 16.sp,
-                      textWeight: FontWeight.w700,
-                      child: Icon(
-                        Icons.shopping_cart_checkout_rounded,
-                        size: 20.sp,
-                        color: Colors.white,
+                    return SafeArea(
+                      top: false,
+                      child: AppButton.icon(
+                        text: 'View Cart ($globalCartCount)',
+                        onPressed: () {
+                          context.pop('go_to_cart_tab');
+                        },
+                        color: const Color(0xFF1178DD),
+                        radius: 14.r,
+                        height: 50.h,
+                        textSize: 16.sp,
+                        textWeight: FontWeight.w700,
+                        child: Icon(
+                          Icons.shopping_cart_checkout_rounded,
+                          size: 20.sp,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
-              if (state.isLoading && state.offer != null)
-                Positioned.fill(child: CustomLoading.showLoader()),
+              ),
             ],
           ),
         );

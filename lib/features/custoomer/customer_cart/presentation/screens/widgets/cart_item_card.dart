@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:waterrush/core/constants/app_assets.dart';
 import 'package:waterrush/core/theme/styles.dart';
-import 'package:waterrush/core/widgets/app_asset.dart';
 import 'package:waterrush/core/widgets/custom_text.dart';
 import 'package:waterrush/features/custoomer/customer_cart/domain/entities/cart_item_entity.dart';
 import 'package:waterrush/features/custoomer/customer_cart/presentation/screens/widgets/cart_quantity_button.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:waterrush/core/widgets/app_image.dart';
 
 class CartItemCard extends StatelessWidget {
   const CartItemCard({
@@ -43,13 +41,7 @@ class CartItemCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(14.r),
             ),
             clipBehavior: Clip.antiAlias,
-            child: CachedNetworkImage(
-              imageUrl: item.image,
-              fit: BoxFit.cover,
-              placeholder: (context, url) => const CupertinoActivityIndicator(),
-              errorWidget: (context, url, error) =>
-                  AppAsset(assetName: Assets.test, fit: BoxFit.cover),
-            ),
+            child: AppImage(imageUrl: item.image, fit: BoxFit.cover),
           ),
 
           SizedBox(width: 12.w),

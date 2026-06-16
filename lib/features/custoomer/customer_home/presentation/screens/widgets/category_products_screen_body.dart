@@ -113,8 +113,6 @@ class _CategoryProductsScreenBodyState
                 ),
               ),
               const CategoryProductsFloatingCart(),
-              if (state.isLoading && state.category != null)
-                Positioned.fill(child: CustomLoading.showLoader()),
             ],
           ),
         );

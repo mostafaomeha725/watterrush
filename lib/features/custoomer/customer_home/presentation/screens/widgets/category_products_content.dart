@@ -8,6 +8,7 @@ import 'package:waterrush/features/custoomer/customer_cart/presentation/cubit/ca
 import 'package:waterrush/features/custoomer/customer_home/presentation/cubit/category_products_cubit/category_products_state.dart';
 import 'package:waterrush/features/custoomer/customer_home/presentation/screens/widgets/offer_product_card.dart';
 import 'package:go_router/go_router.dart';
+import 'package:waterrush/core/widgets/custom_loading.dart';
 import 'package:waterrush/core/routes/route_paths.dart';
 import 'package:waterrush/core/widgets/custom_nav_bar.dart';
 
@@ -31,6 +32,13 @@ class CategoryProductsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (state.isLoading) {
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: 40.h),
+        child: Center(child: CustomLoading.showLoader(scale: 0.7)),
+      );
+    }
+
     if (state.displayedProductIndexes.isEmpty) {
       return Container(
         width: double.infinity,
